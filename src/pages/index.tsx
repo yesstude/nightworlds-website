@@ -115,7 +115,7 @@ const Home: NextPage = () => {
           </Typography>
         </FeatureBox>
       </Container>}
-      <Copyright />
+      <Copyright sx={{}} />
     </>
   );
 };
