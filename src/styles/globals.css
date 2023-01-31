@@ -1,0 +1,10 @@
+@import url(https://cdn.jsdelivr.net/gh/NightLightCOMM/Fonts@main/NightLight%20Sans/NightLightSans.css);
+
+@tailwind components;
+@tailwind utilities;
+
+:root,
+html,
+body {
+    scroll-behavior: smooth;
+}

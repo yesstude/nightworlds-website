@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500">
+   <defs>
+      <pattern x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse" viewBox="0 0 100 100" id="pattern-0">
+         <path d="M 50 50 L 100 100 L 0 100 L 50 50 Z" data-bx-shape="triangle 0 50 100 50 0.5 0 1@8e6e7b05" style="stroke: rgba(0, 0, 0, 0); fill: rgb(182, 182, 182);"/>
+         <path d="M 90.614 12.004 L 140.614 62.004 L 40.614 62.004 L 90.614 12.004 Z" data-bx-shape="triangle 40.614 12.004 100 50 0.5 0 1@745b2b80" style="stroke: rgba(0, 0, 0, 0); fill: rgb(57, 208, 77);" transform="matrix(0, 1, -1, 0, 62.004002, -40.613998)"/>
+         <path d="M -50 -50 L 0 0 L -100 0 L -50 -50 Z" data-bx-shape="triangle -100 -50 100 50 0.5 0 1@b1ad5599" style="stroke: rgba(0, 0, 0, 0); fill: rgb(48, 118, 202);" transform="matrix(-1, 0, 0, -1, 0, 0)"/>
+         <path d="M 90.614 12.004 L 140.614 62.004 L 40.614 62.004 L 90.614 12.004 Z" data-bx-shape="triangle 40.614 12.004 100 50 0.5 0 1@745b2b80" style="stroke: rgba(0, 0, 0, 0); fill: rgb(134, 42, 173);" transform="matrix(0, -1, 1, 0, 37.995998, 140.613998)"/>
+      </pattern>
+      <pattern id="pattern-0-0" patternTransform="matrix(19.373381, -19.944445, 19.135918, 18.588003, -210.252401, 195.846707)" href="#pattern-0"/>
+      <pattern id="pattern-0-1" patternTransform="matrix(19.383599, -19.436217, 19.143144, 19.09133, -209.11926, 184.882763)" href="#pattern-0"/>
+   </defs>
+   <g>
+      <path style="fill: url(&quot;#pattern-0-0&quot;); stroke: rgba(0, 0, 0, 0);" d="M 397.39 164.777 C 415.941 228.903 317.333 341.407 211.637 262.146 C 125.224 177.528 232.261 63.179 267.918 67.936 C 131.498 50.971 44.013 227.499 133.161 325.955 C 255.236 465.952 465.091 322.654 397.39 164.777 Z"/>
+      <path style="fill: url(&quot;#pattern-0-1&quot;); stroke: rgba(0, 0, 0, 0);" d="M 398.689 144.158 L 460.732 110.889 L 251.226 6.586 L 44.417 109.99 L 104.661 144.158 L 39.022 116.284 L 38.122 382.438 L 249.427 489.439 L 252.125 395.027 L 254.822 488.54 L 463.43 385.136 L 463.43 116.284 L 468.825 114.486 L 468.825 386.035 L 250.326 496.633 L 30.929 386.035 L 31.828 107.292 L 252.125 0.291 L 468.825 106.393 L 468.825 114.486 L 398.689 144.158 Z"/>
+   </g>
+</svg>
