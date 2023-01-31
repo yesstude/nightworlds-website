@@ -11,6 +11,7 @@ import build from "../assets/homepage/build.webp";
 import communicate from "../assets/homepage/communicate.webp";
 import simplicity from "../assets/homepage/simplicity.webp";
 import { StaticImageData } from "next/image";
+import Copyright from "../components/Copyright";
 
 const FeatureBox = (props: {
   img: StaticImageData,
@@ -114,6 +115,7 @@ const Home: NextPage = () => {
           </Typography>
         </FeatureBox>
       </Container>}
+      <Copyright />
     </>
   );
 };
