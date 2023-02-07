@@ -161,9 +161,10 @@ const SubscriptionBox = () => {
       }}>
         <div><TextField variant="outlined" label={t("subscribe.email")} size="small" type="email" required onInput={val => updateEmail((val.target as any).value)} /></div>
         <div><TextField variant="outlined" label={t("subscribe.nickname")} size="small" onInput={val => updateNickname((val.target as any).value)} /></div>
-        <Button type="submit" className="mt-6" variant="contained" disabled={buttonDisabled} sx={{
+        <Button type="submit" variant="contained" disabled={buttonDisabled} sx={{
           padding: "12px 28px",
-          borderRadius: "9999px"
+          borderRadius: "9999px",
+          mt: "24px"
         }}>{buttonText}</Button>
       </form>
     </Paper>
