@@ -11,6 +11,10 @@ import communicate from "../assets/homepage/communicate.webp";
 import simplicity from "../assets/homepage/simplicity.webp";
 import { StaticImageData } from "next/image";
 import Copyright from "../components/Copyright";
+import { useTranslation } from "next-i18next";
+
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import nextI18nConfig from "../../next-i18next.config.mjs";
 
 const FeatureBox = (props: {
   img: StaticImageData,
@@ -44,17 +48,25 @@ const FeatureBox = (props: {
   );
 }
 
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ["landing"], nextI18nConfig, nextI18nConfig.i18n.locales)),
+  },
+});
+
 const Home: NextPage = () => {
+  const { t } = useTranslation('landing');
+
   const [makeFancy, setMakeFancy] = useState(false);
 
   return (
     <>
       <Head>
         <title>NightWorlds</title>
-        <meta name="description" content="Minecraft server with unlimited possibilities" />
+        <meta name="description" content={t("description") as string} />
         <link rel="icon" href="/favicon.svg" />
       </Head>
-      <LandingAppBar appear={makeFancy} />
+      <LandingAppBar appear={makeFancy} button={t("actionbutton")} />
       <Box className="w-[500px] sm:w-[unset] m-auto" sx={{
         minHeight: makeFancy ? "400px" : "90vh",
         display: "flex",
@@ -70,13 +82,7 @@ const Home: NextPage = () => {
               margin: "auto",
               maxWidth: "70%",
             }}
-            tokens={{
-              "Minecraft": 1,
-              "server": 15,
-              "with": 30,
-              "unlimited": 35,
-              "possibilities": 50,
-            }}
+            tokens={JSON.parse(t("title"))}
             whenFinished={() => setTimeout(() => setMakeFancy(true), 1000)}
           />
         </Container>
@@ -84,33 +90,29 @@ const Home: NextPage = () => {
       {/* <Box>
         <NewsBlock />
       </Box> */}
-      {makeFancy && <Container>
+      <Container sx={{
+        display: makeFancy ? "block" : "none",
+      }}>
         <FeatureBox
           img={build}
-          header="Build amazing stuff"
+          header={t("features.build.title")}
         >
-          <Typography>
-            The server rules are designed to allow players to build anything they want. You can build a statue, a futurisic city or café – we don't mind. The main rule is not to grief.
-          </Typography>
+          <Typography>{t("features.build.description")}</Typography>
         </FeatureBox>
         <FeatureBox
           img={communicate}
-          header="Communicate with other players"
+          header={t("features.communicate.title")}
           reverse
         >
-          <Typography>
-            One of the main priorities of NightWorlds is people. This rule works in all of NightWorlds. Together, we can make anything possible!
-          </Typography>
+          <Typography>{t("features.communicate.description")}</Typography>
         </FeatureBox>
         <FeatureBox
           img={simplicity}
-          header="There's no sense to overcomplicate things"
+          header={t("features.simplicity.title")}
         >
-          <Typography>
-            We target minimalism. Simplicity is the real power! Here you won't see webpages with design like in 2007. Also, we don't show tons of text at one in the actual game.
-          </Typography>
+          <Typography>{t("features.simplicity.description")}</Typography>
         </FeatureBox>
-      </Container>}
+      </Container>
       <Copyright sx={{}} />
     </>
   );

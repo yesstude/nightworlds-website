@@ -1,4 +1,5 @@
 import { AppBar, Button, Container, Slide, Toolbar, Typography, useScrollTrigger } from "@mui/material";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import logo from "../assets/logo.svg";
 
@@ -22,7 +23,8 @@ export default function NightWorldsBar() {
 }
 
 export function LandingAppBar(props: {
-    appear: boolean
+    appear: boolean,
+    button: string
 }) {
     const trigger = useScrollTrigger();
     return (
@@ -50,7 +52,7 @@ export function LandingAppBar(props: {
                         }}
                         disabled
                     >
-                        Sign Up and Play
+                        {props.button}
                     </Button>
                 </Toolbar>
             </AppBar>

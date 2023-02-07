@@ -25,7 +25,7 @@ export default function AppearingText(props: {
                 }
                 return last + (props.speed || 1);
             });
-        }, 100);
+        }, 50);
     }, []);
 
     return (

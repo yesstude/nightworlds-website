@@ -1,0 +1,19 @@
+{
+    "description": "Minecraft server with unlimited possibilities",
+    "actionbutton": "Sign Up and Play",
+    "title": "{\"Minecraft\": 1,\"server\": 15,\"with\": 30,\"unlimited\": 35,\"possibilities\": 50}",
+    "features": {
+        "build": {
+            "title": "Build amazing stuff",
+            "description": "The server rules are designed to allow players to build anything they want. You can build a statue, a futurisic city or café – we don't mind. The main rule is not to grief."
+        },
+        "communicate": {
+            "title": "Communicate with other players",
+            "description": "One of the main priorities of NightWorlds is people. This rule works in all of NightWorlds. Together, we can make anything possible!"
+        },
+        "simplicity": {
+            "title": "There's no sense to overcomplicate things",
+            "description": "We target minimalism. Simplicity is the real power! Here you won't see webpages with design like in 2007. Also, we don't show tons of text at one in the actual game."
+        }
+    }
+}
