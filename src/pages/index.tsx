@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Input, Paper, TextField, Typography } from "@mui/material";
 import { type NextPage } from "next";
 import Head from "next/head";
 
@@ -15,6 +15,8 @@ import { useTranslation } from "next-i18next";
 
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import nextI18nConfig from "../../next-i18next.config.mjs";
+import { api } from "../utils/api";
+import { useQueryClient } from "@tanstack/react-query";
 
 const FeatureBox = (props: {
   img: StaticImageData,
@@ -87,12 +89,10 @@ const Home: NextPage = () => {
           />
         </Container>
       </Box>
-      {/* <Box>
-        <NewsBlock />
-      </Box> */}
       <Container sx={{
         display: makeFancy ? "block" : "none",
       }}>
+        <SubscriptionBox />
         <FeatureBox
           img={build}
           header={t("features.build.title")}
@@ -119,3 +119,53 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+const SubscriptionBox = () => {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation('landing');
+
+  const [email, updateEmail] = useState<string>();
+  const [nickname, updateNickname] = useState<string>();
+  const [buttonText, setButtonText] = useState(t("subscribe.subscribe"));
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
+  const res = api.subscription.subscribe.useQuery({
+    email: email as string,
+    nickname
+  }, {
+    enabled: false, onSuccess: (data) => {
+      if (data) setButtonText(t("subscribe.success"));
+    }
+  });
+
+  return (
+    <Paper variant="outlined"
+      sx={{
+        px: 4,
+        py: 12,
+        mb: 16,
+        textAlign: "center"
+      }}
+    >
+      <Typography variant="h2">
+        {t("subscribe.title")}
+      </Typography>
+      <Typography variant="subtitle1" color="text.secondary" mb={2}>
+        {t("subscribe.subtitle")}
+      </Typography>
+      <form onSubmit={val => {
+        val.preventDefault();
+        setButtonDisabled(true);
+        setButtonText(t("subscribe.loading"));
+        res.refetch();
+      }}>
+        <div><TextField variant="outlined" label={t("subscribe.email")} size="small" type="email" required onInput={val => updateEmail((val.target as any).value)} /></div>
+        <div><TextField variant="outlined" label={t("subscribe.nickname")} size="small" onInput={val => updateNickname((val.target as any).value)} /></div>
+        <Button type="submit" className="mt-6" variant="contained" disabled={buttonDisabled} sx={{
+          padding: "12px 28px",
+          borderRadius: "9999px"
+        }}>{buttonText}</Button>
+      </form>
+    </Paper>
+  );
+}

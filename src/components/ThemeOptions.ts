@@ -10,6 +10,7 @@ export const themeOptions: ThemeOptions = {
         },
         text: {
             primary: "#170033",
+            secondary: "#656173"
         },
     },
     shape: {
@@ -61,6 +62,11 @@ export const themeOptions: ThemeOptions = {
             defaultProps: {
                 disableElevation: true,
             },
+        },
+        MuiTextField: {
+            defaultProps: {
+                margin: "dense"
+            }
         }
     },
     spacing: 8,

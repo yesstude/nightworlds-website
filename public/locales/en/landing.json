@@ -2,6 +2,15 @@
     "description": "Minecraft server with unlimited possibilities",
     "actionbutton": "Sign Up and Play",
     "title": "{\"Minecraft\": 1,\"server\": 15,\"with\": 30,\"unlimited\": 35,\"possibilities\": 50}",
+    "subscribe": {
+        "title": "Subscribe",
+        "subtitle": "Get notified when NightWorlds are available",
+        "email": "Email",
+        "nickname": "Nickname (optional)",
+        "subscribe": "Subscribe",
+        "loading": "Loading...",
+        "success": "Success!"
+    },
     "features": {
         "build": {
             "title": "Build amazing stuff",
