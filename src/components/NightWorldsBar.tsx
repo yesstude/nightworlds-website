@@ -28,21 +28,26 @@ export function LandingAppBar(props: {
     return (
         <Slide appear={true} direction="down" in={!trigger && props.appear}>
             <AppBar>
-                <Toolbar className="select-none">
+                <Toolbar>
                     <img src={logo.src} alt="" style={{
                         maxHeight: "48px",
                     }} />
                     <Typography
-                        variant="body1"
-                        className="-mt-1 ml-2 font-light flex-grow"
+                        className="flex-grow"
+                        fontWeight={300}
                         fontSize={26}
+                        mt={-0.5}
+                        ml={1}
                         color="primary"
                     >
                         NightWorlds
                     </Typography>
                     <Button
                         variant="contained"
-                        className="rounded-full px-5 py-3"
+                        sx={{
+                            padding: "12px 16px",
+                            borderRadius: "9999px"
+                        }}
                         disabled
                     >
                         Sign Up and Play

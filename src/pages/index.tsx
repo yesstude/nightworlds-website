@@ -1,8 +1,7 @@
-import { Box, Container, Paper, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { type NextPage } from "next";
 import Head from "next/head";
 
-import { api } from "../utils/api";
 import AppearingText from "../components/homepage/AppearingText";
 import { ReactNode, useState } from "react";
 import { LandingAppBar } from "../components/NightWorldsBar";
@@ -20,19 +19,19 @@ const FeatureBox = (props: {
   reverse?: boolean,
 }) => {
   return (
-    <Box sx={{
+    <Box className="w-[460px] sm:w-[unset]" sx={{
       display: "flex",
       flexDirection: props.reverse ? "row-reverse" : "row",
       justifyContent: "center",
       flexWrap: "wrap",
       gap: 4,
+      mx: "auto",
       mb: 20,
     }}>
       <img src={props.img.src} alt="" width={480} height={384} />
       <Box sx={{
-        minWidth: 420,
-        width: 420,
-        m: "auto",
+        maxWidth: 420,
+        margin: "auto",
         mt: 2
       }}>
         <Typography
@@ -48,8 +47,6 @@ const FeatureBox = (props: {
 const Home: NextPage = () => {
   const [makeFancy, setMakeFancy] = useState(false);
 
-  const hello = api.example.hello.useQuery({ text: "from EcStud" });
-
   return (
     <>
       <Head>
@@ -58,8 +55,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.svg" />
       </Head>
       <LandingAppBar appear={makeFancy} />
-      <Box sx={{
-        minHeight: makeFancy ? "400px" : "100vh",
+      <Box className="w-[500px] sm:w-[unset] m-auto" sx={{
+        minHeight: makeFancy ? "400px" : "90vh",
         display: "flex",
         justifyContent: "center",
         placeItems: "center",
@@ -108,7 +105,6 @@ const Home: NextPage = () => {
         <FeatureBox
           img={simplicity}
           header="There's no sense to overcomplicate things"
-          reverse
         >
           <Typography>
             We target minimalism. Simplicity is the real power! Here you won't see webpages with design like in 2007. Also, we don't show tons of text at one in the actual game.
