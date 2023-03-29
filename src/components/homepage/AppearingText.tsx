@@ -4,6 +4,7 @@ import { useEffect, useId, useState } from "react";
 export default function AppearingText(props: {
     tokens: { [x: string]: number },
     variant: TypographyVariant,
+    component?: string,
     sx?: SxProps<Theme>,
     speed?: number,
     noAutoSpace?: boolean,
@@ -25,11 +26,11 @@ export default function AppearingText(props: {
                 }
                 return last + (props.speed || 1);
             });
-        }, 50);
+        }, 25);
     }, []);
 
     return (
-        <Typography sx={props.sx} variant={props.variant}>
+        <Typography sx={props.sx} variant={props.variant} component={props.component || "span"}>
             {Object.entries(props.tokens).map(([token, time], i, array) => {
                 const id = prefix + "_" + i;
                 return (

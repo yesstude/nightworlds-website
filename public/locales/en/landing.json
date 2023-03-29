@@ -1,6 +1,7 @@
 {
     "description": "Minecraft server with unlimited possibilities",
     "actionbutton": "Sign Up and Play",
+    "actionbutton_short": "Play",
     "title": "{\"Minecraft\": 1,\"server\": 15,\"with\": 30,\"unlimited\": 35,\"possibilities\": 50}",
     "subscribe": {
         "title": "Subscribe",

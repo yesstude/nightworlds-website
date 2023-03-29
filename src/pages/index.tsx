@@ -1,5 +1,5 @@
 import { Box, Button, Container, Input, Paper, TextField, Typography } from "@mui/material";
-import { type NextPage } from "next";
+import { GetServerSidePropsContext, type NextPage } from "next";
 import Head from "next/head";
 
 import AppearingText from "../components/homepage/AppearingText";
@@ -13,10 +13,10 @@ import { StaticImageData } from "next/image";
 import Copyright from "../components/Copyright";
 import { useTranslation } from "next-i18next";
 
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import nextI18nConfig from "../../next-i18next.config.mjs";
 import { api } from "../utils/api";
-import { useQueryClient } from "@tanstack/react-query";
+import { authOptions } from "../server/auth";
+import { getServerSession } from "next-auth";
+import getLocale from "../components/getLocale";
 
 const FeatureBox = (props: {
   img: StaticImageData,
@@ -25,36 +25,46 @@ const FeatureBox = (props: {
   reverse?: boolean,
 }) => {
   return (
-    <Box className="w-[460px] sm:w-[unset]" sx={{
+    <Box sx={{
       display: "flex",
       flexDirection: props.reverse ? "row-reverse" : "row",
-      justifyContent: "center",
+      justifyContent: "space-around",
       flexWrap: "wrap",
-      gap: 4,
-      mx: "auto",
-      mb: 20,
+      rowGap: 6,
+      my: 60,
     }}>
-      <img src={props.img.src} alt="" width={480} height={384} />
+      <img
+        src={props.img.src}
+        alt=""
+        width={480}
+        height={384}
+        style={{
+          maxWidth: "80vw",
+          maxHeight: "64vw",
+        }}
+      />
       <Box sx={{
         maxWidth: 420,
-        margin: "auto",
-        mt: 2
+        mt: 4,
       }}>
         <Typography
-          variant="h2"
-          fontSize={64}
-        >{props.header}</Typography>
+          variant="h1"
+          component="h2"
+        >
+          {props.header}
+        </Typography>
         {props.children}
       </Box>
     </Box>
   );
 }
 
-export const getServerSideProps = async ({ locale }: { locale: string }) => ({
-  props: {
-    ...(await serverSideTranslations(locale, ["landing"], nextI18nConfig, nextI18nConfig.i18n.locales)),
-  },
-});
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  if (session) return { redirect: { destination: "/dashboard" } };
+
+  return getLocale("landing")(context as any);
+}
 
 const Home: NextPage = () => {
   const { t } = useTranslation('landing');
@@ -68,9 +78,13 @@ const Home: NextPage = () => {
         <meta name="description" content={t("description") as string} />
         <link rel="icon" href="/favicon.svg" />
       </Head>
-      <LandingAppBar appear={makeFancy} button={t("actionbutton")} />
-      <Box className="w-[500px] sm:w-[unset] m-auto" sx={{
-        minHeight: makeFancy ? "400px" : "90vh",
+      <LandingAppBar
+        appear={makeFancy}
+        button={t("actionbutton")}
+        shortbutton={t("actionbutton_short")}
+      />
+      <Box sx={{
+        minHeight: "90vh",
         display: "flex",
         justifyContent: "center",
         placeItems: "center",
@@ -78,11 +92,10 @@ const Home: NextPage = () => {
       }}>
         <Container>
           <AppearingText
-            variant="h1"
+            variant="h2"
+            component="h1"
             sx={{
               textAlign: "center",
-              margin: "auto",
-              maxWidth: "70%",
             }}
             tokens={JSON.parse(t("title"))}
             whenFinished={() => setTimeout(() => setMakeFancy(true), 1000)}
@@ -90,27 +103,27 @@ const Home: NextPage = () => {
         </Container>
       </Box>
       <Container sx={{
-        display: makeFancy ? "block" : "none",
+        display: makeFancy ? "block" : "none"
       }}>
         <SubscriptionBox />
         <FeatureBox
           img={build}
           header={t("features.build.title")}
         >
-          <Typography>{t("features.build.description")}</Typography>
+          <Typography fontWeight={600}>{t("features.build.description")}</Typography>
         </FeatureBox>
         <FeatureBox
           img={communicate}
           header={t("features.communicate.title")}
           reverse
         >
-          <Typography>{t("features.communicate.description")}</Typography>
+          <Typography fontWeight={600}>{t("features.communicate.description")}</Typography>
         </FeatureBox>
         <FeatureBox
           img={simplicity}
           header={t("features.simplicity.title")}
         >
-          <Typography>{t("features.simplicity.description")}</Typography>
+          <Typography fontWeight={600}>{t("features.simplicity.description")}</Typography>
         </FeatureBox>
       </Container>
       <Copyright sx={{}} />
@@ -121,7 +134,6 @@ const Home: NextPage = () => {
 export default Home;
 
 const SubscriptionBox = () => {
-  const queryClient = useQueryClient();
   const { t } = useTranslation('landing');
 
   const [email, updateEmail] = useState<string>();
@@ -142,7 +154,7 @@ const SubscriptionBox = () => {
     <Paper variant="outlined"
       sx={{
         px: 4,
-        py: 12,
+        py: 24,
         mb: 16,
         textAlign: "center"
       }}
@@ -150,7 +162,7 @@ const SubscriptionBox = () => {
       <Typography variant="h2">
         {t("subscribe.title")}
       </Typography>
-      <Typography variant="subtitle1" color="text.secondary" mb={2}>
+      <Typography variant="subtitle1" color="text.secondary" mb={12}>
         {t("subscribe.subtitle")}
       </Typography>
       <form onSubmit={val => {
@@ -159,13 +171,9 @@ const SubscriptionBox = () => {
         setButtonText(t("subscribe.loading"));
         res.refetch();
       }}>
-        <div><TextField variant="outlined" label={t("subscribe.email")} size="small" type="email" required onInput={val => updateEmail((val.target as any).value)} /></div>
-        <div><TextField variant="outlined" label={t("subscribe.nickname")} size="small" onInput={val => updateNickname((val.target as any).value)} /></div>
-        <Button type="submit" variant="contained" disabled={buttonDisabled} sx={{
-          padding: "12px 28px",
-          borderRadius: "9999px",
-          mt: "24px"
-        }}>{buttonText}</Button>
+        <div><TextField variant="outlined" label={t("subscribe.email")} type="email" required onInput={val => updateEmail((val.target as any).value)} /></div>
+        <div><TextField variant="outlined" label={t("subscribe.nickname")} onInput={val => updateNickname((val.target as any).value)} /></div>
+        <Button type="submit" variant="outlined" disabled={buttonDisabled}>{buttonText}</Button>
       </form>
     </Paper>
   );

@@ -6,14 +6,23 @@ import { api } from "../utils/api";
 
 import { createTheme, ThemeProvider } from "@mui/material";
 import { themeOptions } from "../components/ThemeOptions";
+
 import { appWithTranslation } from "next-i18next";
+
+import { SessionProvider } from "next-auth/react";
+import { type Session } from "next-auth";
 
 const theme = createTheme(themeOptions);
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+const MyApp: AppType<{ session: Session | null }> = ({
+  Component,
+  pageProps: { session, ...pageProps }
+}) => {
   return (
     <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
+      <SessionProvider session={session}>
+        <Component {...pageProps} />
+      </SessionProvider>
     </ThemeProvider>
   );
 };

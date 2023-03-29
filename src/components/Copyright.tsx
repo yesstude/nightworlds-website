@@ -4,14 +4,13 @@ export default function Copyright(props: {
     sx: SxProps
 }) {
     return (
-        <Typography sx={{
-            ...props.sx,
+        <p style={{
             textAlign: "center",
-            fontSize: 12,
+            fontSize: "12px",
             color: "#666",
-            fontFamily: "arial"
+            fontFamily: "arial",
         }}>
             &copy; {new Date().getFullYear()} NightLight COMM
-        </Typography>
+        </p>
     );
 }

@@ -1,73 +1,187 @@
-import { ThemeOptions } from "@mui/material";
+import { PaletteOptions, ThemeOptions } from "@mui/material";
+
+const palette: PaletteOptions = {
+  primary: {
+    main: "#9c42d0",
+    light: "#c178ec",
+  },
+  secondary: {
+    main: "#ffffff",
+  },
+  error: {
+    main: "#f55",
+    light: "#ef5350",
+  },
+  info: {
+    main: "#aaa",
+  },
+  text: {
+    primary: "#111",
+    secondary: "#170033",
+    disabled: "#4a4a4a",
+  },
+  background: {
+    default: "#fff",
+    paper: "#7f00c910",
+  },
+};
 
 export const themeOptions: ThemeOptions = {
-    palette: {
-        primary: {
-            main: '#7f00c9',
+  palette,
+  components: {
+    MuiCard: {
+      defaultProps: {
+        style: {
+          borderRadius: "12px",
+          padding: "16px",
+          border: "none",
         },
-        secondary: {
-            main: '#ffffff',
-        },
-        text: {
-            primary: "#170033",
-            secondary: "#656173"
-        },
+      },
     },
-    shape: {
-        borderRadius: 12,
+    MuiAppBar: {
+      defaultProps: {
+        variant: "outlined",
+        color: "secondary",
+      },
     },
-    typography: {
-        fontFamily: [
-            'NightLight Sans',
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-        ].join(","),
-        h1: {
-            fontSize: 38,
+    MuiPaper: {
+      defaultProps: {
+        style: {
+          border: "none",
         },
-        h2: {
-            fontSize: 32,
-            marginBottom: 16
-        },
-        h3: {
-            fontSize: 26,
-            marginBottom: 12
-        },
-        body1: {
-            fontSize: 18,
-        },
-        button: {
-            fontWeight: 600
-        }
+      },
     },
-    components: {
-        MuiAppBar: {
-            defaultProps: {
-                variant: "outlined",
-                color: "secondary"
-            },
+    MuiButton: {
+      defaultProps: {
+        sx: { m: 1 },
+      },
+      styleOverrides: {
+        sizeSmall: {
+          padding: "8px 32px",
+          borderRadius: "12px",
         },
-        MuiTypography: {
-            defaultProps: {
-                color: "text.primary",
-                fontWeight: 600
-            },
+        sizeMedium: {
+          padding: "10px 32px",
         },
-        MuiButton: {
-            defaultProps: {
-                disableElevation: true,
-            },
+        sizeLarge: {
+          padding: "16px 32px",
         },
-        MuiTextField: {
-            defaultProps: {
-                margin: "dense"
-            }
-        }
+      },
     },
-    spacing: 8,
+    MuiListItemText: {
+      defaultProps: {
+        sx: {
+          p: 2,
+        },
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        sx: { m: 1 },
+        InputLabelProps: {
+          sx: {
+            px: 2,
+          },
+        },
+      },
+    },
+  },
+  shape: {
+    borderRadius: 48,
+  },
+  typography: {
+    fontFamily: [
+      "NightLight Sans",
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+    ].join(","),
+    allVariants: {
+      // letterSpacing: "-0.3px",
+      color: palette.text!.secondary!,
+    },
+    h1: {
+      fontWeight: 600,
+      fontSize: 52,
+      marginBottom: 20,
+      "@media (min-width: 600px)": {
+        fontSize: 64,
+      },
+    },
+    h2: {
+      fontWeight: 600,
+      fontSize: 38,
+      marginBottom: 16,
+      "@media (min-width: 600px)": {
+        fontSize: 48,
+      },
+    },
+    h3: {
+      fontWeight: 600,
+      fontSize: 26,
+      marginBottom: 12,
+      "@media (min-width: 600px)": {
+        fontSize: 36,
+      },
+    },
+    h4: {
+      fontWeight: 400,
+      fontSize: 22,
+      marginBottom: 12,
+      "@media (min-width: 600px)": {
+        fontSize: 26,
+      },
+    },
+    h5: {
+      fontWeight: 600,
+      fontSize: 16,
+      marginBottom: 2,
+      "@media (min-width: 600px)": {
+        fontSize: 20,
+      },
+    },
+    subtitle1: {
+      fontWeight: 400,
+      fontSize: 16,
+      marginTop: -8,
+      marginBottom: 12,
+      "@media (min-width: 600px)": {
+        fontSize: 26,
+        marginTop: -16,
+      },
+    },
+    body1: {
+      fontSize: 14,
+      lineHeight: 1.25,
+      fontWeight: 400,
+      "@media (min-width: 600px)": {
+        fontSize: 16,
+      },
+    },
+    body2: {
+      fontWeight: 400,
+      fontSize: 18,
+      marginBottom: -4,
+      "@media (min-width: 600px)": {
+        fontSize: 18,
+      },
+    },
+    button: {
+      fontWeight: 600,
+    },
+  },
+  spacing: 4,
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 840,
+      lg: 1240,
+      xl: 1440,
+    },
+  },
 };

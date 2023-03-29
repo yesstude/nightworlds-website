@@ -1,0 +1,44 @@
+{
+  "page_title": "Account setup",
+  "header": "First-time account setup",
+  "greeting": {
+    "title": "Welcome, {{name}}!",
+    "subtitle": "Looks like it's your first time in NightWorlds! Let us help you to start playing as soon as possible",
+    "button": "Begin!"
+  },
+  "discord": {
+    "title": "Link your Discord account",
+    "subtitle": "Discord is a great messaging platform for gamers like us. Our players use it to talk with each other every day. Create a Discord account, or, if you have one, link it with your NightWorlds profile",
+    "success": "Your Discord account seems to be successfully linked!",
+    "link_button": "Go to Discord",
+    "continue_button": "Next"
+  },
+  "nickname": {
+    "title": "Select a nickname",
+    "subtitle": "If you have a Minecraft account, type its nickname in. If you don't have one, select an in-game nickname for yourself",
+    "nickname": "Nickname",
+    "error": {
+      "none": "Awesome choice!",
+      "length": "Nicknames can only be between 3 and 16 characters",
+      "format": "Your nickname contains some characters that are not permitted",
+      "occupied": "This nickname is already used in NightWorlds"
+    },
+    "continue_button": "Next"
+  },
+  "password": {
+    "title": "Protect your account",
+    "subtitle": "Select a password for your NightWorlds account. It will be used only in game",
+    "password": "In-game Password",
+    "error": {
+      "length": "Minimum length of password is 8 characters"
+    },
+    "finish_button": "Finish"
+  },
+  "additional": {
+    "title": "Your account is done!",
+    "subtitle": "There are things you can also do right now:",
+    "actions": {
+      "dashboard": "Go to your dashboard"
+    }
+  }
+}

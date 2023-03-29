@@ -1,0 +1,16 @@
+{
+  "pages": {
+    "homepage": "Home Page",
+    "personal": "Personal",
+    "game_settings": "Game Settings"
+  },
+  "homepage": {
+    "welcome": "Welcome, {{name}}!",
+    "playing_card": {
+      "playing": "You've been playing for {{parsedTime}} already",
+      "leave": "Leave",
+      "played": "Last time you played {{server}} for {{parsedTime}}",
+      "play": "Play"
+    }
+  }
+}
