@@ -69,6 +69,7 @@ export const authOptions: NextAuthOptions = {
       )
         throw new Error();
 
+      session.user.id = token.id as string;
       session.user.regState = "start";
 
       const dbuser = await prisma.user.findUnique({
