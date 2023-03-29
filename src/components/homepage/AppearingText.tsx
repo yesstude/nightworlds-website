@@ -1,10 +1,10 @@
 import { SxProps, Theme, Typography, TypographyVariant } from "@mui/material";
-import { useEffect, useId, useState } from "react";
+import { ElementType, useEffect, useId, useState } from "react";
 
 export default function AppearingText(props: {
     tokens: { [x: string]: number },
     variant: TypographyVariant,
-    component?: string,
+    component?: ElementType<any>,
     sx?: SxProps<Theme>,
     speed?: number,
     noAutoSpace?: boolean,
