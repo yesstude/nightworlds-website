@@ -12,6 +12,8 @@ const useStyles = {
     minHeight: "64px"
   },
   drawerPaper: {
+    display: "flex",
+    flexDirection: "column",
     background: "#fff",
     width: "328px",
     pr: "12px",

@@ -26,18 +26,4 @@ export function middleware(req: NextRequest) {
         response.cookies.set('NEXT_LOCALE', locale);
         return response;
     }
-    // if (locales.includes(req.nextUrl.locale)) {
-    //     console.log("middleware read");
-    //     const locale = req.nextUrl.locale;
-    //     const response = NextResponse.next()
-    //     response.cookies.set('NEXT_LOCALE', locale);
-    //     return response;
-    // } else {
-    //     const locale = req.cookies.get('NEXT_LOCALE')?.value || 'en'
-    //     console.log(locale);
-    //     console.log("middleware set locale");
-    //     return NextResponse.redirect(
-    //         new URL(`/${locale}${req.nextUrl.pathname}${req.nextUrl.search}`, req.url)
-    //     )
-    // }
 }

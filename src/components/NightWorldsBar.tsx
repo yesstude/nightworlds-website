@@ -1,5 +1,6 @@
 import { AppBar, Button, Container, Hidden, Slide, Toolbar, Typography, useScrollTrigger } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import logo from "../assets/logo.svg";
 
 export default function NightWorldsBar() {
@@ -26,6 +27,7 @@ export function LandingAppBar(props: {
   button: string,
   shortbutton: string,
 }) {
+  const router = useRouter();
   const trigger = useScrollTrigger();
   return (
     <Slide appear={true} direction="down" in={!trigger && props.appear}>
@@ -45,6 +47,18 @@ export function LandingAppBar(props: {
           }}>
             NightWorlds
           </span>
+          <Hidden mdDown>
+            <Button
+              variant="text"
+              sx={{
+                padding: "12px 16px",
+                borderRadius: "9999px"
+              }}
+              onClick={() => router.replace("/auth/signin")}
+            >
+              Вход для участников раннего доступа
+            </Button>
+          </Hidden>
           <Button
             variant="contained"
             sx={{

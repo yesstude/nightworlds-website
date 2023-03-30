@@ -27,14 +27,7 @@ const DashboardHome: NextPage = () => {
   const user = api.me.profile.useQuery().data;
 
   return (
-    <DashboardWrapper
-      name={tr ? "" + t("pages.homepage") : undefined}
-      title={
-        user ?
-          t("homepage.welcome", { name: user.nickname })
-          : t("pages.homepage")
-      }
-    >
+    <DashboardWrapper name={tr ? "" + t("pages.homepage") : undefined}>
       <Container sx={{
         display: "flex",
         gap: "16px",
@@ -42,24 +35,6 @@ const DashboardHome: NextPage = () => {
         justifyContent: "center"
       }}>
         {/* <NewsBlock /> */}
-        <Card variant="outlined" sx={{
-          width: "300px",
-          px: 4,
-        }}>
-          <CardContent sx={{
-            textAlign: "left",
-          }}>
-            <Typography variant="body2" component="div">
-              Ранний доступ
-            </Typography>
-            <Typography
-              component="div"
-              color="text.disabled"
-            >
-              Если вы видите этот текст, это значит, что у вас есть ранний доступ к NightWorlds v2 и NightWorld Medium 4
-            </Typography>
-          </CardContent>
-        </Card>
         <PlayingStatusCard />
       </Container>
     </DashboardWrapper>

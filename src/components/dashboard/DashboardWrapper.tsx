@@ -27,7 +27,6 @@ import { useTranslation } from "next-i18next";
 
 export default function DashboardWrapper(props: {
   name?: string,
-  title?: ReactNode,
   children: ReactNode
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -98,7 +97,7 @@ export default function DashboardWrapper(props: {
           mobileOpen={mobileOpen}
           handleDrawerToggle={() => setMobileOpen(!mobileOpen)}
         >
-          <List>
+          <List sx={{ flexGrow: 1 }}>
             {[
               [t("pages.homepage"), "/dashboard/#", <HomepageIcon />],
               [],
@@ -125,6 +124,15 @@ export default function DashboardWrapper(props: {
               );
             })}
           </List>
+          <Typography
+            color="text.disabled"
+            sx={{
+              mx: 2,
+              mb: 2,
+            }}
+          >
+            NightWorlds v2 Early access
+          </Typography>
         </ResponsiveDrawer>
         <Box
           component="main"
@@ -143,16 +151,6 @@ export default function DashboardWrapper(props: {
             justifyContent: "center",
             textAlign: "center"
           }}>
-            {props.title ?
-              <Typography
-                variant="h2"
-                component="h1"
-                fontWeight={300}
-                sx={{ mt: 8, mb: 16 }}
-              >
-                {props.title}
-              </Typography>
-              : undefined}
             {props.children}
           </Container>
         </Box>
