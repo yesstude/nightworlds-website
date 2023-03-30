@@ -15,10 +15,10 @@ export function middleware(req: NextRequest) {
     if (req.nextUrl.locale === req.nextUrl.defaultLocale) {
         if (req.cookies.has('NEXT_LOCALE')
         && locales.includes(req.cookies.get('NEXT_LOCALE')!.value)) {
-            const locale = req.cookies.get('NEXT_LOCALE')?.value;
-            return NextResponse.rewrite(
-                new URL(`/${locale}${req.nextUrl.pathname}${req.nextUrl.search}`, req.url)
-            );
+            const locale = req.cookies.get('NEXT_LOCALE')!.value;
+            let url = req.nextUrl;
+            url.locale = locale;
+            return NextResponse.redirect(url);
         }
     } else {
         const locale = req.nextUrl.locale;
