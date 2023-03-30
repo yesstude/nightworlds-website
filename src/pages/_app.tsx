@@ -29,14 +29,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
   );
 };
 
-const I18nApp = appWithTranslation(MyApp, {
-  ...nextI18nConfig,
-  detection: {
-    order: [/*'path', */'cookie', 'header'],
-    caches: ['cookie'],
-    lookupCookie: 'i18next',
-  },
-} as any);
+const I18nApp = appWithTranslation(MyApp, nextI18nConfig);
 const TRPCApp = api.withTRPC(I18nApp);
 
 export default TRPCApp;
