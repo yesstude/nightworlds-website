@@ -8,10 +8,10 @@ const i18nconfig = {
     locales: ["en", "ru", "uk"],
     defaultLocale: "en",
   },
-  fallbackLng: {
-    "ru-RU": "ru"
-  },
-  ns: ["setup"],
+  // fallbackLng: {
+  //   "ru-RU": "ru"
+  // },
+  // ns: ["setup"], somewhy breaks translations
   localePath: path.resolve("./public/locales"),
   nonExplicitSupportedLngs: true,
 };

@@ -12,8 +12,6 @@ import { appWithTranslation } from "next-i18next";
 import { SessionProvider } from "next-auth/react";
 import { type Session } from "next-auth";
 
-import i18nMiddleware from "i18next-http-middleware";
-
 const theme = createTheme(themeOptions);
 
 const MyApp: AppType<{ session: Session | null }> = ({
