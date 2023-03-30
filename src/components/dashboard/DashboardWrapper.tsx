@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Hidden, useScrollTrigger } from "@mui/material";
 
 import Box from "@mui/material/Box";
@@ -18,6 +18,7 @@ import ListItemText from "@mui/material/ListItemText";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import HomepageIcon from "@mui/icons-material/Home";
+import PersonalIcon from "@mui/icons-material/AccountCircle";
 
 import Link from "next/link";
 
@@ -30,13 +31,18 @@ export default function DashboardWrapper(props: {
   children: ReactNode
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [trigger, setTrigger] = useState(false);
   const i18n = useTranslation("dashboard");
   function t(key: string): string | null {
     const val = i18n.t(key);
     return val === key ? null : val;
   }
 
-  const trigger = useScrollTrigger();
+  useEffect(() => {
+    setInterval(() => {
+      setTrigger(window.scrollY >= 1);
+    }, 100)
+  }, []);
 
   return (
     <>
@@ -53,8 +59,13 @@ export default function DashboardWrapper(props: {
         opacity: i18n.ready ? "100%" : "0%",
         transition: "opacity 1s",
       }}>
-        <Slide appear={false} direction="down" in={!trigger}>
-          <AppBar>
+        <Slide appear={false} direction="down" in>
+          <AppBar
+            variant="elevation"
+            sx={{
+              boxShadow: !trigger ? "none" : undefined
+            }}
+          >
             <Toolbar>
               <Hidden mdUp>
                 <Button
@@ -101,8 +112,7 @@ export default function DashboardWrapper(props: {
             {[
               [t("pages.homepage"), "/dashboard/#", <HomepageIcon />],
               [],
-              // [t("pages.personal"), "/dashboard/personal/#", <MenuIcon />],
-              // [t("pages.game_settings"), "/dashboard/game-settings/#", <MenuIcon />],
+              [t("pages.personal"), "/dashboard/personal/#", <PersonalIcon />],
             ].map(cfg => {
               if (cfg.length < 1) return (
                 <Divider sx={{ my: 1 }} />
@@ -138,8 +148,8 @@ export default function DashboardWrapper(props: {
           component="main"
           sx={{
             '@media (min-width: 840px)': {
-              ml: "340px",
-              maxWidth: "calc(100% - 340px)",
+              ml: "280px",
+              maxWidth: "calc(100% - 280px)",
             }
           }}
         >

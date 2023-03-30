@@ -18,7 +18,7 @@ const DashboardPersonal: NextPage = () => {
     <DashboardWrapper
       name={t("pages.personal")}
     >
-      <Typography>Here is your personal data and settings:</Typography>
+      <Typography>выйди отсюда че ты чекаешь гад</Typography>
     </DashboardWrapper>
   );
 }

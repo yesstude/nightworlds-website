@@ -32,8 +32,8 @@ export const themeOptions: ThemeOptions = {
     MuiCard: {
       defaultProps: {
         style: {
-          borderRadius: "12px",
-          padding: "16px",
+          borderRadius: "24px",
+          padding: "32px",
           border: "none",
         },
       },
@@ -68,10 +68,38 @@ export const themeOptions: ThemeOptions = {
         },
       },
     },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          ":is(.Mui-selected)": {
+            background: "#efdff8",
+            " .MuiTypography-root": {
+              color: palette.text!.secondary!,
+            },
+            " .MuiListItemIcon-root": {
+              color: `${palette.text!.secondary!} !important`,
+            },
+          },
+          " .MuiTypography-root": {
+            color: palette.text!.disabled!,
+          }
+        }
+      }
+    },
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          marginLeft: "8px",
+          minWidth: "40px",
+        }
+      }
+    },
     MuiListItemText: {
       defaultProps: {
         sx: {
-          p: 2,
+          " .MuiTypography-root": {
+            fontWeight: 600,
+          }
         },
       },
     },
@@ -163,11 +191,11 @@ export const themeOptions: ThemeOptions = {
       },
     },
     body2: {
-      fontWeight: 400,
-      fontSize: 18,
+      fontWeight: 600,
+      fontSize: 15,
       marginBottom: -4,
       "@media (min-width: 600px)": {
-        fontSize: 18,
+        fontSize: 17,
       },
     },
     button: {

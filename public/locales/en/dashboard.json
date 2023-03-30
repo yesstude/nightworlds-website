@@ -10,6 +10,8 @@
       "playing": "You've been playing for {{parsedTime}} already",
       "leave": "Leave",
       "played": "Last time you played {{server}} for {{parsedTime}}",
+      "first": "First time?",
+      "neverplayed": "You never played NightWorlds yet",
       "play": "Play"
     }
   }

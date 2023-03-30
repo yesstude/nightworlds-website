@@ -1,16 +1,15 @@
 import { GetServerSidePropsContext, NextPage } from "next";
 import DashboardWrapper from "../../components/dashboard/DashboardWrapper";
 
-import Typography from "@mui/material/Typography";
 import { useTranslation } from "next-i18next";
 import getLocale from "../../components/getLocale";
 import { api } from "../../utils/api";
 import PlayingStatusCard from "../../components/dashboard/homepage/PlayingStatusCard";
-import { Card, CardContent, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import NewsBlock from "../../components/NewsBlock";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../server/auth";
-import { signIn } from "next-auth/react";
+import WelcomeHeader from "../../components/dashboard/homepage/WelcomeHeader";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, authOptions);
@@ -24,8 +23,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 const DashboardHome: NextPage = () => {
   const [t, i18n, tr] = useTranslation("dashboard");
 
-  const user = api.me.profile.useQuery().data;
-
   return (
     <DashboardWrapper name={tr ? "" + t("pages.homepage") : undefined}>
       <Container sx={{
@@ -34,8 +31,9 @@ const DashboardHome: NextPage = () => {
         flexWrap: "wrap",
         justifyContent: "center"
       }}>
-        {/* <NewsBlock /> */}
+        <WelcomeHeader />
         <PlayingStatusCard />
+        {/* <NewsBlock /> */}
       </Container>
     </DashboardWrapper>
   );

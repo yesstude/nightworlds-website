@@ -4,19 +4,18 @@ import { Drawer, Hidden } from '@mui/material';
 const useStyles = {
   drawer: {
     '@media (min-width: 840px)': {
-      width: "340px",
+      width: "280px",
       flexShrink: 0,
     },
   },
   toolbar: {
-    minHeight: "64px"
+    minHeight: "88px"
   },
   drawerPaper: {
     display: "flex",
     flexDirection: "column",
     background: "#fff",
-    width: "328px",
-    pr: "12px",
+    width: "280px",
     "border-top-right-radius": 16,
     "border-bottom-right-radius": 16,
     " .MuiButtonBase-root": {
@@ -24,7 +23,7 @@ const useStyles = {
       "border-bottom-right-radius": 32,
     },
     " .MuiDivider-root": {
-      maxWidth: "300px"
+      maxWidth: "268px"
     }
   },
 };

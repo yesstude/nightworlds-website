@@ -1,13 +1,11 @@
 import { Box, Button, Card, CardContent, lighten, Typography } from "@mui/material";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { api } from "../../../utils/api";
 
-import playing from "../../../assets/dashboard/playingstatus/playing.png";
-import played from "../../../assets/dashboard/playingstatus/played.png";
-
 export default function PlayingStatusCard() {
+  const [t] = useTranslation("dashboard");
   const statusQuery = api.me.lastplayed.useQuery();
   const status = statusQuery.data;
 
@@ -17,7 +15,23 @@ export default function PlayingStatusCard() {
     }, 5000);
   }, [])
 
-  if (!status) return <></>;
+  if (!status) return (
+    <UniCard
+      title={t("homepage.playing_card.first")}
+      subtitle={t("homepage.playing_card.neverplayed")}
+      artcolor="#b392c6"
+      button={
+        <Button
+          variant="contained"
+          size="small"
+          disableElevation
+          disabled
+        >
+          {t("homepage.playing_card.play")}
+        </Button>
+      }
+    />
+  );
   if (!status.stopped) return <PlayingServer
     server={status.server}
     gameStarted={status.started.getTime()}
@@ -47,59 +61,20 @@ function LastServer(props: {
   const parsedTime = parseTimePassed(props.gameStarted.getTime(), props.gameEnded.getTime());
 
   return (
-    <Card variant="outlined" sx={{
-      maxWidth: "600px",
-      minWidth: "300px",
-      py: 8,
-      px: 4,
-    }}>
-      <CardContent sx={{
-        textAlign: "left",
-        display: "flex",
-        gap: "16px",
-        flexDirection: "row",
-        justifyContent: "center",
-        flexWrap: "wrap"
-      }}>
-        <Box sx={{
-          display: "flex",
-          flexDirection: "column",
-          placeItems: "center",
-          justifyContent: "center",
-          px: 12,
-          flexShrink: 1,
-          maxWidth: "160px",
-        }}>
-          <Image src={played} alt="Game" style={{
-            display: "block",
-            width: "100%",
-            height: "auto",
-            maxWidth: "128px",
-          }} />
-        </Box>
-        <Box sx={{
-          maxWidth: "220px",
-        }}>
-          <Typography variant="body2" component="div">
-            {props.server}
-          </Typography>
-          <Typography
-            component="div"
-            color="text.disabled"
-          >
-            {t("homepage.playing_card.played", { parsedTime, server: props.server })}
-          </Typography>
-          <Button
-            variant="contained"
-            disableElevation
-            size="small"
-            sx={{ mt: 4, borderRadius: 9999 }}
-          >
-            {t("homepage.playing_card.play")}
-          </Button>
-        </Box>
-      </CardContent>
-    </Card>
+    <UniCard
+      title={props.server}
+      subtitle={t("homepage.playing_card.played", {server: props.server, parsedTime})}
+      artcolor="#b392c6"
+      button={
+        <Button
+          variant="contained"
+          size="small"
+          disableElevation
+        >
+          {t("homepage.playing_card.play")}
+        </Button>
+      }
+    />
   );
 }
 
@@ -118,59 +93,63 @@ function PlayingServer({ server, gameStarted }: {
   }, []);
 
   return (
-    <Card variant="outlined" sx={{
-      maxWidth: "600px",
-      minWidth: "300px",
-      background: "#35fe311f",
-      py: 8,
-      px: 4,
-    }}>
-      <CardContent sx={{
-        textAlign: "left",
+    <UniCard
+      title={server}
+      subtitle={t("homepage.playing_card.playing", {server, parsedTime})}
+      artcolor="#7ec181"
+      background="#e5ffe4"
+      button={
+        <Button
+          variant="outlined"
+          size="small"
+          color="error"
+          disableElevation
+        >
+          {t("homepage.playing_card.leave")}
+        </Button>
+      }
+    />
+  );
+}
+
+function UniCard(props: {
+  title: string,
+  subtitle: string,
+  artcolor: string,
+  background?: string,
+  button?: ReactNode
+}) {
+  return (
+    <Card
+      variant="outlined"
+      sx={{
         display: "flex",
-        gap: "16px",
         flexDirection: "row",
         justifyContent: "center",
-        flexWrap: "wrap"
+        placeItems: "center",
+        flexWrap: "wrap-reverse",
+        gap: "32px",
+        textAlign: "left",
+        background: props.background,
+      }}
+    >
+      <Box sx={{
+        width: "165px",
+        flexGrow: 1,
       }}>
-        <Box sx={{
-          display: "flex",
-          flexDirection: "column",
-          placeItems: "center",
-          justifyContent: "center",
-          px: 12,
-          flexShrink: 1,
-          maxWidth: "160px",
-        }}>
-          <Image src={playing} alt="Game" style={{
-            display: "block",
-            width: "100%",
-            height: "auto",
-            maxWidth: "128px",
-          }} />
-        </Box>
-        <Box sx={{
-          maxWidth: "220px",
-        }}>
-          <Typography variant="body2" component="div">
-            {server}
-          </Typography>
-          <Typography
-            component="div"
-            color="text.disabled"
-          >
-            {t("homepage.playing_card.playing", { parsedTime })}
-          </Typography>
-          <Button
-            variant="outlined"
-            size="small"
-            color="error"
-            sx={{ mt: 4, borderRadius: 9999 }}
-          >
-            {t("homepage.playing_card.leave")}
-          </Button>
-        </Box>
-      </CardContent>
+        <Typography variant="body2" component="div">
+          {props.title}
+        </Typography>
+        <Typography component="div" sx={{ mb: "16px" }}>
+          {props.subtitle}
+        </Typography>
+        {props.button}
+      </Box>
+      <Box>
+        <svg width="205" height="95" viewBox="0 0 205 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M129.832 64.9987C128.81 49.9987 137.407 45.9987 145.865 42.8913L156.239 39.4009L166.613 35.9105C179.644 30.4987 186.897 34.5978 190.49 40C199.524 53.5835 206.535 69.4165 201.084 73.2482C195.632 77.0799 181.851 59.0877 178.407 58.4987C171.812 64.3731 169.22 62.2159 165.407 63.4987C161.595 64.7816 160.351 70.4749 151.141 68.3307C148.753 70.8816 149.229 93.0373 141.425 93.321C133.621 93.6047 131.987 79.1343 129.832 64.9987ZM129.832 64.9987C129.359 61.8995 130.03 67.921 129.832 64.9987ZM153.704 22.9434C142.617 -1.97457 112.971 -16.9962 103.47 48.2635C93.9703 113.523 63.9225 81.4083 48.4015 70.034M53.0552 30.3417L35.5916 14.0907C35.1677 13.6963 34.5922 13.5227 34.02 13.6107L10.028 17.298M53.0552 30.3417L28.9534 33.1733M53.0552 30.3417L45.5114 55.2264C45.2966 55.9352 44.6896 56.4482 43.9556 56.5477L20.9212 59.669M28.9534 33.1733L10.028 17.298M28.9534 33.1733L20.9212 59.669M10.028 17.298L2.48896 42.1671C2.2725 42.8812 2.49565 43.6558 3.05883 44.1452L20.9212 59.669" stroke={props.artcolor} stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </Box>
     </Card>
   );
 }
