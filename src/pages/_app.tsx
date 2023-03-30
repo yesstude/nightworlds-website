@@ -12,6 +12,8 @@ import { appWithTranslation } from "next-i18next";
 import { SessionProvider } from "next-auth/react";
 import { type Session } from "next-auth";
 
+import i18nMiddleware from "i18next-http-middleware";
+
 const theme = createTheme(themeOptions);
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -27,7 +29,14 @@ const MyApp: AppType<{ session: Session | null }> = ({
   );
 };
 
-const I18nApp = appWithTranslation(MyApp, nextI18nConfig);
+const I18nApp = appWithTranslation(MyApp, {
+  ...nextI18nConfig,
+  detection: {
+    order: [/*'path', */'cookie', 'header'],
+    caches: ['cookie'],
+    lookupCookie: 'i18next',
+  },
+} as any);
 const TRPCApp = api.withTRPC(I18nApp);
 
 export default TRPCApp;

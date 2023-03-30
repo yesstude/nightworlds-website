@@ -1,7 +1,7 @@
 import { Box, Button, Card, CardContent, lighten, Typography } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { api } from "../../../utils/api";
 
 import playing from "../../../assets/dashboard/playingstatus/playing.png";

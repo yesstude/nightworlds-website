@@ -23,7 +23,7 @@ import Link from "next/link";
 
 import logo from "../../assets/logo.svg";
 import ResponsiveDrawer from "./ResponsiveDrawer";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 
 export default function DashboardWrapper(props: {
   name?: string,

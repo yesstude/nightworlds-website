@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import DashboardWrapper from "../../components/dashboard/DashboardWrapper";
 
 import Typography from "@mui/material/Typography";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import getLocale from "../../components/getLocale";
 
 export const getServerSideProps = getLocale("dashboard");

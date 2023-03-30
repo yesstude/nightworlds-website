@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext, InferGetServerSidePropsType, NextPage } from "next";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import DefaultHead from "../../components/DefaultHead";
 import { getLocaleProps } from "../../components/getLocale";
 

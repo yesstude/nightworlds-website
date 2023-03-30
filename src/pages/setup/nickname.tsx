@@ -5,7 +5,7 @@ import { authOptions } from "../../server/auth";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import getLocale from "../../components/getLocale";
 import SetupPagesWrapper from "../../components/setup/SetupPagesWrapper";
 import { api } from "../../utils/api";

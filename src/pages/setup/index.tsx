@@ -2,7 +2,7 @@ import { Button, Typography } from "@mui/material";
 import { GetServerSidePropsContext, NextPage } from "next";
 import { getServerSession } from "next-auth";
 import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import getLocale from "../../components/getLocale";
 import SetupPagesWrapper from "../../components/setup/SetupPagesWrapper";
 import { authOptions } from "../../server/auth";

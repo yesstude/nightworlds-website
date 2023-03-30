@@ -1,6 +1,6 @@
 import { Box, Container, Divider, Paper, Typography } from "@mui/material";
 import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import DefaultHead from "../DefaultHead";
 
 import logo from "../../assets/logo.svg";
