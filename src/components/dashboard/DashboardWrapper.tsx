@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { Hidden, LinearProgress, useScrollTrigger } from "@mui/material";
 
 import Box from "@mui/material/Box";
@@ -27,12 +27,22 @@ import ResponsiveDrawer from "./ResponsiveDrawer";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 
+const SetTitleContext = createContext((newtitle: string) => {});
+
+export function Title (props: {
+  children: string
+}) {
+  const setTitle = useContext(SetTitleContext);
+  setTitle(props.children);
+  return (<></>);
+}
+
 export default function DashboardWrapper(props: {
-  name?: string,
   children: ReactNode
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [trigger, setTrigger] = useState(false);
+  const [title, setTitle] = useState<string>();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const i18n = useTranslation("dashboard");
@@ -54,7 +64,7 @@ export default function DashboardWrapper(props: {
   return (
     <>
       <Head>
-        <title>{props.name || "NightWorlds"}</title>
+        <title>{title || "NightWorlds"}</title>
         <link rel="icon" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="IE=7" />
@@ -129,17 +139,19 @@ export default function DashboardWrapper(props: {
               );
               return (
                 <ListItem key={cfg[0] as string} disablePadding>
-                  <Link href={cfg[1] as string} legacyBehavior>
-                    <ListItemButton
-                      selected={cfg[0] == props.name}
-                      sx={{
-                        transition: "background-color 500ms",
-                      }}
-                    >
-                      <ListItemIcon>{cfg[2]}</ListItemIcon>
-                      <ListItemText primary={cfg[0]} />
-                    </ListItemButton>
-                  </Link>
+                  <ListItemButton
+                    selected={cfg[0] == title}
+                    sx={{
+                      transition: "background-color 500ms",
+                    }}
+                    onClick={() => {
+                      setMobileOpen(false);
+                      router.replace(cfg[1] as string);
+                    }}
+                  >
+                    <ListItemIcon>{cfg[2]}</ListItemIcon>
+                    <ListItemText primary={cfg[0]} />
+                  </ListItemButton>
                 </ListItem>
               );
             })}
@@ -160,7 +172,9 @@ export default function DashboardWrapper(props: {
             '@media (min-width: 840px)': {
               ml: "280px",
               maxWidth: "calc(100% - 280px)",
-            }
+            },
+            opacity: loading ? "50%" : "100%",
+            transition: "opacity 500ms",
           }}
         >
           <Container sx={{
@@ -171,7 +185,9 @@ export default function DashboardWrapper(props: {
             justifyContent: "center",
             textAlign: "center"
           }}>
-            {props.children}
+            <SetTitleContext.Provider value={setTitle}>
+              {props.children}
+            </SetTitleContext.Provider>
           </Container>
         </Box>
       </Box>

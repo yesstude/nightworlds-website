@@ -18,10 +18,12 @@ const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps }
 }) => {
+  const getLayout = (Component as any).getLayout || ((page: any) => page);
+
   return (
     <ThemeProvider theme={theme}>
       <SessionProvider session={session}>
-        <Component {...pageProps} />
+        {getLayout(<Component {...pageProps} />)}
       </SessionProvider>
     </ThemeProvider>
   );

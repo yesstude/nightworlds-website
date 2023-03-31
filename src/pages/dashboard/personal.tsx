@@ -1,26 +1,23 @@
 import { NextPage } from "next";
-import DashboardWrapper from "../../components/dashboard/DashboardWrapper";
+import DashboardWrapper, { Title } from "../../components/dashboard/DashboardWrapper";
 
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "next-i18next";
 import getLocale from "../../components/getLocale";
+import { ReactNode } from "react";
 
 export const getServerSideProps = getLocale("dashboard");
 
-const DashboardPersonal: NextPage = () => {
-  const i18n = useTranslation("dashboard");
-  function t(key: string): string | undefined {
-    const val = i18n.t(key);
-    return val === key ? undefined : val;
-  }
+export default function DashboardPersonal () {
+  const [t, i18n, tr] = useTranslation("dashboard");
 
   return (
-    <DashboardWrapper
-      name={t("pages.personal")}
-    >
+    <>
+      <Title>{t("pages.personal")}</Title>
       <Typography>выйди отсюда че ты чекаешь гад</Typography>
-    </DashboardWrapper>
+    </>
   );
-}
-
-export default DashboardPersonal;
+};
+DashboardPersonal.getLayout = function getLayout(page: ReactNode) {
+  return <DashboardWrapper>{page}</DashboardWrapper>;
+};
