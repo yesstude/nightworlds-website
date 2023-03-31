@@ -47,6 +47,8 @@ export default function DashboardWrapper(props: {
     }, 100);
 
     router.events.on("routeChangeStart", () => setLoading(true));
+    router.events.on("routeChangeError", () => setLoading(false));
+    router.events.on("routeChangeComplete", () => setLoading(false));
   }, []);
 
   return (
@@ -71,7 +73,9 @@ export default function DashboardWrapper(props: {
               boxShadow: !trigger ? "none" : undefined
             }}
           >
-            <LinearProgress sx={{ opacity: loading ? "100%" : "0%" }} />
+            <Slide appear={false} direction="down" in={loading}>
+              <LinearProgress />
+            </Slide>
             <Toolbar>
               <Hidden mdUp>
                 <Button
