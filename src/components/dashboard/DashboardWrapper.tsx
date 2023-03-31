@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { ReactNode, useEffect, useState } from "react";
-import { Hidden, useScrollTrigger } from "@mui/material";
+import { Hidden, LinearProgress, useScrollTrigger } from "@mui/material";
 
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -25,6 +25,7 @@ import Link from "next/link";
 import logo from "../../assets/logo.svg";
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 
 export default function DashboardWrapper(props: {
   name?: string,
@@ -32,6 +33,8 @@ export default function DashboardWrapper(props: {
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [trigger, setTrigger] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const i18n = useTranslation("dashboard");
   function t(key: string): string | null {
     const val = i18n.t(key);
@@ -41,7 +44,9 @@ export default function DashboardWrapper(props: {
   useEffect(() => {
     setInterval(() => {
       setTrigger(window.scrollY >= 1);
-    }, 100)
+    }, 100);
+
+    router.events.on("routeChangeStart", () => setLoading(true));
   }, []);
 
   return (
@@ -66,6 +71,7 @@ export default function DashboardWrapper(props: {
               boxShadow: !trigger ? "none" : undefined
             }}
           >
+            <LinearProgress sx={{ opacity: loading ? "100%" : "0%" }} />
             <Toolbar>
               <Hidden mdUp>
                 <Button
