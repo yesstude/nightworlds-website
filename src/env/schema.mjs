@@ -23,6 +23,7 @@ export const serverSchema = z.object({
   GOOGLE_SECRET: z.string(),
   DISCORD_ID: z.string(),
   DISCORD_SECRET: z.string(),
+  BUCKET_NAME: z.string(),
 });
 
 /**
@@ -39,6 +40,7 @@ export const serverEnv = {
   GOOGLE_SECRET: process.env.GOOGLE_SECRET,
   DISCORD_ID: process.env.DISCORD_ID,
   DISCORD_SECRET: process.env.DISCORD_SECRET,
+  BUCKET_NAME: process.env.BUCKET_NAME,
 };
 
 /**

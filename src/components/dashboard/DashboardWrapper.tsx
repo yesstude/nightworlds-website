@@ -1,5 +1,11 @@
 import Head from "next/head";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Hidden, LinearProgress, useScrollTrigger } from "@mui/material";
 
 import Box from "@mui/material/Box";
@@ -18,38 +24,55 @@ import ListItemText from "@mui/material/ListItemText";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import HomepageIcon from "@mui/icons-material/Home";
-import PersonalIcon from "@mui/icons-material/AccountCircle";
+import CharactersIcon from "@mui/icons-material/People";
 
 import Link from "next/link";
 
 import logo from "../../assets/logo.svg";
+import galaxyShard from "../../assets/galaxyShard.png";
+
 import ResponsiveDrawer from "./ResponsiveDrawer";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { api } from "../../utils/api";
 
 const SetTitleContext = createContext((newtitle: string) => {});
+const SetCustomLoadingContext = createContext((state: boolean) => {});
 
-export function Title (props: {
-  children: string
-}) {
+const drawerlist = [
+  ["homepage.name", "/dashboard/#", <HomepageIcon />],
+  [],
+  ["characters.name", "/dashboard/characters/#", <CharactersIcon />],
+];
+
+export function Title(props: { children: string }) {
   const setTitle = useContext(SetTitleContext);
   setTitle(props.children);
-  return (<></>);
+  return <></>;
+}
+export function LoadingState(props: { children: boolean }) {
+  const setCustomLoading = useContext(SetCustomLoadingContext);
+  setCustomLoading(props.children);
+  return <></>;
 }
 
-export default function DashboardWrapper(props: {
-  children: ReactNode
-}) {
+export default function DashboardWrapper(props: { children: ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [trigger, setTrigger] = useState(false);
+
   const [title, setTitle] = useState<string>();
+  const [customLoading, setCustomLoading] = useState(false);
+
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const i18n = useTranslation("dashboard");
   function t(key: string): string | null {
     const val = i18n.t(key);
     return val === key ? null : val;
   }
+
+  const balance = api.me.balance.useQuery();
 
   useEffect(() => {
     setInterval(() => {
@@ -66,61 +89,104 @@ export default function DashboardWrapper(props: {
       <Head>
         <title>{title || "NightWorlds"}</title>
         <link rel="icon" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0"
+        />
         <meta http-equiv="X-UA-Compatible" content="IE=7" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet"
+        />
       </Head>
-      <Box id="dashboardwrapper" component="div" sx={{
-        opacity: i18n.ready ? "100%" : "0%",
-        transition: "opacity 1s",
-      }}>
+      <Box
+        id="dashboardwrapper"
+        component="div"
+        sx={{
+          opacity: i18n.ready ? "100%" : "0%",
+          transition: "opacity 1s",
+        }}
+      >
         <Slide appear={false} direction="down" in>
           <AppBar
             variant="elevation"
             sx={{
-              boxShadow: !trigger ? "none" : undefined
+              boxShadow: !trigger ? "none" : undefined,
             }}
           >
-            <Slide appear={false} direction="down" in={loading}>
+            <Slide
+              appear={false}
+              direction="down"
+              in={loading || customLoading}
+            >
               <LinearProgress />
             </Slide>
             <Toolbar>
               <Hidden mdUp>
-                <Button
-                  size="small"
-                  onClick={() => setMobileOpen(!mobileOpen)}
-                >
+                <Button size="small" onClick={() => setMobileOpen(!mobileOpen)}>
                   <MenuIcon />
                 </Button>
               </Hidden>
-              <Link
-                href={"/dashboard/#"}
-                legacyBehavior
-              >
-                <Button sx={{
-                  textTransform: "none",
-                  p: "8px 16px"
-                }}>
-                  <img src={logo.src} alt="Home page"
+              <Link href={"/dashboard/#"} legacyBehavior>
+                <Button
+                  sx={{
+                    textTransform: "none",
+                    p: "8px 16px",
+                  }}
+                >
+                  <img
+                    src={logo.src}
+                    alt="Home page"
                     style={{
-                      maxHeight: "48px"
+                      maxHeight: "48px",
                     }}
                   />
-                  <span style={{
-                    flexGrow: "1",
-                    fontWeight: 300,
-                    fontSize: 26,
-                    marginTop: "-2px",
-                    marginLeft: "8px",
-                    fontFamily: "NightLight Sans",
-                    color: "#7f00c9",
-                  }}>
+                  <span
+                    style={{
+                      flexGrow: "1",
+                      fontWeight: 300,
+                      fontSize: 26,
+                      marginTop: "-2px",
+                      marginLeft: "8px",
+                      fontFamily: "NightLight Sans",
+                      color: "#7f00c9",
+                    }}
+                  >
                     NightWorlds
                   </span>
                 </Button>
               </Link>
+              <div style={{ flexGrow: 1 }} />
+              {balance.data ? (
+                <Hidden smDown>
+                  <Link href={"/dashboard/#"} legacyBehavior>
+                    <Button
+                      sx={{
+                        textTransform: "none",
+                        pl: "16px",
+                        pr: "8px",
+                        py: "8px",
+                      }}
+                      variant="outlined"
+                    >
+                      {balance.data.galaxyshards}
+                      <img
+                        src={galaxyShard.src}
+                        alt="Galaxy shards"
+                        style={{
+                          width: "auto",
+                          height: "32px",
+                          imageRendering: "pixelated",
+                        }}
+                      />
+                    </Button>
+                  </Link>
+                </Hidden>
+              ) : (
+                ""
+              )}
             </Toolbar>
           </AppBar>
         </Slide>
@@ -129,18 +195,12 @@ export default function DashboardWrapper(props: {
           handleDrawerToggle={() => setMobileOpen(!mobileOpen)}
         >
           <List sx={{ flexGrow: 1 }}>
-            {[
-              [t("pages.homepage"), "/dashboard/#", <HomepageIcon />],
-              [],
-              [t("pages.personal"), "/dashboard/personal/#", <PersonalIcon />],
-            ].map(cfg => {
-              if (cfg.length < 1) return (
-                <Divider sx={{ my: 1 }} />
-              );
+            {drawerlist.map((cfg) => {
+              if (cfg.length < 1) return <Divider sx={{ my: 1 }} />;
               return (
-                <ListItem key={cfg[0] as string} disablePadding>
+                <ListItem key={t(cfg[0] as string) as string} disablePadding>
                   <ListItemButton
-                    selected={cfg[0] == title}
+                    selected={t(cfg[0] as string) == title}
                     sx={{
                       transition: "background-color 500ms",
                     }}
@@ -150,7 +210,7 @@ export default function DashboardWrapper(props: {
                     }}
                   >
                     <ListItemIcon>{cfg[2]}</ListItemIcon>
-                    <ListItemText primary={cfg[0]} />
+                    <ListItemText primary={t(cfg[0] as string)} />
                   </ListItemButton>
                 </ListItem>
               );
@@ -169,7 +229,7 @@ export default function DashboardWrapper(props: {
         <Box
           component="main"
           sx={{
-            '@media (min-width: 840px)': {
+            "@media (min-width: 840px)": {
               ml: "280px",
               maxWidth: "calc(100% - 280px)",
             },
@@ -177,22 +237,24 @@ export default function DashboardWrapper(props: {
             transition: "opacity 500ms",
           }}
         >
-          <Container sx={{
-            mt: 20,
-            display: "flex",
-            flexDirection: "column",
-            placeItems: "center",
-            justifyContent: "center",
-            textAlign: "center"
-          }}>
+          <Container
+            sx={{
+              mt: 20,
+              display: "flex",
+              flexDirection: "column",
+              placeItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+            }}
+          >
             <SetTitleContext.Provider value={setTitle}>
-              {props.children}
+              <SetCustomLoadingContext.Provider value={setCustomLoading}>
+                {props.children}
+              </SetCustomLoadingContext.Provider>
             </SetTitleContext.Provider>
           </Container>
         </Box>
       </Box>
     </>
-  )
+  );
 }
-
-

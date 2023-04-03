@@ -25,7 +25,7 @@ export default defineNextConfig({
   swcMinify: true,
   // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
   i18n: i18nconfig.i18n,
-  // experimental: {
-  //   appDir: true,
-  // },
+  images: {
+    domains: ["cataas.com"],
+  }
 });

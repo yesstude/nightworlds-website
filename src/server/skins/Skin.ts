@@ -1,3 +1,4 @@
+import axios from "axios";
 import sharp from "sharp";
 import Cloth from "./Cloth";
 
@@ -5,8 +6,19 @@ export default class Skin {
   private image: sharp.Sharp | undefined;
   private clothes: Cloth[] = [];
 
-  constructor(url: string | Buffer) {
-    this.image = sharp(url);
+  constructor(data: string | Buffer) {
+    this.image = sharp(data);
+  }
+
+  public static async fromUrl(url: string) {
+    return new Skin(
+      (
+        await axios({
+          url,
+          responseType: "arraybuffer",
+        })
+      ).data as Buffer
+    );
   }
 
   public wear(cloth: Cloth): Skin {
@@ -70,6 +82,65 @@ export default class Skin {
       await this.applyCloth(await cloth.getBuffer());
     }
     return this;
+  }
+
+  public async getProfilePicture(sizes: number = 16) {
+    await this.bake();
+    let skin = this.image as sharp.Sharp;
+
+    let image = sharp({
+      create: {
+        background: "#00000000",
+        channels: 4,
+        width: 16,
+        height: 16,
+      },
+    }).png();
+
+    const HANDS_WIDTH = 3;
+    const tss = [
+      [8, 8, 8, 8, 4, 0],
+      [8, 8, 40, 8, 4, 0],
+      [8, 8, 20, 20, 4, 8],
+      [8, 8, 20, 36, 4, 8],
+      [HANDS_WIDTH, 8, 44, 20, 4 - HANDS_WIDTH, 8],
+      [HANDS_WIDTH, 8, 44, 36, 4 - HANDS_WIDTH, 8],
+      [HANDS_WIDTH, 8, 36, 52, 12, 8],
+      [HANDS_WIDTH, 8, 52, 52, 12, 8],
+    ];
+    let trs = [];
+    for (let i = 0; i < tss.length; i++) {
+      const ts = tss[i]!;
+      const tr = await sharp(await skin.toBuffer())
+        .pipe(sharp())
+        .extract({
+          width: ts[0]!,
+          height: ts[1]!,
+          left: ts[2]!,
+          top: ts[3]!,
+        })
+        .extend({
+          left: ts[4]!,
+          top: ts[5]!,
+          right: 16 - ts[4]! - ts[0]!,
+          bottom: 16 - ts[5]! - ts[1]!,
+          background: "#00000000",
+        })
+        .toBuffer();
+      trs.push(tr);
+    }
+
+    image = image
+      .composite(trs.map((val: any) => ({ input: val })))
+      .pipe(sharp());
+
+    image = image.resize(sizes, sizes, {
+      fit: "fill",
+      kernel: "nearest",
+    });
+    const buffer = await image.png().toBuffer({ resolveWithObject: false });
+
+    return `data:image/png;base64,${buffer?.toString("base64")}`;
   }
 
   public async getDataUrl(): Promise<string> {

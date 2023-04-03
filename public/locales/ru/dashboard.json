@@ -1,18 +1,42 @@
 {
-  "pages": {
-    "homepage": "Главная",
-    "personal": "Личная информация",
-    "game_settings": "Настройки игры"
-  },
+  "back_button": "Назад",
   "homepage": {
+    "name": "Главная",
     "welcome": "Добрый день, {{name}}!",
     "playing_card": {
       "playing": "Вы играете уже на протяжении {{parsedTime}}",
       "leave": "Выйти",
       "played": "В последний раз вы играли в {{server}} на протяжении {{parsedTime}}",
       "first": "Впервые?",
-      "neverplayed": "Вы ещё не играли на NightWorlds",
+      "neverplayed": "Вы ещё не играли в NightWorlds",
       "play": "Играть"
+    },
+    "friends_online": {
+      "title": "Друзья онлайн",
+      "subtitle": "Ваши друзья, играющие сейчас в NightWorlds:",
+      "nofriends": "У вас нет друзей на данный момент",
+      "nofriendsonline": "Сейчас никто из {{friendslink}} не играет в NightWorlds",
+      "friendslink": "ваших друзей",
+      "andmore": "и ещё несколько"
+    },
+    "news": {
+      "title": "Новости NightWorlds",
+      "customize": "Настроить ленту новостей"
+    }
+  },
+  "characters": {
+    "name": "Персонажи",
+    "subtitle": {
+      "v_zero": "У вас ещё нет персонажей в NightWorlds",
+      "v_one": "У вас {{count}} персонаж в NightWorlds:",
+      "v_two": "У вас {{count}} персонажа в NightWorlds:",
+      "v_few": "У вас {{count}} персонажа в NightWorlds:",
+      "v_many": "У вас {{count}} персонажей в NightWorlds:",
+      "v_other": "У вас {{count}} персонажей в NightWorlds:"
+    },
+    "filters": {
+      "all": "Все миры",
+      "loaded": "Загруженные"
     }
   }
 }

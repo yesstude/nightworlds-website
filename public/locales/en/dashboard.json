@@ -1,10 +1,7 @@
 {
-  "pages": {
-    "homepage": "Home Page",
-    "personal": "Personal",
-    "game_settings": "Game Settings"
-  },
+  "back_button": "Back",
   "homepage": {
+    "name": "Home Page",
     "welcome": "Welcome, {{name}}!",
     "playing_card": {
       "playing": "You've been playing for {{parsedTime}} already",
@@ -13,6 +10,30 @@
       "first": "First time?",
       "neverplayed": "You never played NightWorlds yet",
       "play": "Play"
+    },
+    "friends_online": {
+      "title": "Friends online",
+      "subtitle": "Your friends that are currently playing NightWorlds:",
+      "nofriends": "You have no friends at the time",
+      "nofriendsonline": "None of {{friendslink}} are online",
+      "friendslink": "your friends",
+      "andmore": "and more"
+    },
+    "news": {
+      "title": "News from NightWorlds",
+      "customize": "Customize your feed"
+    }
+  },
+  "characters": {
+    "name": "Characters",
+    "subtitle": {
+      "v_zero": "You have no characters in NightWorlds",
+      "v_one": "You have {{count}} character in NightWorlds:",
+      "v_other": "You have {{count}} characters in NightWorlds:"
+    },
+    "filters": {
+      "all": "All worlds",
+      "loaded": "Loaded"
     }
   }
 }

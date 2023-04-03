@@ -1,4 +1,6 @@
+import { charactersRouter } from "./routers/characters";
 import { meRouter } from "./routers/me";
+import { newsRouter } from "./routers/news";
 import { setupRouter } from "./routers/setup";
 import { skinRouter } from "./routers/skin";
 import { subscriptionRouter } from "./routers/subscription";
@@ -13,7 +15,9 @@ export const appRouter = createTRPCRouter({
   subscription: subscriptionRouter,
   skin: skinRouter,
   me: meRouter,
+  characters: charactersRouter,
   setup: setupRouter,
+  news: newsRouter,
 });
 
 // export type definition of API

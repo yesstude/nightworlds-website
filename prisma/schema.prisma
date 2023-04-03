@@ -43,16 +43,35 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  nickname      String?   @unique
+  id            String      @id @default(cuid())
+  nickname      String?     @unique
   name          String
   firstname     String?
-  email         String?   @unique
+  email         String?     @unique
   emailVerified DateTime?
   passwordHash  String?
+  galaxyShards  Int         @default(0)
   image         String?
   accounts      Account[]
   sessions      Session[]
+  characters    Character[]
+}
+
+model Server {
+  name        String      @id
+  displayName String
+  characters  Character[]
+}
+
+model Character {
+  id           String  @id @default(cuid())
+  server       Server? @relation(fields: [serverName], references: [name])
+  serverName   String?
+  owner        User    @relation(fields: [ownerId], references: [id])
+  ownerId      String
+  displayname  String
+  skin         String
+  previewImage String
 }
 
 model VerificationToken {
