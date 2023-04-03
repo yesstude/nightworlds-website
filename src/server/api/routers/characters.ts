@@ -52,7 +52,7 @@ export const charactersRouter = createTRPCRouter({
         id: input,
       },
     });
-    if (character?.ownerId != ctx.session.user.id) return null;
+    if (!character || character?.ownerId != ctx.session.user.id) return null;
     const { id, displayname, skin } = character;
     return {
       id,

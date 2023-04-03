@@ -3,6 +3,7 @@ import {
   getServerSession,
   type NextAuthOptions,
   type DefaultSession,
+  User,
 } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
@@ -11,7 +12,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "./db";
 import { env } from "../env/server.mjs";
 import crypto from "crypto-js";
-import { User } from "@prisma/client";
+import Prisma from "@prisma/client";
 
 /**
  * Module augmentation for `next-auth` types
@@ -19,14 +20,15 @@ import { User } from "@prisma/client";
  * and keep type safety
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  **/
-declare module "next-auth" {
+declare module "next-auth/core/types" {
+  interface User extends Prisma.User {
+    id: string;
+    regState: "start" | "finished";
+    // ...other properties
+    // role: UserRole;
+  }
   interface Session extends DefaultSession {
-    user: {
-      id: string;
-      regState: "start" | "finished";
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
+    user: User;
   }
 
   // interface User {
@@ -122,7 +124,7 @@ export const authOptions: NextAuthOptions = {
         if (!user) return null;
         const passwordHash = crypto.SHA256(c!.password).toString();
         if (!user.passwordHash!.match(passwordHash)) return null;
-        return user;
+        return user as User;
       },
     }),
     /**
