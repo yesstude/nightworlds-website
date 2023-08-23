@@ -24,7 +24,11 @@ import ListItemText from "@mui/material/ListItemText";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import HomepageIcon from "@mui/icons-material/Home";
+import HomepageOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CharactersIcon from "@mui/icons-material/People";
+import CharactersOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import SettingsIcon from "@mui/icons-material/Settings";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 import Link from "next/link";
 
@@ -40,9 +44,20 @@ const SetTitleContext = createContext((newtitle: string) => {});
 const SetCustomLoadingContext = createContext((state: boolean) => {});
 
 const drawerlist = [
-  ["homepage.name", "/dashboard/#", <HomepageIcon />],
+  ["homepage.name", "/dashboard/#", <HomepageIcon />, <HomepageOutlinedIcon />],
   [],
-  ["characters.name", "/dashboard/characters/#", <CharactersIcon />],
+  [
+    "characters.name",
+    "/dashboard/characters/#",
+    <CharactersIcon />,
+    <CharactersOutlinedIcon />,
+  ],
+  [
+    "settings.name",
+    "/dashboard/settings/#",
+    <SettingsIcon />,
+    <SettingsOutlinedIcon />,
+  ],
 ];
 
 export function Title(props: { children: string }) {
@@ -113,7 +128,7 @@ export default function DashboardWrapper(props: { children: ReactNode }) {
           <AppBar
             variant="elevation"
             sx={{
-              boxShadow: !trigger ? "none" : undefined,
+              boxShadow: !trigger ? "none" : "#00000020 0px 0px 24px",
             }}
           >
             <Slide
@@ -209,7 +224,9 @@ export default function DashboardWrapper(props: { children: ReactNode }) {
                       router.replace(cfg[1] as string);
                     }}
                   >
-                    <ListItemIcon>{cfg[2]}</ListItemIcon>
+                    <ListItemIcon>
+                      {t(cfg[0] as string) == title ? cfg[2] : cfg[3]}
+                    </ListItemIcon>
                     <ListItemText primary={t(cfg[0] as string)} />
                   </ListItemButton>
                 </ListItem>

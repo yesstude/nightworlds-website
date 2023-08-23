@@ -21,8 +21,8 @@ const palette: PaletteOptions = {
     disabled: "#4a4a4a",
   },
   background: {
-    default: "#fff",
-    paper: "#7f00c910",
+    default: "#fdf5ff",
+    paper: "#f7effc",
   },
 };
 
@@ -82,24 +82,24 @@ export const themeOptions: ThemeOptions = {
           },
           " .MuiTypography-root": {
             color: palette.text!.disabled!,
-          }
-        }
-      }
+          },
+        },
+      },
     },
     MuiListItemIcon: {
       styleOverrides: {
         root: {
           marginLeft: "8px",
           minWidth: "40px",
-        }
-      }
+        },
+      },
     },
     MuiListItemText: {
       defaultProps: {
         sx: {
           " .MuiTypography-root": {
             fontWeight: 600,
-          }
+          },
         },
       },
     },
@@ -110,6 +110,13 @@ export const themeOptions: ThemeOptions = {
           sx: {
             px: 2,
           },
+        },
+      },
+    },
+    MuiDialogTitle: {
+      styleOverrides: {
+        root: {
+          fontWeight: 600,
         },
       },
     },

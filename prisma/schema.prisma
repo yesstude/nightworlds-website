@@ -43,18 +43,20 @@ model Session {
 }
 
 model User {
-  id            String      @id @default(cuid())
-  nickname      String?     @unique
-  name          String
-  firstname     String?
-  email         String?     @unique
-  emailVerified DateTime?
-  passwordHash  String?
-  galaxyShards  Int         @default(0)
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  characters    Character[]
+  id                String      @id @default(cuid())
+  nickname          String?     @unique
+  name              String
+  firstname         String?
+  email             String?     @unique
+  emailVerified     DateTime?
+  passwordHash      String?
+  galaxyShards      Int         @default(0)
+  image             String?
+  avatarCharacter   Character?  @relation(fields: [avatarCharacterId], references: [id], name: "avatarCharacter")
+  avatarCharacterId String?
+  accounts          Account[]
+  sessions          Session[]
+  characters        Character[]
 }
 
 model Server {
@@ -71,7 +73,9 @@ model Character {
   ownerId      String
   displayname  String
   skin         String
-  previewImage String
+  headImage    String?
+  previewImage String?
+  whoSetAvatar User[]  @relation(name: "avatarCharacter")
 }
 
 model VerificationToken {

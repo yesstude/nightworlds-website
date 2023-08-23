@@ -4,7 +4,7 @@ import DashboardWrapper, {
 
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "next-i18next";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 
 import * as index from "../index";
 import { Box, Button, Card, Container } from "@mui/material";
@@ -24,6 +24,10 @@ export default function CharacterProfilePage() {
   if (typeof id !== "string") return <Typography>404</Typography>;
 
   const character = api.characters.get.useQuery(id);
+
+  const [isAvatar, setIsAvatar] = useState(!!character?.data?.isYourAvatar);
+
+  const setAvatar = api.characters.setAvatar.useMutation();
 
   if (!character.data) {
     if (!character.isFetched) return <></>;
@@ -49,33 +53,65 @@ export default function CharacterProfilePage() {
         <ArrowBack sx={{ mr: 1 }} />
         <span>{t("back_button")}</span>
       </Button>
-      <Typography variant="h1">{character.data.displayname}</Typography>
-      <Box
+      <Card
+        variant="outlined"
         sx={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "center",
+          borderRadius: "80px !important",
+          background: "#f7effc8a !important",
         }}
       >
-        <Card variant="outlined" sx={{ borderRadius: "64px !important" }}>
-          <SkinPreview
-            fov={10}
-            url={character.data.skin}
-            style={
-              {
-                "max-width": "70vw",
-                "max-height": "auto",
-              } as any
-            }
-          />
-        </Card>
+        <Typography
+          variant="h2"
+          component="h1"
+          sx={{ textAlign: "left", ml: "16px" }}
+        >
+          {character.data.displayname}
+        </Typography>
         <Box
           sx={{
-            maxWidth: "500px",
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: "24px",
           }}
-        ></Box>
-      </Box>
+        >
+          <Card variant="outlined" sx={{ borderRadius: "64px !important" }}>
+            <SkinPreview
+              fov={10}
+              url={character.data.skin}
+              style={
+                {
+                  "max-width": "70vw",
+                  "max-height": "auto",
+                } as any
+              }
+            />
+          </Card>
+          <Box
+            sx={{
+              maxWidth: "500px",
+              py: 2,
+            }}
+          >
+            <Button
+              variant="contained"
+              disabled={isAvatar}
+              onClick={() => {
+                setIsAvatar(true);
+                setAvatar.mutateAsync(id).then(() => {
+                  character.refetch();
+                });
+              }}
+              sx={{ borderRadius: "24px !important", maxWidth: "160px" }}
+            >
+              {isAvatar
+                ? t("characters.actions.avataralready")
+                : t("characters.actions.avatar")}
+            </Button>
+          </Box>
+        </Box>
+      </Card>
     </Container>
   );
 }

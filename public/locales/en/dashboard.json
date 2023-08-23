@@ -26,6 +26,7 @@
   },
   "characters": {
     "name": "Characters",
+    "create": "New",
     "subtitle": {
       "v_zero": "You have no characters in NightWorlds",
       "v_one": "You have {{count}} character in NightWorlds:",
@@ -34,6 +35,29 @@
     "filters": {
       "all": "All worlds",
       "loaded": "Loaded"
+    },
+    "actions": {
+      "avatar": "Use as avatar",
+      "avataralready": "Used as avatar"
+    }
+  },
+  "settings": {
+    "name": "Settings",
+    "subtitle": "Here you can change your account and game settings",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saved": "Settings successfully saved",
+    "error": "An error occurred while saving settings",
+    "sections": {
+      "security": {
+        "name": "Security settings",
+        "ingamepassword": {
+          "name": "Change your in-game password",
+          "helper_text": "This is the password that you type in when you log in to NightWorlds Minecraft server by sending it in chat <strong>without any commands, unlike most servers</strong>.",
+          "new": "New password",
+          "invalid": "Invalid password. Password must be at least 8 characters long"
+        }
+      }
     }
   }
 }

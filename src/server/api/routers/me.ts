@@ -6,15 +6,44 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const meRouter = createTRPCRouter({
   profile: protectedProcedure.query(async ({ ctx }) => {
-    const user = await prisma.user.findFirst({
+    let user = await prisma.user.findFirst({
       where: {
         id: ctx.session.user.id,
       },
+      include: {
+        avatarCharacter: true,
+      },
     });
     if (!user) return null;
+    if (!user.avatarCharacter) {
+      const lastCharacter = await prisma.character.findFirst({
+        where: {
+          ownerId: ctx.session.user.id,
+          headImage: {
+            not: null,
+          },
+        },
+        take: 1,
+      });
+      if (lastCharacter)
+        user = await prisma.user.update({
+          where: {
+            id: ctx.session.user.id,
+          },
+          data: {
+            avatarCharacterId: lastCharacter.id,
+          },
+          include: {
+            avatarCharacter: true,
+          },
+        });
+    }
+    let avatar = user.avatarCharacter?.headImage;
+    if (!avatar) avatar = `https://minotar.net/helm/${user.nickname}/128.png`;
     return {
       id: ctx.session.user.id,
       nickname: user.nickname || ctx.session.user.name,
+      avatar,
     };
   }),
   balance: protectedProcedure.query(async ({ ctx }) => {

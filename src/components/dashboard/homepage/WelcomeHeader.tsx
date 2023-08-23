@@ -8,6 +8,7 @@ export default function WelcomeHeader(props: { onLoad?: () => void }) {
     onSuccess: props.onLoad,
   }).data;
 
+  const avatar = user?.avatar || "";
   const name = user?.nickname || "";
 
   return (
@@ -24,8 +25,8 @@ export default function WelcomeHeader(props: { onLoad?: () => void }) {
         style={{
           borderRadius: "16px",
         }}
-        src={`https://minotar.net/helm/${name}/128.png`}
-        alt="Your Minecraft skin"
+        src={avatar}
+        alt="Your character picture"
         width="128"
         height="128"
       />

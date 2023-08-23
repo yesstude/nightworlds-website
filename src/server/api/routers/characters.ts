@@ -1,11 +1,10 @@
 import { Character } from "@prisma/client";
-import { S3 } from "aws-sdk";
 import { z } from "zod";
-import { env } from "../../../env/server.mjs";
 import { prisma } from "../../db";
 import Skin from "../../skins/Skin";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
+import { uploadFile } from "../../utils/uploadFile";
 
 const PAGE_LENGTH = 20;
 
@@ -35,21 +34,45 @@ export const charactersRouter = createTRPCRouter({
         take: PAGE_LENGTH,
         skip: PAGE_LENGTH * input.page,
       });
-      const list = result.map(
-        ({ id, displayname, previewImage }: Character) => {
-          return {
-            id,
-            displayname,
-            previewImage,
-          };
-        }
-      );
+      const list = result.map((c: Character) => {
+        if (!c.headImage)
+          (async () => {
+            const skin = await Skin.fromUrl(c.skin);
+            const headImage = await uploadFile(
+              "previews",
+              await skin.getHeadPicture(256),
+              "avatar.png"
+            );
+            await prisma.character.update({
+              where: {
+                id: c.id,
+              },
+              data: {
+                headImage,
+              },
+            });
+          })();
+        return {
+          id: c.id,
+          displayname: c.displayname,
+          previewImage: c.previewImage,
+        };
+      });
       return list;
     }),
   get: protectedProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const userId = ctx.session.user.id;
     const character = await prisma.character.findUnique({
       where: {
         id: input,
+      },
+      include: {
+        whoSetAvatar: {
+          select: {
+            id: true,
+            nickname: true,
+          },
+        },
       },
     });
     if (!character || character?.ownerId != ctx.session.user.id) return null;
@@ -57,59 +80,46 @@ export const charactersRouter = createTRPCRouter({
     return {
       id,
       displayname,
+      whoSetAvatar: character.whoSetAvatar,
+      isYourAvatar: character.whoSetAvatar.map((u) => u.id).includes(userId),
       skin,
     };
   }),
-  create: protectedProcedure
-    .input(
-      z.object({
-        email: z.string(),
-        name: z.string(),
-        url: z.string(),
-      })
-    )
-    .query(async ({ ctx, input }) => {
-      const user = await prisma.user.findUnique({
+  setAvatar: protectedProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+      const character = await prisma.character.findUnique({
         where: {
-          id: ctx.session.user.id,
+          id: input,
         },
       });
-      if (!user || user.email != "ruslan.gulid@gmail.com") return false;
-
-      const targetUser = await prisma.user.findUnique({
+      if (!character || character?.ownerId != ctx.session.user.id) return false;
+      if (character.headImage) {
+        const skin = await Skin.fromUrl(character.skin);
+        const headImage = await uploadFile(
+          "previews",
+          await skin.getHeadPicture(256),
+          "avatar.png"
+        );
+        await prisma.character.update({
+          where: {
+            id: character.id,
+          },
+          data: {
+            headImage,
+          },
+        });
+      }
+      const user = await prisma.user.update({
         where: {
-          email: input.email,
+          id: userId,
         },
-      });
-      if (!targetUser) return false;
-
-      const s3 = new S3({
-        apiVersion: "2006-03-01",
-        endpoint: "https://storage.yandexcloud.net",
-      });
-
-      const Key = `temp/${Date.now()}/${Date.now()}.png`;
-      const fileurl = `${s3.endpoint.href}${env.BUCKET_NAME}/${Key}`;
-
-      const skin = await Skin.fromUrl(input.url);
-
-      const preview = await fetch(await skin.getProfilePicture(256));
-
-      const req = s3.putObject({
-        Bucket: env.BUCKET_NAME,
-        Key,
-        Body: Buffer.from(await preview.arrayBuffer()),
-      });
-      const res = await req.promise();
-
-      await prisma.character.create({
         data: {
-          ownerId: targetUser.id,
-          displayname: input.name,
-          skin: input.url,
-          previewImage: fileurl,
+          avatarCharacterId: character.id,
         },
       });
-      return true;
+      if (user) return true;
+      return false;
     }),
 });

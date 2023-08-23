@@ -14,6 +14,7 @@ import {
   CardContent,
   CardMedia,
   Container,
+  useTheme,
 } from "@mui/material";
 import { api } from "../../utils/api";
 import { useRouter } from "next/router";
@@ -24,6 +25,8 @@ export default function DashboardCharactersPage() {
 
   const router = useRouter();
 
+  const palette = useTheme().palette;
+
   const count = api.characters.count.useQuery().data;
   const characters = api.characters.list.useQuery({}).data;
 
@@ -33,7 +36,7 @@ export default function DashboardCharactersPage() {
       <Box sx={{ my: 6 }}>
         <Typography variant="h1">{t("characters.name")}</Typography>
         <Typography variant="subtitle1">
-          {t("characters.subtitle.v", { count: count?.characters })}
+          {t("characters.subtitle.v", { count: count?.characters || 0 })}
         </Typography>
       </Box>
       <Box
@@ -42,8 +45,53 @@ export default function DashboardCharactersPage() {
           flexDirection: "row",
           flexWrap: "wrap",
           justifyContent: "center",
+          gap: 2,
         }}
       >
+        {(characters || [0]).length < 1 && (
+          <Button
+            sx={{
+              border: `${palette.primary.main} 1px solid !important`,
+            }}
+          >
+            <Card
+              variant="outlined"
+              sx={{
+                background: "none",
+                transition: "background 500ms",
+                textTransform: "none",
+              }}
+            >
+              <Box
+                sx={{
+                  height: "192px",
+                  width: "192px",
+                  color: palette.primary.main,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  variant="h1"
+                  component="div"
+                  color="primary"
+                  sx={{
+                    fontWeight: "100 !important",
+                    fontSize: "8em !important",
+                  }}
+                >
+                  +
+                </Typography>
+              </Box>
+              <CardContent>
+                <Typography variant="subtitle1" component="div">
+                  {t("characters.create")}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Button>
+        )}
         {(characters || []).map((ch: any) => (
           <Button
             onClick={() => {

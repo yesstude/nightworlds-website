@@ -1,4 +1,13 @@
-import { AppBar, Button, Container, Hidden, Slide, Toolbar, Typography, useScrollTrigger } from "@mui/material";
+import {
+  AppBar,
+  Button,
+  Container,
+  Hidden,
+  Slide,
+  Toolbar,
+  Typography,
+  useScrollTrigger,
+} from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import logo from "../assets/logo.svg";
@@ -11,9 +20,13 @@ export default function NightWorldsBar() {
         <Container>
           <Toolbar>
             <Link href={"/#"} legacyBehavior>
-              <img src={logo.src} alt="Home page" style={{
-                maxHeight: "48px"
-              }} />
+              <img
+                src={logo.src}
+                alt="Home page"
+                style={{
+                  maxHeight: "48px",
+                }}
+              />
             </Link>
           </Toolbar>
         </Container>
@@ -23,9 +36,9 @@ export default function NightWorldsBar() {
 }
 
 export function LandingAppBar(props: {
-  appear: boolean,
-  button: string,
-  shortbutton: string,
+  appear: boolean;
+  button: string;
+  shortbutton: string;
 }) {
   const router = useRouter();
   const trigger = useScrollTrigger();
@@ -33,18 +46,24 @@ export function LandingAppBar(props: {
     <Slide appear={true} direction="down" in={!trigger && props.appear}>
       <AppBar>
         <Toolbar>
-          <img src={logo.src} alt="" style={{
-            maxHeight: "48px",
-          }} />
-          <span style={{
-            flexGrow: 1,
-            fontWeight: 300,
-            fontSize: 26,
-            marginTop: -2,
-            marginLeft: 4,
-            fontFamily: "NightLight Sans",
-            color: "#7f00c9"
-          }}>
+          <img
+            src={logo.src}
+            alt=""
+            style={{
+              maxHeight: "48px",
+            }}
+          />
+          <span
+            style={{
+              flexGrow: 1,
+              fontWeight: 300,
+              fontSize: 26,
+              marginTop: -2,
+              marginLeft: 4,
+              fontFamily: "NightLight Sans",
+              color: "#7f00c9",
+            }}
+          >
             NightWorlds
           </span>
           <Hidden mdDown>
@@ -52,7 +71,7 @@ export function LandingAppBar(props: {
               variant="text"
               sx={{
                 padding: "12px 16px",
-                borderRadius: "9999px"
+                borderRadius: "9999px",
               }}
               onClick={() => router.replace("/auth/signin")}
             >
@@ -63,19 +82,15 @@ export function LandingAppBar(props: {
             variant="contained"
             sx={{
               padding: "12px 16px",
-              borderRadius: "9999px"
+              borderRadius: "9999px",
             }}
             disabled
           >
-            <Hidden smUp>
-              {props.shortbutton}
-            </Hidden>
-            <Hidden smDown>
-              {props.button}
-            </Hidden>
+            <Hidden smUp>{props.shortbutton}</Hidden>
+            <Hidden smDown>{props.button}</Hidden>
           </Button>
         </Toolbar>
       </AppBar>
-    </Slide >
+    </Slide>
   );
 }

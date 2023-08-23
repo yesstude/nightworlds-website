@@ -1,15 +1,15 @@
-import React from 'react';
-import { Drawer, Hidden } from '@mui/material';
+import React from "react";
+import { Drawer, Hidden } from "@mui/material";
 
 const useStyles = {
   drawer: {
-    '@media (min-width: 840px)': {
+    "@media (min-width: 840px)": {
       width: "280px",
       flexShrink: 0,
     },
   },
   toolbar: {
-    minHeight: "88px"
+    minHeight: "88px",
   },
   drawerPaper: {
     display: "flex",
@@ -23,15 +23,16 @@ const useStyles = {
       "border-bottom-right-radius": 32,
     },
     " .MuiDivider-root": {
-      maxWidth: "268px"
-    }
+      maxWidth: "268px",
+    },
   },
 };
 
 const ResponsiveDrawer = (props: any) => {
   const { window, children } = props;
   const classes: any = useStyles;
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
     <nav style={classes.drawer}>
@@ -44,13 +45,13 @@ const ResponsiveDrawer = (props: any) => {
           open={props.mobileOpen}
           onClose={props.handleDrawerToggle}
           PaperProps={{
-            sx: classes.drawerPaper
+            sx: classes.drawerPaper,
           }}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
             sx: {
-              backdropFilter: "blur(4px)"
-            }
+              backdropFilter: "blur(4px)",
+            },
           }}
         >
           {children}
@@ -62,7 +63,7 @@ const ResponsiveDrawer = (props: any) => {
             sx: {
               ...classes.drawerPaper,
               border: "none",
-            }
+            },
           }}
           variant="permanent"
           sx={{
@@ -75,8 +76,8 @@ const ResponsiveDrawer = (props: any) => {
           {children}
         </Drawer>
       </Hidden>
-    </nav >
+    </nav>
   );
-}
+};
 
 export default ResponsiveDrawer;

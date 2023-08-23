@@ -5,7 +5,7 @@ import { SkinViewer, IdleAnimation } from "skinview3d";
 import steve from "../assets/skins/steve.png";
 import SkinPreview from "../components/skins/SkinPreview";
 import { api } from "../utils/api";
-import { uploadSkin } from "../utils/uploadFile";
+import { uploadSkin } from "../server/utils/uploadFile";
 
 const SkinGeneratorPage: NextPage = () => {
   const [skinUrl, setSkinUrl] = useState(steve.src);

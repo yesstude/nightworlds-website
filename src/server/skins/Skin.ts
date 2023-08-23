@@ -84,6 +84,65 @@ export default class Skin {
     return this;
   }
 
+  public async getHeadPicture(sizes: number = 8) {
+    await this.bake();
+    let skin = this.image as sharp.Sharp;
+
+    let image = sharp({
+      create: {
+        background: "#00000000",
+        channels: 4,
+        width: 16,
+        height: 16,
+      },
+    }).png();
+
+    const tss = [
+      [8, 8, 8, 8, 0, 0],
+      [8, 8, 40, 8, 0, 0],
+    ];
+    let trs = [];
+    for (let i = 0; i < tss.length; i++) {
+      const ts = tss[i]!;
+      const tr = await sharp(await skin.toBuffer())
+        .pipe(sharp())
+        .extract({
+          width: ts[0]!,
+          height: ts[1]!,
+          left: ts[2]!,
+          top: ts[3]!,
+        })
+        .extend({
+          left: ts[4]!,
+          top: ts[5]!,
+          right: 16 - ts[4]! - ts[0]!,
+          bottom: 16 - ts[5]! - ts[1]!,
+          background: "#00000000",
+        })
+        .toBuffer();
+      trs.push(tr);
+    }
+
+    image = image
+      .composite(trs.map((val: any) => ({ input: val })))
+      .pipe(sharp())
+      .extract({
+        left: 0,
+        top: 0,
+        width: 8,
+        height: 8,
+      });
+
+    image = image.resize(sizes, sizes, {
+      fit: "fill",
+      kernel: "nearest",
+    });
+    const buffer = await image.png().toBuffer({ resolveWithObject: false });
+
+    // return `data:image/png;base64,${buffer?.toString("base64")}`;
+    return buffer;
+  }
+
   public async getProfilePicture(sizes: number = 16) {
     await this.bake();
     let skin = this.image as sharp.Sharp;
@@ -97,16 +156,16 @@ export default class Skin {
       },
     }).png();
 
-    const HANDS_WIDTH = 3;
+    const ARMS_WIDTH = 3;
     const tss = [
       [8, 8, 8, 8, 4, 0],
       [8, 8, 40, 8, 4, 0],
       [8, 8, 20, 20, 4, 8],
       [8, 8, 20, 36, 4, 8],
-      [HANDS_WIDTH, 8, 44, 20, 4 - HANDS_WIDTH, 8],
-      [HANDS_WIDTH, 8, 44, 36, 4 - HANDS_WIDTH, 8],
-      [HANDS_WIDTH, 8, 36, 52, 12, 8],
-      [HANDS_WIDTH, 8, 52, 52, 12, 8],
+      [ARMS_WIDTH, 8, 44, 20, 4 - ARMS_WIDTH, 8],
+      [ARMS_WIDTH, 8, 44, 36, 4 - ARMS_WIDTH, 8],
+      [ARMS_WIDTH, 8, 36, 52, 12, 8],
+      [ARMS_WIDTH, 8, 52, 52, 12, 8],
     ];
     let trs = [];
     for (let i = 0; i < tss.length; i++) {
@@ -140,7 +199,8 @@ export default class Skin {
     });
     const buffer = await image.png().toBuffer({ resolveWithObject: false });
 
-    return `data:image/png;base64,${buffer?.toString("base64")}`;
+    // return `data:image/png;base64,${buffer?.toString("base64")}`;
+    return buffer;
   }
 
   public async getDataUrl(): Promise<string> {

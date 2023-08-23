@@ -1,0 +1,13 @@
+.section {
+  border-radius: var(--borderRadius);
+}
+
+.section .paper:first-of-type {
+  border-top-left-radius: var(--borderRadius) !important;
+  border-top-right-radius: var(--borderRadius) !important;
+}
+
+.section .paper:last-of-type {
+  border-bottom-left-radius: var(--borderRadius) !important;
+  border-bottom-right-radius: var(--borderRadius) !important;
+}

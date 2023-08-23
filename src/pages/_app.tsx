@@ -16,7 +16,7 @@ const theme = createTheme(themeOptions);
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
-  pageProps: { session, ...pageProps }
+  pageProps: { session, ...pageProps },
 }) => {
   const getLayout = (Component as any).getLayout || ((page: any) => page);
 

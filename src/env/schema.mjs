@@ -24,6 +24,7 @@ export const serverSchema = z.object({
   DISCORD_ID: z.string(),
   DISCORD_SECRET: z.string(),
   BUCKET_NAME: z.string(),
+  BUCKET_DOMAIN: z.string().url(),
 });
 
 /**
@@ -41,6 +42,7 @@ export const serverEnv = {
   DISCORD_ID: process.env.DISCORD_ID,
   DISCORD_SECRET: process.env.DISCORD_SECRET,
   BUCKET_NAME: process.env.BUCKET_NAME,
+  BUCKET_DOMAIN: process.env.BUCKET_DOMAIN,
 };
 
 /**
