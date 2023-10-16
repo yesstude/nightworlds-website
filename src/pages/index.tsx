@@ -113,7 +113,7 @@ const Home: NextPage = () => {
             textAlign: "center"
           }}
         >
-          <Typography variant="h2">
+          <Typography variant="h3" component="h2">
             Разработка приостановлена
           </Typography>
           <Typography variant="body1" color="text.secondary">
