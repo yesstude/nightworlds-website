@@ -116,7 +116,7 @@ const Home: NextPage = () => {
           <Typography variant="h2">
             Разработка приостановлена
           </Typography>
-          <Typography variant="subtitle1" color="text.secondar>
+          <Typography variant="subtitle1" color="text.secondary">
             Процесс разработки NightWorlds v2 и NightWorld Medium 4 был временно приостановлен по решению сообщества NightLight Dev. Приносим извинения за доставленные неудобства.
           </Typography>
         </Paper>
