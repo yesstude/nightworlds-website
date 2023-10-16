@@ -113,8 +113,8 @@ const Home: NextPage = () => {
         }}>
         <Paper variant="outlined"
           sx={{
-            px: 24,
-            py: 4,
+            px: 12,
+            py: 12,
             mb: 16,
             textAlign: "center",
             maxWidth: "320px"
