@@ -105,7 +105,21 @@ const Home: NextPage = () => {
       <Container sx={{
         display: makeFancy ? "block" : "none"
       }}>
-        <SubscriptionBox />
+        <Paper variant="outlined"
+          sx={{
+            px: 4,
+            py: 24,
+            mb: 16,
+            textAlign: "center"
+          }}
+        >
+          <Typography variant="h2">
+            Разработка приостановлена
+          </Typography>
+          <Typography variant="subtitle1" color="text.secondar>
+            Процесс разработки NightWorlds v2 и NightWorld Medium 4 был временно приостановлен по решению сообщества NightLight Dev. Приносим извинения за доставленные неудобства.
+          </Typography>
+        </Paper>
         <FeatureBox
           img={build}
           header={t("features.build.title")}
