@@ -105,6 +105,12 @@ const Home: NextPage = () => {
       <Container sx={{
         display: makeFancy ? "block" : "none"
       }}>
+        <Box sx={{
+          width: "100%",
+          display: "flex",
+          placeItems: "center",
+          justifyContent: "center"
+        }}>
         <Paper variant="outlined"
           sx={{
             px: 4,
@@ -121,6 +127,7 @@ const Home: NextPage = () => {
             Процесс разработки NightWorlds v2 и NightWorld Medium 4 был временно приостановлен по решению сообщества NightLight Dev. Приносим извинения за доставленные неудобства.
           </Typography>
         </Paper>
+        </Box>
         <FeatureBox
           img={build}
           header={t("features.build.title")}
