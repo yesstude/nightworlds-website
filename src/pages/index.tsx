@@ -84,7 +84,7 @@ const Home: NextPage = () => {
         shortbutton={t("actionbutton_short")}
       />
       <Box sx={{
-        minHeight: "90vh",
+        minHeight: "480px",
         display: "flex",
         justifyContent: "center",
         placeItems: "center",
@@ -113,8 +113,8 @@ const Home: NextPage = () => {
         }}>
         <Paper variant="outlined"
           sx={{
-            px: 4,
-            py: 24,
+            px: 24,
+            py: 4,
             mb: 16,
             textAlign: "center",
             maxWidth: "320px"
