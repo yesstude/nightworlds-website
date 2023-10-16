@@ -110,15 +110,14 @@ const Home: NextPage = () => {
             px: 4,
             py: 24,
             mb: 16,
-            textAlign: "center"
+            textAlign: "center",
+            maxWidth: "320px"
           }}
         >
           <Typography variant="h3" component="h2">
             Разработка приостановлена
           </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{
-            maxWidth: "320px"
-          }}>
+          <Typography variant="body1" color="text.secondary">
             Процесс разработки NightWorlds v2 и NightWorld Medium 4 был временно приостановлен по решению сообщества NightLight Dev. Приносим извинения за доставленные неудобства.
           </Typography>
         </Paper>
