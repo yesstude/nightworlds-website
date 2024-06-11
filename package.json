@@ -38,6 +38,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "^12.1.5",
+    "sharp": "^0.33.4",
     "skinview3d": "^3.0.0-alpha.1",
     "superjson": "1.9.1",
     "three": "^0.149.0",
