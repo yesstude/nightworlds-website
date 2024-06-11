@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Box,
   Button,
   Container,
   Hidden,
@@ -46,26 +47,41 @@ export function LandingAppBar(props: {
     <Slide appear={true} direction="down" in={!trigger && props.appear}>
       <AppBar>
         <Toolbar>
-          <img
-            src={logo.src}
-            alt=""
-            style={{
-              maxHeight: "48px",
-            }}
-          />
-          <span
-            style={{
+          <Box
+            sx={{
               flexGrow: 1,
-              fontWeight: 300,
-              fontSize: 26,
-              marginTop: -2,
-              marginLeft: 4,
-              fontFamily: "NightLight Sans",
-              color: "#7f00c9",
             }}
           >
-            NightWorlds
-          </span>
+            <Link
+              style={{
+                display: "flex",
+                placeItems: "center",
+                textDecoration: "none",
+                maxWidth: "min-content",
+              }}
+              href="/"
+            >
+              <img
+                src={logo.src}
+                alt=""
+                style={{
+                  maxHeight: "48px",
+                }}
+              />
+              <span
+                style={{
+                  fontWeight: 300,
+                  fontSize: 26,
+                  marginTop: -2,
+                  marginLeft: 4,
+                  fontFamily: "NightLight Sans",
+                  color: "#7f00c9",
+                }}
+              >
+                NightWorlds
+              </span>
+            </Link>
+          </Box>
           <Hidden mdDown>
             <Button
               variant="text"

@@ -1,4 +1,17 @@
-import { Box, Button, Container, Input, Paper, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Container,
+  Input,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { GetServerSidePropsContext, type NextPage } from "next";
 import Head from "next/head";
 
@@ -18,21 +31,27 @@ import { authOptions } from "../server/auth";
 import { getServerSession } from "next-auth";
 import getLocale from "../components/getLocale";
 
+import nwm4 from "../assets/homepage/nwm4.svg";
+import Image from "next/image";
+import Link from "next/link";
+
 const FeatureBox = (props: {
-  img: StaticImageData,
-  header: string,
-  children: ReactNode,
-  reverse?: boolean,
+  img: StaticImageData;
+  header: string;
+  children: ReactNode;
+  reverse?: boolean;
 }) => {
   return (
-    <Box sx={{
-      display: "flex",
-      flexDirection: props.reverse ? "row-reverse" : "row",
-      justifyContent: "space-around",
-      flexWrap: "wrap",
-      rowGap: 6,
-      my: 60,
-    }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: props.reverse ? "row-reverse" : "row",
+        justifyContent: "space-around",
+        flexWrap: "wrap",
+        rowGap: 6,
+        my: 60,
+      }}
+    >
       <img
         src={props.img.src}
         alt=""
@@ -43,21 +62,20 @@ const FeatureBox = (props: {
           maxHeight: "64vw",
         }}
       />
-      <Box sx={{
-        maxWidth: 420,
-        mt: 4,
-      }}>
-        <Typography
-          variant="h1"
-          component="h2"
-        >
+      <Box
+        sx={{
+          maxWidth: 420,
+          mt: 4,
+        }}
+      >
+        <Typography variant="h1" component="h2">
           {props.header}
         </Typography>
         {props.children}
       </Box>
     </Box>
   );
-}
+};
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, authOptions);
@@ -67,7 +85,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 const Home: NextPage = () => {
-  const { t } = useTranslation('landing');
+  const { t } = useTranslation("landing");
 
   const [makeFancy, setMakeFancy] = useState(false);
 
@@ -83,13 +101,15 @@ const Home: NextPage = () => {
         button={t("actionbutton")}
         shortbutton={t("actionbutton_short")}
       />
-      <Box sx={{
-        minHeight: "480px",
-        display: "flex",
-        justifyContent: "center",
-        placeItems: "center",
-        transition: "min-height 1s"
-      }}>
+      <Box
+        sx={{
+          minHeight: "480px",
+          display: "flex",
+          justifyContent: "center",
+          placeItems: "center",
+          transition: "min-height 1s",
+        }}
+      >
         <Container>
           <AppearingText
             variant="h2"
@@ -102,10 +122,12 @@ const Home: NextPage = () => {
           />
         </Container>
       </Box>
-      <Container sx={{
-        display: makeFancy ? "block" : "none"
-      }}>
-        <Box sx={{
+      <Container
+        sx={{
+          display: makeFancy ? "block" : "none",
+        }}
+      >
+        {/* <Box sx={{
           width: "100%",
           display: "flex",
           placeItems: "center",
@@ -127,25 +149,79 @@ const Home: NextPage = () => {
             Процесс разработки NightWorlds v2 и NightWorld Medium 4 был временно приостановлен по решению сообщества NightLight Dev. Приносим извинения за доставленные неудобства.
           </Typography>
         </Paper>
+        </Box> */}
+        <Box>
+          <Paper variant="outlined" sx={{ px: 12, py: 11 }}>
+            <Typography variant="h2">Текущие сервера</Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                mt: 8,
+                gap: 4,
+                overflowX: "scroll",
+              }}
+            >
+              <Card
+                variant="outlined"
+                sx={{
+                  backgroundColor: "#efe1f7",
+                  minWidth: "320px",
+                  maxWidth: "320px",
+                  p: "0 !important",
+                }}
+              >
+                <Link href="/medium" style={{ textDecoration: "unset" }}>
+                  <CardActionArea>
+                    <CardMedia
+                      sx={{
+                        backgroundColor: "#a4e2ff",
+                        p: 8,
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Image alt="NightWorld Medium 4" src={nwm4} width="180" />
+                    </CardMedia>
+                    <CardContent sx={{ p: 8 }}>
+                      <Typography variant="h3">NightWorld Medium</Typography>
+                      <Typography fontWeight={300}>
+                        Ванильный игровой сервер без обязательных модификаций.
+                        Присутствуют элементы политики и экономики. RolePlay
+                        необязателен, однако приветствуется.
+                      </Typography>
+                      <Typography
+                        sx={{ mt: 4, mb: 0 }}
+                        fontWeight={600}
+                        variant="h4"
+                      >
+                        69₽ / месяц
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Link>
+              </Card>
+            </Box>
+          </Paper>
         </Box>
-        <FeatureBox
-          img={build}
-          header={t("features.build.title")}
-        >
-          <Typography fontWeight={600}>{t("features.build.description")}</Typography>
+        <FeatureBox img={build} header={t("features.build.title")}>
+          <Typography fontWeight={600}>
+            {t("features.build.description")}
+          </Typography>
         </FeatureBox>
         <FeatureBox
           img={communicate}
           header={t("features.communicate.title")}
           reverse
         >
-          <Typography fontWeight={600}>{t("features.communicate.description")}</Typography>
+          <Typography fontWeight={600}>
+            {t("features.communicate.description")}
+          </Typography>
         </FeatureBox>
-        <FeatureBox
-          img={simplicity}
-          header={t("features.simplicity.title")}
-        >
-          <Typography fontWeight={600}>{t("features.simplicity.description")}</Typography>
+        <FeatureBox img={simplicity} header={t("features.simplicity.title")}>
+          <Typography fontWeight={600}>
+            {t("features.simplicity.description")}
+          </Typography>
         </FeatureBox>
       </Container>
       <Copyright sx={{}} />
@@ -156,47 +232,68 @@ const Home: NextPage = () => {
 export default Home;
 
 const SubscriptionBox = () => {
-  const { t } = useTranslation('landing');
+  const { t } = useTranslation("landing");
 
   const [email, updateEmail] = useState<string>();
   const [nickname, updateNickname] = useState<string>();
   const [buttonText, setButtonText] = useState(t("subscribe.subscribe"));
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const res = api.subscription.subscribe.useQuery({
-    email: email as string,
-    nickname
-  }, {
-    enabled: false, onSuccess: (data) => {
-      if (data) setButtonText(t("subscribe.success"));
+  const res = api.subscription.subscribe.useQuery(
+    {
+      email: email as string,
+      nickname,
+    },
+    {
+      enabled: false,
+      onSuccess: (data) => {
+        if (data) setButtonText(t("subscribe.success"));
+      },
     }
-  });
+  );
 
   return (
-    <Paper variant="outlined"
+    <Paper
+      variant="outlined"
       sx={{
         px: 4,
         py: 24,
         mb: 16,
-        textAlign: "center"
+        textAlign: "center",
       }}
     >
-      <Typography variant="h2">
-        {t("subscribe.title")}
-      </Typography>
+      <Typography variant="h2">{t("subscribe.title")}</Typography>
       <Typography variant="subtitle1" color="text.secondary" mb={12}>
         {t("subscribe.subtitle")}
       </Typography>
-      <form onSubmit={val => {
-        val.preventDefault();
-        setButtonDisabled(true);
-        setButtonText(t("subscribe.loading"));
-        res.refetch();
-      }}>
-        <div><TextField variant="outlined" label={t("subscribe.email")} type="email" required onInput={val => updateEmail((val.target as any).value)} /></div>
-        <div><TextField variant="outlined" label={t("subscribe.nickname")} onInput={val => updateNickname((val.target as any).value)} /></div>
-        <Button type="submit" variant="outlined" disabled={buttonDisabled}>{buttonText}</Button>
+      <form
+        onSubmit={(val) => {
+          val.preventDefault();
+          setButtonDisabled(true);
+          setButtonText(t("subscribe.loading"));
+          res.refetch();
+        }}
+      >
+        <div>
+          <TextField
+            variant="outlined"
+            label={t("subscribe.email")}
+            type="email"
+            required
+            onInput={(val) => updateEmail((val.target as any).value)}
+          />
+        </div>
+        <div>
+          <TextField
+            variant="outlined"
+            label={t("subscribe.nickname")}
+            onInput={(val) => updateNickname((val.target as any).value)}
+          />
+        </div>
+        <Button type="submit" variant="outlined" disabled={buttonDisabled}>
+          {buttonText}
+        </Button>
       </form>
     </Paper>
   );
-}
+};

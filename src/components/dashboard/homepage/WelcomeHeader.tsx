@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import { api } from "../../../utils/api";
 
 export default function WelcomeHeader(props: { onLoad?: () => void }) {
-  const [t, i18n, tr] = useTranslation("dashboard");
+  const [t, _, tr] = useTranslation("dashboard");
   const user = api.me.profile.useQuery(undefined, {
     onSuccess: props.onLoad,
   }).data;
