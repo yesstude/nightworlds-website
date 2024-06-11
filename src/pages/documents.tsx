@@ -1,8 +1,6 @@
 import Head from "next/head";
 import { LandingAppBar } from "../components/NightWorldsBar";
 import { GetServerSidePropsContext } from "next";
-import { authOptions } from "../server/auth";
-import { getServerSession } from "next-auth";
 import getLocale from "../components/getLocale";
 import { useTranslation } from "next-i18next";
 import { Box, Container, Typography } from "@mui/material";
@@ -13,9 +11,6 @@ import PublicOffer from "../components/documents/public-offer.mdx";
 import PrivacyPolicy from "../components/documents/privacy-policy.mdx";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getServerSession(context.req, context.res, authOptions);
-  if (session) return { redirect: { destination: "/dashboard" } };
-
   return getLocale("landing")(context as any);
 }
 
@@ -54,12 +49,12 @@ export default function DocumentsPage() {
         </Box>
         <Box sx={{ my: 4 }}>
           <Spoiler title="Договор-оферта">
-            <Typography variant="body1">
+            <Typography variant="body1" component="div">
               <PublicOffer />
             </Typography>
           </Spoiler>
           <Spoiler title="Политика конфиденциальности">
-            <Typography variant="body1">
+            <Typography variant="body1" component="div">
               <PrivacyPolicy />
             </Typography>
           </Spoiler>
