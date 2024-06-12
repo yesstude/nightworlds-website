@@ -4,11 +4,9 @@ import { GetServerSidePropsContext } from "next";
 import getLocale from "../components/getLocale";
 import { useTranslation } from "next-i18next";
 import { Box, Container, Typography } from "@mui/material";
-import { Spoiler } from "../components/Spoiler";
 import Copyright from "../components/Copyright";
-
-import PublicOffer from "../components/documents/public-offer.mdx";
-import PrivacyPolicy from "../components/documents/privacy-policy.mdx";
+import Documents from "../components/documents/Documents";
+import { Suspense } from "react";
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   return getLocale("landing")(context as any);
@@ -48,16 +46,9 @@ export default function DocumentsPage() {
           </Typography>
         </Box>
         <Box sx={{ my: 4 }}>
-          <Spoiler title="Договор-оферта">
-            <Typography variant="body1" component="div">
-              <PublicOffer />
-            </Typography>
-          </Spoiler>
-          <Spoiler title="Политика конфиденциальности">
-            <Typography variant="body1" component="div">
-              <PrivacyPolicy />
-            </Typography>
-          </Spoiler>
+          <Suspense fallback={<div>Загрузка...</div>}>
+            <Documents />
+          </Suspense>
         </Box>
         <Copyright sx={{}} />
       </Container>
