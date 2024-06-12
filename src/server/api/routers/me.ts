@@ -72,13 +72,13 @@ export const meRouter = createTRPCRouter({
 
     return [
       {
-        avatar: "https://minotar.net/helm/Im_God_Boy228/32.png",
-        nickname: "Im_God_Boy228",
+        avatar: "https://minotar.net/helm/Squaryyy/32.png",
+        nickname: "Squaryyy",
         server: "MiniRuSCh",
       },
       {
-        avatar: "https://minotar.net/helm/CooLMan458/32.png",
-        nickname: "CooLMan458",
+        avatar: "https://minotar.net/helm/Kylmen/32.png",
+        nickname: "Kylmen",
         server: "Medium",
       },
       {
