@@ -22,13 +22,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
   const getLayout = (Component as any).getLayout || ((page: any) => page);
 
   return (
-    <ThemeProvider theme={theme}>
-      <SessionProvider session={session}>
-        <div className={`${cygre_font}`}>
+    <SessionProvider session={session}>
+      <div className={`${cygre_font}`}>
+        <ThemeProvider theme={theme}>
           {getLayout(<Component {...pageProps} />)}
-        </div>
-      </SessionProvider>
-    </ThemeProvider>
+        </ThemeProvider>
+      </div>
+    </SessionProvider>
   );
 };
 

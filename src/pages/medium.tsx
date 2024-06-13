@@ -102,7 +102,7 @@ export default (function Medium() {
               <TagWord mod>PlasmoVoice</TagWord>
               <TagWord mod>Emotecraft</TagWord>
             </Box>
-            <Typography fontWeight={600}>
+            <Typography fontWeight={400}>
               Ванильный игровой сервер без обязательных модификаций.
               Присутствуют элементы политики и экономики. RolePlay необязателен,
               однако приветствуется.
@@ -127,7 +127,7 @@ export default (function Medium() {
         </Box>
         <Box sx={{ maxWidth: "700px" }}>
           <Typography variant="h2">Как поиграть?</Typography>
-          <Typography fontWeight={600} variant="h5" component="p">
+          <Typography fontWeight={400} variant="h5" component="p">
             После покупки «проходки»{" "}
             <Link href="/dashboard">в вашем личном кабинете</Link> появятся
             инструкции по установке игры, рекомендуемых для неё модов

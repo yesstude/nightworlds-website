@@ -113,6 +113,13 @@ export const themeOptions: ThemeOptions = {
         },
       },
     },
+    MuiDialog: {
+      styleOverrides: {
+        root: {
+          fontFamily: "var(--font-sans)",
+        },
+      },
+    },
     MuiDialogTitle: {
       styleOverrides: {
         root: {
@@ -125,18 +132,9 @@ export const themeOptions: ThemeOptions = {
     borderRadius: 48,
   },
   typography: {
-    fontFamily: [
-      "Cygre",
-      "-apple-system",
-      "BlinkMacSystemFont",
-      '"Segoe UI"',
-      "Roboto",
-      '"Helvetica Neue"',
-      "Arial",
-      "sans-serif",
-    ].join(","),
+    fontFamily: "",
     allVariants: {
-      // letterSpacing: "-0.3px",
+      letterSpacing: "0.3px",
       color: palette.text!.secondary!,
     },
     h1: {
@@ -194,7 +192,7 @@ export const themeOptions: ThemeOptions = {
     body1: {
       fontSize: 16,
       lineHeight: 1.4,
-      fontWeight: 300,
+      fontWeight: 400,
       "@media (min-width: 600px)": {
         fontSize: 16,
       },

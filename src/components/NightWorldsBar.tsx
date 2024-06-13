@@ -68,16 +68,7 @@ export function LandingAppBar(props: {
                   maxHeight: "48px",
                 }}
               />
-              <span
-                style={{
-                  fontWeight: 300,
-                  fontSize: 26,
-                  marginTop: 2,
-                  marginLeft: 8,
-                  fontFamily: "Cygre",
-                  color: "#7f00c9",
-                }}
-              >
+              <span className="ml-2 mt-1 text-2xl font-light text-[#7f00c9]">
                 NightWorlds
               </span>
             </Link>

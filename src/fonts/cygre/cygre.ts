@@ -1,7 +1,7 @@
 import localFont from "next/font/local";
 
 const cygre = localFont({
-  variable: "--font-sans",
+  variable: "--font-cygre",
   src: [
     { path: "./Cygre-Thin.woff2", weight: "100", style: "normal" },
     { path: "./Cygre-Thin-Italics.woff2", weight: "100", style: "italic" },

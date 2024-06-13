@@ -185,7 +185,7 @@ const Home: NextPage = () => {
                     </CardMedia>
                     <CardContent sx={{ p: 8 }}>
                       <Typography variant="h3">NightWorld Medium</Typography>
-                      <Typography fontWeight={300}>
+                      <Typography fontWeight={400}>
                         Ванильный игровой сервер без обязательных модификаций.
                         Присутствуют элементы политики и экономики. RolePlay
                         необязателен, однако приветствуется.
@@ -205,17 +205,23 @@ const Home: NextPage = () => {
           </Paper>
         </Box>
         <FeatureBox img={build} header={t("features.build.title")}>
-          <Typography>{t("features.build.description")}</Typography>
+          <Typography fontWeight={600} fontSize={18}>
+            {t("features.build.description")}
+          </Typography>
         </FeatureBox>
         <FeatureBox
           img={communicate}
           header={t("features.communicate.title")}
           reverse
         >
-          <Typography>{t("features.communicate.description")}</Typography>
+          <Typography fontWeight={600} fontSize={18}>
+            {t("features.communicate.description")}
+          </Typography>
         </FeatureBox>
         <FeatureBox img={simplicity} header={t("features.simplicity.title")}>
-          <Typography>{t("features.simplicity.description")}</Typography>
+          <Typography fontWeight={600} fontSize={18}>
+            {t("features.simplicity.description")}
+          </Typography>
         </FeatureBox>
       </Container>
       <Copyright sx={{}} />
