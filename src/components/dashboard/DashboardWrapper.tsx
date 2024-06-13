@@ -46,12 +46,12 @@ const SetCustomLoadingContext = createContext((state: boolean) => {});
 const drawerlist = [
   ["homepage.name", "/dashboard/#", <HomepageIcon />, <HomepageOutlinedIcon />],
   [],
-  [
-    "characters.name",
-    "/dashboard/characters/#",
-    <CharactersIcon />,
-    <CharactersOutlinedIcon />,
-  ],
+  // [
+  //   "characters.name",
+  //   "/dashboard/characters/#",
+  //   <CharactersIcon />,
+  //   <CharactersOutlinedIcon />,
+  // ],
   [
     "settings.name",
     "/dashboard/settings/#",
@@ -158,17 +158,7 @@ export default function DashboardWrapper(props: { children: ReactNode }) {
                       maxHeight: "48px",
                     }}
                   />
-                  <span
-                    style={{
-                      flexGrow: "1",
-                      fontWeight: 300,
-                      fontSize: 26,
-                      marginTop: "-2px",
-                      marginLeft: "8px",
-                      fontFamily: "NightLight Sans",
-                      color: "#7f00c9",
-                    }}
-                  >
+                  <span className="ml-2 mt-1 flex-grow text-[26px] font-light text-[#7f00c9]">
                     NightWorlds
                   </span>
                 </Button>
@@ -178,12 +168,7 @@ export default function DashboardWrapper(props: { children: ReactNode }) {
                 <Hidden smDown>
                   <Link href={"/dashboard/#"} legacyBehavior>
                     <Button
-                      sx={{
-                        textTransform: "none",
-                        pl: "16px",
-                        pr: "8px",
-                        py: "8px",
-                      }}
+                      className="gap-2 py-2 pl-4 pr-2 text-lg font-medium"
                       variant="outlined"
                     >
                       {balance.data.galaxyshards}

@@ -27,28 +27,18 @@ export default function DocumentsPage() {
         button={t("actionbutton")}
         shortbutton={t("actionbutton_short")}
       />
-      <Container
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          maxWidth: "600px",
-          gap: 8,
-          mt: 24,
-        }}
-      >
+      <Container className="mt-24 flex max-w-[800px] flex-col gap-8">
         <Box>
           <Typography variant="h2" component="h1">
             Документы
           </Typography>
-          <Typography variant="body1" fontWeight={600}>
+          <Typography variant="body1">
             На этой странице можно ознакомиться с документами, которые могут
             понадобиться Вам в процессе использования услуг NightWorlds
           </Typography>
         </Box>
         <Box sx={{ my: 4 }}>
-          <Suspense fallback={<div>Загрузка...</div>}>
-            <Documents />
-          </Suspense>
+          <Documents />
         </Box>
         <Copyright sx={{}} />
       </Container>

@@ -98,7 +98,7 @@ export const themeOptions: ThemeOptions = {
       defaultProps: {
         sx: {
           " .MuiTypography-root": {
-            fontWeight: 600,
+            fontWeight: 500,
           },
         },
       },
@@ -126,7 +126,7 @@ export const themeOptions: ThemeOptions = {
   },
   typography: {
     fontFamily: [
-      "NightLight Sans",
+      "Cygre",
       "-apple-system",
       "BlinkMacSystemFont",
       '"Segoe UI"',
@@ -142,6 +142,7 @@ export const themeOptions: ThemeOptions = {
     h1: {
       fontWeight: 600,
       fontSize: 52,
+      lineHeight: 1.0,
       marginBottom: 20,
       "@media (min-width: 600px)": {
         fontSize: 64,
@@ -150,6 +151,7 @@ export const themeOptions: ThemeOptions = {
     h2: {
       fontWeight: 600,
       fontSize: 38,
+      lineHeight: 1.1,
       marginBottom: 16,
       "@media (min-width: 600px)": {
         fontSize: 48,
@@ -190,9 +192,9 @@ export const themeOptions: ThemeOptions = {
       },
     },
     body1: {
-      fontSize: 14,
-      lineHeight: 1.25,
-      fontWeight: 400,
+      fontSize: 16,
+      lineHeight: 1.4,
+      fontWeight: 300,
       "@media (min-width: 600px)": {
         fontSize: 16,
       },

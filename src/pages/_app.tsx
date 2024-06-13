@@ -11,6 +11,7 @@ import { appWithTranslation } from "next-i18next";
 
 import { SessionProvider } from "next-auth/react";
 import { type Session } from "next-auth";
+import { cygre_font } from "../fonts/cygre/cygre";
 
 const theme = createTheme(themeOptions);
 
@@ -23,7 +24,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <ThemeProvider theme={theme}>
       <SessionProvider session={session}>
-        {getLayout(<Component {...pageProps} />)}
+        <div className={`${cygre_font}`}>
+          {getLayout(<Component {...pageProps} />)}
+        </div>
       </SessionProvider>
     </ThemeProvider>
   );

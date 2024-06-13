@@ -72,9 +72,9 @@ export function LandingAppBar(props: {
                 style={{
                   fontWeight: 300,
                   fontSize: 26,
-                  marginTop: -2,
-                  marginLeft: 4,
-                  fontFamily: "NightLight Sans",
+                  marginTop: 2,
+                  marginLeft: 8,
+                  fontFamily: "Cygre",
                   color: "#7f00c9",
                 }}
               >

@@ -33,6 +33,7 @@ function TagWord(props: {
           : props.mod
           ? "#c1e5af"
           : "#e5befd",
+        color: props.mod ? "#194312" : undefined,
         py: 2,
         px: 3,
         borderRadius: 10,
@@ -59,7 +60,14 @@ export default (function Medium() {
         button={t("actionbutton")}
         shortbutton={t("actionbutton_short")}
       />
-      <Container sx={{display: "flex", flexDirection: "column", gap: 8, placeItems: "center"}}>
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 8,
+          placeItems: "center",
+        }}
+      >
         <Box
           sx={{
             mt: 24,
@@ -117,7 +125,7 @@ export default (function Medium() {
             </Box>
           </Box>
         </Box>
-        <Box sx={{maxWidth: "700px"}}>
+        <Box sx={{ maxWidth: "700px" }}>
           <Typography variant="h2">Как поиграть?</Typography>
           <Typography fontWeight={600} variant="h5" component="p">
             После покупки «проходки»{" "}

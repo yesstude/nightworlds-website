@@ -205,23 +205,17 @@ const Home: NextPage = () => {
           </Paper>
         </Box>
         <FeatureBox img={build} header={t("features.build.title")}>
-          <Typography fontWeight={600}>
-            {t("features.build.description")}
-          </Typography>
+          <Typography>{t("features.build.description")}</Typography>
         </FeatureBox>
         <FeatureBox
           img={communicate}
           header={t("features.communicate.title")}
           reverse
         >
-          <Typography fontWeight={600}>
-            {t("features.communicate.description")}
-          </Typography>
+          <Typography>{t("features.communicate.description")}</Typography>
         </FeatureBox>
         <FeatureBox img={simplicity} header={t("features.simplicity.title")}>
-          <Typography fontWeight={600}>
-            {t("features.simplicity.description")}
-          </Typography>
+          <Typography>{t("features.simplicity.description")}</Typography>
         </FeatureBox>
       </Container>
       <Copyright sx={{}} />

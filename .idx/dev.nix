@@ -24,6 +24,7 @@
     "esbenp.prettier-vscode"
     "yoavbls.pretty-ts-errors"
     "ms-azuretools.vscode-docker"
+    "bradlc.vscode-tailwindcss"
   ];
 
   idx.previews = {
