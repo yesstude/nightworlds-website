@@ -1,3 +1,5 @@
+"use client";
+
 import DashboardWrapper, {
   Title,
 } from "../../../../../components/dashboard/DashboardWrapper";
