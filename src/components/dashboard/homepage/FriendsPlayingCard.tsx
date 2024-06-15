@@ -7,20 +7,19 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { useTranslation } from "next-i18next";
-import { api } from "../../../utils/api";
+import { useTranslations } from "next-intl";
 
 export default function FriendsPlayingCard() {
-  const [t, i18n, tr] = useTranslation("dashboard");
+  const t = useTranslations("dashboard");
 
-  const friends = api.me.friendsOnline.useQuery();
+  const friends: { nickname: string; server: string; avatar: string }[] = [];
 
   let list = (
     <Typography component="div">
       {t("homepage.friends_online.nofriends")}
     </Typography>
   );
-  if (friends.data) {
+  if (friends) {
     list = (
       <Typography component="div">
         {t("homepage.friends_online.nofriendsonline", {
@@ -28,10 +27,10 @@ export default function FriendsPlayingCard() {
         })}
       </Typography>
     );
-    if (friends.data.length > 0)
+    if (friends.length > 0)
       list = (
         <List>
-          {friends.data.map((friend, i) => {
+          {friends.map((friend, i) => {
             if (i == 3)
               return (
                 <Typography component="div">

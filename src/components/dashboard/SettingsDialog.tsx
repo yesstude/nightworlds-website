@@ -1,4 +1,4 @@
-import { Translation, useTranslation } from "next-i18next";
+"use client";
 
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -22,7 +22,7 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Typography } from "@mui/material";
-import { api } from "../../utils/api";
+import { useTranslations } from "next-intl";
 
 type FormInputBlock = {
   name: string;
@@ -59,7 +59,7 @@ export default function SettingsDialog(props: {
   onClose?: () => void;
   onSubmit?: (values: { [k: string]: number | string | boolean }) => void;
 }) {
-  const { t } = useTranslation("dashboard");
+  const t = useTranslations("dashboard");
 
   const [formData, setFormData] = useState<{
     [k: string]: number | string | boolean;
@@ -169,7 +169,7 @@ export function PasswordField(
     handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   }
 ) {
-  const i18n = useTranslation("dashboard");
+  const t = useTranslations("dashboard");
 
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -178,15 +178,15 @@ export function PasswordField(
     <>
       <Typography
         dangerouslySetInnerHTML={{
-          __html: i18n.t(
-            "settings.sections.security.ingamepassword.helper_text"
-          ),
+          __html: t(
+            "settings.sections.security.ingamepassword.helpertext"
+          ).replaceAll(/\*\*(.*)\*\*/gm, "<strong>$1</strong>"),
         }}
       />
       <TextField
         type={showPassword ? "text" : "password"}
         name={props.name}
-        label={i18n.t(props.labelkey || "")}
+        label={t(props.labelkey || "")}
         sx={{
           mt: 8,
           mb: 2,
@@ -196,7 +196,7 @@ export function PasswordField(
         error={password.length < 8 && password.length > 0}
         helperText={
           password.length < 8 && password.length > 0
-            ? i18n.t("settings.sections.security.ingamepassword.invalid")
+            ? t("settings.sections.security.ingamepassword.invalid")
             : undefined
         }
         InputProps={{

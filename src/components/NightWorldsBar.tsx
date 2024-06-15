@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AppBar,
   Box,
@@ -10,7 +12,7 @@ import {
   useScrollTrigger,
 } from "@mui/material";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import logo from "../assets/logo.svg";
 
 export default function NightWorldsBar() {

@@ -1,5 +1,7 @@
+"use client";
+
 import { SxProps, Theme, Typography, TypographyVariant } from "@mui/material";
-import { ElementType, useEffect, useId, useState } from "react";
+import { ElementType, useEffect, useState } from "react";
 
 export default function AppearingText(props: {
   tokens: { [x: string]: number };
@@ -11,7 +13,6 @@ export default function AppearingText(props: {
   stopAnimation?: boolean;
   whenFinished?: () => void;
 }) {
-  const prefix = useId();
   const [timeAlive, setTimeAlive] = useState(0);
   const lastToken = Object.values(props.tokens)
     .sort((a, b) => a - b)
@@ -38,12 +39,9 @@ export default function AppearingText(props: {
       component={props.component || "span"}
     >
       {Object.entries(props.tokens).map(([token, time], i, array) => {
-        const id = prefix + "_" + i;
         return (
-          <>
+          <span key={i}>
             <span
-              id={id}
-              key={id}
               style={{
                 display: "inline-block",
                 opacity: timeAlive >= time ? "100%" : "0%",
@@ -53,8 +51,8 @@ export default function AppearingText(props: {
             >
               {token}
             </span>
-            {props.noAutoSpace ? "" : <span key={id + "_space"}> </span>}
-          </>
+            {props.noAutoSpace ? "" : <span> </span>}
+          </span>
         );
       })}
     </Typography>

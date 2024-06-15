@@ -1,29 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
+import createMiddleware from "next-intl/middleware";
+import { NextRequest } from "next/server";
 
-const PUBLIC_FILE = /\.(.*)$/
 const locales = ["en", "ru", "uk"];
 
-export function middleware(req: NextRequest) {
-    if (
-        req.nextUrl.pathname.startsWith('/_next') ||
-        req.nextUrl.pathname.includes('/api/')
-        || PUBLIC_FILE.test(req.nextUrl.pathname)
-    ) {
-        return
-    }
+export default (req: NextRequest) => {
+  if (
+    !["api", "_next", "favicon"].find((v) =>
+      new URL(req.url).pathname.startsWith(`/${v}`)
+    )
+  )
+    return createMiddleware({
+      locales,
 
-    if (req.nextUrl.locale === req.nextUrl.defaultLocale) {
-        if (req.cookies.has('NEXT_LOCALE')
-        && locales.includes(req.cookies.get('NEXT_LOCALE')!.value)) {
-            const locale = req.cookies.get('NEXT_LOCALE')!.value;
-            let url = req.nextUrl;
-            url.locale = locale;
-            return NextResponse.redirect(url);
-        }
-    } else {
-        const locale = req.nextUrl.locale;
-        const response = NextResponse.next()
-        response.cookies.set('NEXT_LOCALE', locale);
-        return response;
-    }
-}
+      defaultLocale: "en",
+    })(req);
+};

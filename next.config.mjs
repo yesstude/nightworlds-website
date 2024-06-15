@@ -1,5 +1,8 @@
 import withMDXBuilder from "@next/mdx";
 const withMDX = withMDXBuilder();
+import createNextIntlPlugin from "next-intl/plugin";
+const withNextIntl = createNextIntlPlugin();
+
 // @ts-check
 
 import i18nconfig from "./next-i18next.config.mjs";
@@ -22,15 +25,17 @@ function defineNextConfig(config) {
   return config;
 }
 
-export default withMDX(
-  defineNextConfig({
-    pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
-    reactStrictMode: true,
-    swcMinify: true,
-    // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
-    i18n: i18nconfig.i18n,
-    images: {
-      domains: ["cataas.com"],
-    },
-  })
+export default withNextIntl(
+  withMDX(
+    defineNextConfig({
+      pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
+      reactStrictMode: true,
+      swcMinify: true,
+      // Next.js i18n docs: https://nextjs.org/docs/advanced-features/i18n-routing
+      i18n: i18nconfig.i18n,
+      images: {
+        domains: ["cataas.com"],
+      },
+    })
+  )
 );

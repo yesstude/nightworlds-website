@@ -1,7 +1,6 @@
-import {
-  ArrowDownwardOutlined,
-  ArrowDropDownOutlined,
-} from "@mui/icons-material";
+"use client";
+
+import { ArrowDropDownOutlined } from "@mui/icons-material";
 import { Box, Icon, Typography } from "@mui/material";
 import { ReactNode, useState } from "react";
 

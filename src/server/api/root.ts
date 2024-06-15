@@ -5,6 +5,7 @@ import { settingsRouter } from "./routers/settings";
 import { setupRouter } from "./routers/setup";
 import { skinRouter } from "./routers/skin";
 import { subscriptionRouter } from "./routers/subscription";
+import { worldsRouter } from "./routers/worlds";
 import { createTRPCRouter } from "./trpc";
 
 /**
@@ -17,6 +18,7 @@ export const appRouter = createTRPCRouter({
   skin: skinRouter,
   me: meRouter,
   settings: settingsRouter,
+  worlds: worldsRouter,
   characters: charactersRouter,
   setup: setupRouter,
   news: newsRouter,

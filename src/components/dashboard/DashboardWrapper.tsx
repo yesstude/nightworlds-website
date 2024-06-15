@@ -1,7 +1,10 @@
+"use client";
+
 import Head from "next/head";
 import {
   createContext,
   ReactNode,
+  Suspense,
   useContext,
   useEffect,
   useState,
@@ -36,9 +39,9 @@ import logo from "../../assets/logo.svg";
 import galaxyShard from "../../assets/galaxyShard.png";
 
 import ResponsiveDrawer from "./ResponsiveDrawer";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
 import { api } from "../../utils/api";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const SetTitleContext = createContext((newtitle: string) => {});
 const SetCustomLoadingContext = createContext((state: boolean) => {});
@@ -81,22 +84,18 @@ export default function DashboardWrapper(props: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const i18n = useTranslation("dashboard");
-  function t(key: string): string | null {
-    const val = i18n.t(key);
-    return val === key ? null : val;
-  }
+  const t = useTranslations("dashboard");
 
-  const balance = api.me.balance.useQuery();
+  // const balance = api.me.balance.useQuery();
 
   useEffect(() => {
     setInterval(() => {
       setTrigger(window.scrollY >= 1);
     }, 100);
 
-    router.events.on("routeChangeStart", () => setLoading(true));
-    router.events.on("routeChangeError", () => setLoading(false));
-    router.events.on("routeChangeComplete", () => setLoading(false));
+    // router.events.on("routeChangeStart", () => setLoading(true));
+    // router.events.on("routeChangeError", () => setLoading(false));
+    // router.events.on("routeChangeComplete", () => setLoading(false));
   }, []);
 
   return (
@@ -116,14 +115,7 @@ export default function DashboardWrapper(props: { children: ReactNode }) {
           rel="stylesheet"
         />
       </Head>
-      <Box
-        id="dashboardwrapper"
-        component="div"
-        sx={{
-          opacity: i18n.ready ? "100%" : "0%",
-          transition: "opacity 1s",
-        }}
-      >
+      <Box id="dashboardwrapper" component="div">
         <Slide appear={false} direction="down" in>
           <AppBar
             variant="elevation"
@@ -164,7 +156,7 @@ export default function DashboardWrapper(props: { children: ReactNode }) {
                 </Button>
               </Link>
               <div style={{ flexGrow: 1 }} />
-              {balance.data ? (
+              {/* {balance.data ? (
                 <Hidden smDown>
                   <Link href={"/dashboard/#"} legacyBehavior>
                     <Button
@@ -186,7 +178,7 @@ export default function DashboardWrapper(props: { children: ReactNode }) {
                 </Hidden>
               ) : (
                 ""
-              )}
+              )} */}
             </Toolbar>
           </AppBar>
         </Slide>

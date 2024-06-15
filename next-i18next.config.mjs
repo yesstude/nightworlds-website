@@ -11,4 +11,4 @@ const i18nconfig = {
   localePath: path.resolve("./public/locales"),
   nonExplicitSupportedLngs: true,
 };
-export default i18nconfig;
+export default {};

@@ -1,12 +1,11 @@
 import { Box, Typography } from "@mui/material";
-import { useTranslation } from "next-i18next";
-import { api } from "../../../utils/api";
+import { getTranslations } from "next-intl/server";
+import { getProfile } from "../../../server/api/auth";
 
-export default function WelcomeHeader(props: { onLoad?: () => void }) {
-  const [t, _, tr] = useTranslation("dashboard");
-  const user = api.me.profile.useQuery(undefined, {
-    onSuccess: props.onLoad,
-  }).data;
+export default async function WelcomeHeader(props: { onLoad?: () => void }) {
+  const t = await getTranslations("dashboard");
+  const user = (await getProfile())!;
+  props.onLoad?.();
 
   const avatar = user?.avatar || "";
   const name = user?.nickname || "";
@@ -14,9 +13,6 @@ export default function WelcomeHeader(props: { onLoad?: () => void }) {
   return (
     <Box
       sx={{
-        opacity: tr && user ? "100%" : "0%",
-        transform: `translateY(${tr && user ? "0px" : "32px"})`,
-        transition: "all 500ms",
         width: "100%",
         mb: 8,
       }}

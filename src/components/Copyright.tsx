@@ -1,6 +1,6 @@
-import { Link, SxProps } from "@mui/material";
+import Link from "next/link";
 
-export default function Copyright(props: { sx: SxProps }) {
+export default function Copyright() {
   return (
     <p
       style={{

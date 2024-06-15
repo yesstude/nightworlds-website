@@ -1,0 +1,158 @@
+{
+  "landing": {
+    "description": "Minecraft server with unlimited possibilities",
+    "actionbutton": "Sign Up and Play",
+    "actionbutton_short": "Play",
+    "title": "{\"Minecraft\": 1,\"server\": 15,\"with\": 30,\"unlimited\": 35,\"possibilities\": 50}",
+    "subscribe": {
+      "title": "Subscribe",
+      "subtitle": "Get notified when NightWorlds are available",
+      "email": "Email",
+      "nickname": "Nickname (optional)",
+      "subscribe": "Subscribe",
+      "loading": "Loading...",
+      "success": "Success!"
+    },
+    "features": {
+      "build": {
+        "title": "Build amazing stuff",
+        "description": "The server rules are designed to allow players to build anything they want. You can build a statue, a futurisic city or café – we don't mind. The main rule is not to grief."
+      },
+      "communicate": {
+        "title": "Communicate with other players",
+        "description": "One of the main priorities of NightWorlds is people. This rule works in all of NightWorlds. Together, we can make anything possible!"
+      },
+      "simplicity": {
+        "title": "There's no sense to overcomplicate things",
+        "description": "We target minimalism. Simplicity is the real power! Here you won't see webpages with design like in 2007. Also, we don't show tons of text at one in the actual game."
+      }
+    }
+  },
+  "dashboard": {
+    "back_button": "Back",
+    "homepage": {
+      "name": "Home Page",
+      "welcome": "Welcome, {name}!",
+      "playing_card": {
+        "playing": "You've been playing for {parsedTime} already",
+        "leave": "Leave",
+        "played": "Last time you played {server}} for {{parsedTime}",
+        "first": "First time?",
+        "neverplayed": "You never played NightWorlds yet",
+        "play": "Play"
+      },
+      "friends_online": {
+        "title": "Friends online",
+        "subtitle": "Your friends that are currently playing NightWorlds:",
+        "nofriends": "You have no friends at the time",
+        "nofriendsonline": "None of {friendslink} are online",
+        "friendslink": "your friends",
+        "andmore": "and more"
+      },
+      "news": {
+        "title": "News from NightWorlds",
+        "customize": "Customize your feed"
+      }
+    },
+    "characters": {
+      "name": "Characters",
+      "create": "New",
+      "subtitle": {
+        "v_zero": "You have no characters in NightWorlds",
+        "v_one": "You have {count} character in NightWorlds:",
+        "v_other": "You have {count} characters in NightWorlds:"
+      },
+      "filters": {
+        "all": "All worlds",
+        "loaded": "Loaded"
+      },
+      "actions": {
+        "avatar": "Use as avatar",
+        "avataralready": "Used as avatar"
+      }
+    },
+    "settings": {
+      "name": "Settings",
+      "subtitle": "Here you can change your account and game settings",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saved": "Settings successfully saved",
+      "error": "An error occurred while saving settings",
+      "sections": {
+        "security": {
+          "name": "Security settings",
+          "ingamepassword": {
+            "name": "Change your in-game password",
+            "helpertext": "This is the password that you type in when you log in to NightWorlds Minecraft server by sending it in chat **without any commands, unlike most servers**.",
+            "new": "New password",
+            "invalid": "Invalid password. Password must be at least 8 characters long"
+          }
+        }
+      }
+    }
+  },
+  "sign-in": {
+    "title": "Sign In",
+    "subtitle": "Sign into your NightWorlds account to gain access to features and options unavailable in game",
+    "nickname": "Nickname",
+    "game_password": "In-game password",
+    "showpassword": "Show Password",
+    "remember_me": "Remember me",
+    "back_button": "Back",
+    "button": "Sign In",
+    "alternatives": "Or you can:",
+    "with": "Sign in with {name}",
+    "error": {
+      "no": {
+        "nickname": "Enter nickname",
+        "password": "Enter password"
+      },
+      "invalid": "Unable to sign you in. Please check the credentials again",
+      "default": "An unknown error has occurred. If this happens again, contact the administration"
+    }
+  },
+  "setup": {
+    "page_title": "Account setup",
+    "header": "First-time account setup",
+    "greeting": {
+      "title": "Welcome, {name}!",
+      "subtitle": "Looks like it's your first time in NightWorlds! Let us help you to start playing as soon as possible",
+      "button": "Begin!"
+    },
+    "discord": {
+      "title": "Link your Discord account",
+      "subtitle": "Discord is a great messaging platform for gamers like us. Our players use it to talk with each other every day. Create a Discord account, or, if you have one, link it with your NightWorlds profile",
+      "success": "Your Discord account seems to be successfully linked!",
+      "link_button": "Go to Discord",
+      "continue_button": "Next"
+    },
+    "nickname": {
+      "title": "Select a nickname",
+      "subtitle": "If you have a Minecraft account, type its nickname in. If you don't have one, select an in-game nickname for yourself",
+      "nickname": "Nickname",
+      "error": {
+        "none": "Awesome choice!",
+        "length": "Nicknames can only be between 3 and 16 characters",
+        "format": "Your nickname contains some characters that are not permitted",
+        "occupied": "This nickname is already used in NightWorlds"
+      },
+      "continue_button": "Next"
+    },
+    "password": {
+      "title": "Protect your account",
+      "subtitle": "Select a password for your NightWorlds account. It will be used only in game",
+      "password": "In-game Password",
+      "error": {
+        "length": "Minimum length of password is 8 characters"
+      },
+      "finish_button": "Finish"
+    },
+    "additional": {
+      "title": "Your account is done!",
+      "subtitle": "There are things you can also do right now:",
+      "actions": {
+        "dashboard": "Go to your dashboard"
+      }
+    }
+  }
+}

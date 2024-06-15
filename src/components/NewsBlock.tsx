@@ -1,4 +1,14 @@
-import { Box, Button, Card, CardContent, CardMedia, Container, IconButton, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Container,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -6,47 +16,52 @@ import cat from "../assets/cat.png";
 import LeftArrowIcon from "@mui/icons-material/ArrowBackIosNew";
 import RightArrowIcon from "@mui/icons-material/ArrowForwardIos";
 
-import { useTranslation } from "next-i18next";
 import { api } from "../utils/api";
+import { useTranslations } from "next-intl";
 
 export default function NewsBlock() {
-  const [t, i18n, tr] = useTranslation("dashboard");
+  const t = useTranslations("dashboard");
 
   const [animation, setAnimation] = useState(false);
   const [page, setPage] = useState(0);
 
   const news = api.news.preview.useQuery().data;
 
-  if (!news || news.length <= 0) return (<></>);
+  if (!news || news.length <= 0) return <></>;
 
-  function switchPage (amount: number) {
-    setAnimation(val => !val);
-    setTimeout(() => setPage(val => Math.max(Math.min(val + amount, news!.length-1), 0)), 250);
-    setTimeout(() => setAnimation(val => !val), 250);
+  function switchPage(amount: number) {
+    setAnimation((val) => !val);
+    setTimeout(
+      () =>
+        setPage((val) => Math.max(Math.min(val + amount, news!.length - 1), 0)),
+      250
+    );
+    setTimeout(() => setAnimation((val) => !val), 250);
   }
 
   return (
-    <Paper variant="outlined" sx={{
-      p: 8,
-    }}>
-      <Typography
-        variant="h4"
-        component="h2"
-        mb={8}
-      >
+    <Paper
+      variant="outlined"
+      sx={{
+        p: 8,
+      }}
+    >
+      <Typography variant="h4" component="h2" mb={8}>
         {t("homepage.news.title")}
       </Typography>
-      <Box sx={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        flexWrap: "wrap",
-        rowGap: 8,
-        columnGap: 16,
-        textAlign: "left",
-        opacity: animation ? "0%" : "100%",
-        transition: "opacity 250ms",
-      }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          flexWrap: "wrap",
+          rowGap: 8,
+          columnGap: 16,
+          textAlign: "left",
+          opacity: animation ? "0%" : "100%",
+          transition: "opacity 250ms",
+        }}
+      >
         <Image
           src={news[page]!.image.src}
           width={news[page]!.image.width}
@@ -57,7 +72,7 @@ export default function NewsBlock() {
             maxWidth: "70vw",
             width: "auto",
             maxHeight: "300px",
-            height: "auto"
+            height: "auto",
           }}
         />
         <Box sx={{ maxWidth: "400px", flexGrow: 1 }}>
@@ -107,31 +122,36 @@ export default function NewsBlock() {
 
 function NewsCard() {
   return (
-    <Card variant="outlined" sx={{
-      display: "flex",
-      background: "#fff",
-      // maxWidth: "260px",
-      maxHeight: "280px",
-      minWidth: "800px",
-      minHeight: "280px",
-      borderRadius: "18px !important",
-      p: "0px",
-      scrollSnapAlign: "center",
-      // border: "#bbb solid 1px !important"
-    }}>
+    <Card
+      variant="outlined"
+      sx={{
+        display: "flex",
+        background: "#fff",
+        // maxWidth: "260px",
+        maxHeight: "280px",
+        minWidth: "800px",
+        minHeight: "280px",
+        borderRadius: "18px !important",
+        p: "0px",
+        scrollSnapAlign: "center",
+        // border: "#bbb solid 1px !important"
+      }}
+    >
       <CardMedia
         image={cat.src}
         sx={{
           height: "200px",
           // m: -8,
-          borderRadius: "12px"
+          borderRadius: "12px",
         }}
       />
-      <CardContent sx={{
-        mt: 8,
-        px: "4px",
-        textAlign: "left",
-      }}>
+      <CardContent
+        sx={{
+          mt: 8,
+          px: "4px",
+          textAlign: "left",
+        }}
+      >
         <Typography variant="h5" component="div">
           <b>NightWorld Medium is now open for everyone!</b>
         </Typography>
