@@ -7,6 +7,7 @@ import nwm4 from "../../../../assets/homepage/nwm4.svg";
 import Copyright from "../../../../components/Copyright";
 import { LandingAppBar } from "../../../../components/NightWorldsBar";
 import { getWorld } from "../../../../server/api/worlds";
+import { use } from "react";
 
 function TagWord(props: {
   children: string;
@@ -38,7 +39,7 @@ function TagWord(props: {
 export default (function Medium() {
   const t = useTranslations("landing");
 
-  const world = getWorld("medium");
+  const world = use(getWorld("medium"));
 
   return (
     <>
