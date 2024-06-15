@@ -1,12 +1,10 @@
 import DashboardWrapper, {
   Title,
-} from "../../../components/dashboard/DashboardWrapper";
+} from "../../../../components/dashboard/DashboardWrapper";
 
 import Typography from "@mui/material/Typography";
-import { useTranslation } from "next-i18next";
 import { ReactNode } from "react";
 
-import * as index from "./page";
 import {
   Box,
   Button,
@@ -16,12 +14,12 @@ import {
   Container,
   useTheme,
 } from "@mui/material";
-import { api } from "../../../utils/api";
+import { api } from "../../../../utils/api";
 import { useRouter } from "next/router";
-export const getServerSideProps = index.getServerSideProps;
+import { useTranslations } from "next-intl";
 
 export default function DashboardCharactersPage() {
-  const [t, i18n, tr] = useTranslation("dashboard");
+  const t = useTranslations("dashboard");
 
   const router = useRouter();
 
@@ -123,6 +121,3 @@ export default function DashboardCharactersPage() {
     </Container>
   );
 }
-DashboardCharactersPage.getLayout = function getLayout(page: ReactNode) {
-  return <DashboardWrapper>{page}</DashboardWrapper>;
-};

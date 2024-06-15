@@ -1,16 +1,14 @@
 import DashboardWrapper, {
   Title,
-} from "../../../../components/dashboard/DashboardWrapper";
+} from "../../../../../components/dashboard/DashboardWrapper";
 
 import Typography from "@mui/material/Typography";
 import { ReactNode, useState } from "react";
 
-import * as index from "../page";
 import { Box, Button, Card, Container } from "@mui/material";
-import { api } from "../../../../utils/api";
+import { api } from "../../../../../utils/api";
 import { useRouter } from "next/router";
-import SkinPreview from "../../../../components/skins/SkinPreview";
-export const getServerSideProps = index.getServerSideProps;
+import SkinPreview from "../../../../../components/skins/SkinPreview";
 
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import { useTranslations } from "next-intl";
@@ -115,6 +113,3 @@ export default function CharacterProfilePage() {
     </Container>
   );
 }
-CharacterProfilePage.getLayout = function getLayout(page: ReactNode) {
-  return <DashboardWrapper>{page}</DashboardWrapper>;
-};
