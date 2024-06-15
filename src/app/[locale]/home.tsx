@@ -221,7 +221,7 @@ const Home = (props: { translations: { [key: string]: string } }) => {
           </Typography>
         </FeatureBox>
       </Container>
-      <Copyright sx={{}} />
+      <Copyright />
     </>
   );
 };
