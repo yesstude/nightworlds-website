@@ -165,10 +165,7 @@ const Home = (props: { translations: { [key: string]: string } }) => {
                   p: "0 !important",
                 }}
               >
-                <Link
-                  href="/servers/medium"
-                  style={{ textDecoration: "unset" }}
-                >
+                <Link href="/worlds/medium" style={{ textDecoration: "unset" }}>
                   <CardActionArea>
                     <CardMedia
                       sx={{
