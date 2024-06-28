@@ -12,7 +12,8 @@ import { useTranslations } from "next-intl";
 export default function FriendsPlayingCard() {
   const t = useTranslations("dashboard");
 
-  const friends: { nickname: string; server: string; avatar: string }[] = [];
+  const friends: { nickname: string; server: string; avatar: string }[] | null =
+    null as any;
 
   let list = (
     <Typography component="div">

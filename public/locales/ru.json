@@ -36,7 +36,7 @@
       "playing_card": {
         "playing": "Вы играете уже на протяжении {parsedTime}",
         "leave": "Выйти",
-        "played": "В последний раз вы играли в {server}} на протяжении {{parsedTime}",
+        "played": "В последний раз вы играли в {server} на протяжении {parsedTime}",
         "first": "Впервые?",
         "neverplayed": "Вы ещё не играли в NightWorlds",
         "play": "Играть"

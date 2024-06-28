@@ -3,10 +3,6 @@
 import {
   Box,
   Button,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
   Container,
   Paper,
   TextField,
@@ -14,7 +10,7 @@ import {
 } from "@mui/material";
 import Head from "next/head";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, Suspense, useState } from "react";
 import { LandingAppBar } from "../../components/NightWorldsBar";
 import AppearingText from "../../components/homepage/AppearingText";
 
@@ -26,10 +22,8 @@ import Copyright from "../../components/Copyright";
 
 import { api } from "../../utils/api";
 
-import Image from "next/image";
-import Link from "next/link";
-import nwm4 from "../../assets/homepage/nwm4.svg";
 import { useTranslations } from "next-intl";
+import WorldsList from "./worlds-list";
 
 const FeatureBox = (props: {
   img: StaticImageData;
@@ -145,58 +139,9 @@ const Home = (props: { translations: { [key: string]: string } }) => {
         </Paper>
         </Box> */}
         <Box>
-          <Paper variant="outlined" sx={{ px: 12, py: 11 }}>
-            <Typography variant="h2">Текущие сервера</Typography>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                mt: 8,
-                gap: 4,
-                overflowX: "scroll",
-              }}
-            >
-              <Card
-                variant="outlined"
-                sx={{
-                  backgroundColor: "#efe1f7",
-                  minWidth: "320px",
-                  maxWidth: "320px",
-                  p: "0 !important",
-                }}
-              >
-                <Link href="/worlds/medium" style={{ textDecoration: "unset" }}>
-                  <CardActionArea>
-                    <CardMedia
-                      sx={{
-                        backgroundColor: "#a4e2ff",
-                        p: 8,
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Image alt="NightWorld Medium 4" src={nwm4} width="180" />
-                    </CardMedia>
-                    <CardContent sx={{ p: 8 }}>
-                      <Typography variant="h3">NightWorld Medium</Typography>
-                      <Typography fontWeight={400}>
-                        Ванильный игровой сервер без обязательных модификаций.
-                        Присутствуют элементы политики и экономики. RolePlay
-                        необязателен, однако приветствуется.
-                      </Typography>
-                      <Typography
-                        sx={{ mt: 4, mb: 0 }}
-                        fontWeight={600}
-                        variant="h4"
-                      >
-                        69₽ / месяц
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Link>
-              </Card>
-            </Box>
-          </Paper>
+          <Suspense fallback={<></>}>
+            <WorldsList />
+          </Suspense>
         </Box>
         <FeatureBox img={build} header={t("features.build.title")}>
           <Typography fontWeight={600} fontSize={18}>

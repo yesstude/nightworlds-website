@@ -43,34 +43,114 @@ model Session {
 }
 
 model User {
-  id                String      @id @default(cuid())
-  nickname          String?     @unique
+  id                String             @id @default(cuid())
+  nickname          String?            @unique
   name              String
   firstname         String?
-  email             String?     @unique
+  email             String?            @unique
   emailVerified     DateTime?
   passwordHash      String?
-  galaxyShards      Int         @default(0)
+  galaxyShards      Int                @default(0)
   image             String?
-  avatarCharacter   Character?  @relation(fields: [avatarCharacterId], references: [id], name: "avatarCharacter")
+  avatarCharacter   Character?         @relation(fields: [avatarCharacterId], references: [id], name: "avatarCharacter")
   avatarCharacterId String?
   accounts          Account[]
   sessions          Session[]
   characters        Character[]
+  userSubscriptions UserSubscription[] @relation("userSubscriptions")
+  userSubscribers   UserSubscription[] @relation("userSubscribers")
+  playSessions      PlaySession[]
+  subscriptions     Subscription[]
+  payments          Payment[]
+  paymentMethods    PaymentMethod[]
+}
+
+model UserSubscription {
+  user         User   @relation(name: "userSubscriptions", fields: [userId], references: [id])
+  userId       String
+  subscriber   User   @relation(name: "userSubscribers", fields: [subscriberId], references: [id])
+  subscriberId String
+
+  @@id([userId, subscriberId])
+}
+
+model World {
+  name          String         @id
+  displayName   String
+  description   String?
+  isAvailable   Boolean        @default(false)
+  accessType    Json?
+  servers       Server[]
+  characters    Character[]
+  subscriptions Subscription[]
+  payments      Payment[]
 }
 
 model Server {
-  name        String      @id
-  displayName String
-  characters  Character[]
+  name         String        @id
+  displayName  String
+  world        World?        @relation(fields: [worldName], references: [name])
+  worldName    String?
+  playSessions PlaySession[]
+}
+
+model Subscription {
+  id              String        @id @default(cuid())
+  user            User          @relation(fields: [userId], references: [id])
+  userId          String
+  world           World         @relation(fields: [worldName], references: [name])
+  worldName       String
+  paymentMethod   PaymentMethod @relation(fields: [paymentMethodId], references: [id])
+  paymentMethodId String
+  sum             Int
+  startedAt       DateTime      @default(now())
+  endedAt         DateTime?
+  payments        Payment[]
+}
+
+model Payment {
+  id             String        @id @default(cuid())
+  providerId     String        @unique
+  productType    String
+  name           String
+  description    String?
+  user           User          @relation(fields: [userId], references: [id])
+  userId         String
+  world          World         @relation(fields: [worldName], references: [name])
+  worldName      String
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+  subscriptionId String?
+  sum            Int
+  createdAt      DateTime      @default(now())
+  finishedAt     DateTime?
+}
+
+model PaymentMethod {
+  id            String         @id @default(cuid())
+  providerId    String
+  name          String
+  user          User           @relation(fields: [userId], references: [id])
+  userId        String
+  createdAt     DateTime       @default(now())
+  subscriptions Subscription[]
+}
+
+model PlaySession {
+  id         String    @id @default(cuid())
+  user       User      @relation(fields: [userId], references: [id])
+  userId     String
+  server     Server    @relation(fields: [serverName], references: [name])
+  serverName String
+  start      DateTime
+  end        DateTime?
 }
 
 model Character {
   id           String  @id @default(cuid())
-  server       Server? @relation(fields: [serverName], references: [name])
-  serverName   String?
   owner        User    @relation(fields: [ownerId], references: [id])
   ownerId      String
+  world        World   @relation(fields: [worldName], references: [name])
+  worldName    String
   displayname  String
   skin         String
   headImage    String?

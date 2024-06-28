@@ -30,6 +30,8 @@ import HomepageIcon from "@mui/icons-material/Home";
 import HomepageOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CharactersIcon from "@mui/icons-material/People";
 import CharactersOutlinedIcon from "@mui/icons-material/PeopleOutlined";
+import WorldsIcon from "@mui/icons-material/Language";
+import WorldsOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
@@ -55,6 +57,7 @@ const drawerlist = [
   //   <CharactersIcon />,
   //   <CharactersOutlinedIcon />,
   // ],
+  ["Миры", "/dashboard/worlds/#", <WorldsIcon />, <WorldsOutlinedIcon />],
   [
     "settings.name",
     "/dashboard/settings/#",
@@ -189,10 +192,12 @@ export default function DashboardWrapper(props: { children: ReactNode }) {
           <List sx={{ flexGrow: 1 }}>
             {drawerlist.map((cfg) => {
               if (cfg.length < 1) return <Divider sx={{ my: 1 }} />;
+              let label = cfg[0] as string;
+              if (label[0]!.match(/[a-z]/)) label = t(label);
               return (
-                <ListItem key={t(cfg[0] as string) as string} disablePadding>
+                <ListItem key={label as string} disablePadding>
                   <ListItemButton
-                    selected={t(cfg[0] as string) == title}
+                    selected={label == title}
                     sx={{
                       transition: "background-color 500ms",
                     }}
@@ -202,9 +207,9 @@ export default function DashboardWrapper(props: { children: ReactNode }) {
                     }}
                   >
                     <ListItemIcon>
-                      {t(cfg[0] as string) == title ? cfg[2] : cfg[3]}
+                      {label == title ? cfg[2] : cfg[3]}
                     </ListItemIcon>
-                    <ListItemText primary={t(cfg[0] as string)} />
+                    <ListItemText primary={label} />
                   </ListItemButton>
                 </ListItem>
               );

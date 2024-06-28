@@ -39,7 +39,7 @@ function TagWord(props: {
 export default (function Medium() {
   const t = useTranslations("landing");
 
-  const world = use(getWorld("medium"));
+  const world = use(getWorld("medium"))!;
 
   return (
     <>
@@ -102,7 +102,8 @@ export default (function Medium() {
             </Typography>
             <Box mt={8} sx={{ display: "flex", flexDirection: "column" }}>
               <Typography fontWeight={600} variant="h4" component="span">
-                69₽ / месяц
+                {/* 69₽ / месяц */}
+                Бесплатно
               </Typography>
               <Button variant="contained" disabled={!world.available}>
                 Оформить

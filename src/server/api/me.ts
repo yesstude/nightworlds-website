@@ -1,13 +1,32 @@
 "use server";
 
-import { env } from "../../env/server.mjs";
+import { prisma } from "../db";
+import { getProfile } from "./auth";
 
 export async function getLastPlayed() {
-  if (env.NODE_ENV != "production")
-    return {
-      server: "Medium",
-      started: new Date(1679923977),
-      stopped: null, //new Date(1679924102),
-    };
-  return null;
+  const user = (await getProfile())!;
+
+  const session = await prisma.playSession.findFirst({
+    where: {
+      userId: user.id,
+    },
+    orderBy: {
+      start: "desc",
+    },
+    take: 1,
+    include: {
+      server: {
+        include: {
+          world: true,
+        },
+      },
+    },
+  });
+
+  if (!session) return null;
+  return {
+    server: session.server.world!.displayName,
+    started: session.start,
+    stopped: session.end,
+  };
 }

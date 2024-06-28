@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   creator: "NightWorlds",
   publisher: "NightWorlds",
   description: "Сервер Minecraft с неограниченными возможностями",
+  icons: [{ url: "/favicon.svg" }],
 };
 
 export default async function LocaleLayout({

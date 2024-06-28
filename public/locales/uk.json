@@ -39,7 +39,7 @@
       "playing_card": {
         "playing": "Ви граєте вже протягом {parsedTime}",
         "leave": "Вийти",
-        "played": "В останній раз ви грали в {server}} протягом {{parsedTime}",
+        "played": "В останній раз ви грали в {server} протягом {parsedTime}",
         "play": "Грати"
       }
     }

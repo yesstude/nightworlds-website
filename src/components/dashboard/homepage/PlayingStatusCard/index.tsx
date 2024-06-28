@@ -8,11 +8,14 @@ import { getLastPlayed } from "../../../../server/api/me";
 export default function PlayingStatusCard() {
   const t = useTranslations("dashboard");
 
-  let status: Awaited<ReturnType<typeof getLastPlayed>> | undefined;
+  const [status, setStatus] = useState<
+    Awaited<ReturnType<typeof getLastPlayed>> | undefined
+  >(undefined);
 
   useEffect(() => {
+    (async () => setStatus(await getLastPlayed()))();
     setInterval(async () => {
-      status = await getLastPlayed();
+      setStatus(await getLastPlayed());
     }, 5000);
   }, []);
 
@@ -47,11 +50,11 @@ export default function PlayingStatusCard() {
 
 function parseTimePassed(start: number, end: number): string {
   return (
-    Math.floor((end - start) / 60 / 60) +
+    Math.floor((end - start) / 1000 / 60 / 60) +
     ":" +
-    ("00" + (Math.floor((end - start) / 60) % 60)).slice(-2) +
+    ("00" + (Math.floor((end - start) / 1000 / 60) % 60)).slice(-2) +
     ":" +
-    ("00" + (Math.floor(end - start) % 60)).slice(-2)
+    ("00" + (Math.floor((end - start) / 1000) % 60)).slice(-2)
   );
 }
 
@@ -76,7 +79,7 @@ export function LastServer(props: {
       })}
       artcolor="#b392c6"
       button={
-        <Button variant="contained" size="small" disableElevation>
+        <Button variant="contained" size="small" disableElevation disabled>
           {t("homepage.playing_card.play")}
         </Button>
       }
@@ -97,7 +100,7 @@ export function PlayingServer({
 
   useEffect(() => {
     setInterval(() => {
-      setParsedTime(parseTimePassed(gameStarted, Date.now() / 1000));
+      setParsedTime(parseTimePassed(gameStarted, Date.now()));
     }, 1000);
   }, []);
 

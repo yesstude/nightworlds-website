@@ -57,20 +57,6 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      if (
-        ![
-          "nouskopdanila@gmail.com",
-          "painkille53@gmail.com",
-          "sasaplotnikov2008@gmail.com",
-          "plotnikovartem2005@mail.ru",
-          "moyaozvucka@gmail.com",
-          "themineboy99@gmail.com",
-          "fictivgund@gmail.com",
-          "ruslan.gulid@gmail.com",
-        ].includes((token as any).email.toLowerCase())
-      )
-        throw new Error();
-
       session.user.id = token.id as string;
 
       const dbuser = await prisma.user.findUnique({
