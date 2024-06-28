@@ -27,7 +27,7 @@ async function getUser() {
   const session = await getServerSession();
   return await prisma.user.findFirst({
     where: {
-      id: session?.user.id,
+      email: session!.user.email,
     },
     include: {
       avatarCharacter: true,
