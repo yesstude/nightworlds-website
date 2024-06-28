@@ -38,5 +38,5 @@ export async function POST(
     },
   }))!;
 
-  return NextResponse.json({ access: !!world });
+  return NextResponse.json({ access: true });
 }

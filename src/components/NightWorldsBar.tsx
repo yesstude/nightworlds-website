@@ -75,25 +75,20 @@ export function LandingAppBar(props: {
               </span>
             </Link>
           </Box>
-          <Hidden mdDown>
-            <Button
-              variant="text"
-              sx={{
-                padding: "12px 16px",
-                borderRadius: "9999px",
-              }}
-              onClick={() => router.replace("/auth/signin")}
-            >
-              Вход для участников раннего доступа
-            </Button>
-          </Hidden>
           <Button
             variant="contained"
             sx={{
               padding: "12px 16px",
               borderRadius: "9999px",
+              boxShadow: "none",
+              ":active": {
+                boxShadow: "none",
+              },
+              ":hover": {
+                boxShadow: "none",
+              },
             }}
-            disabled
+            onClick={() => router.replace("/auth/signin")}
           >
             <Hidden smUp>{props.shortbutton}</Hidden>
             <Hidden smDown>{props.button}</Hidden>
