@@ -12,7 +12,9 @@ import { getAuthProviders, isAuthorized } from "../../../../server/api/auth";
 import { AuthUsingButton } from "./auth";
 import { BackButton } from "./back";
 
-export default async function SignInPage() {
+export default async function SignInPage(props: {
+  searchParams: { redirect?: string };
+}) {
   if (await isAuthorized()) return redirect("/dashboard");
   const providers = Object.entries(await getAuthProviders()).map(([_, o]) => o);
 
@@ -54,6 +56,9 @@ export default async function SignInPage() {
               <AuthUsingButton
                 key={provider.id}
                 provider={provider}
+                callbackUrl={
+                  props.searchParams.redirect
+                }
                 className="my-2"
               />
             ) : (

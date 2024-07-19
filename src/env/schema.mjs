@@ -25,6 +25,7 @@ export const serverSchema = z.object({
   DISCORD_SECRET: z.string(),
   BUCKET_NAME: z.string(),
   BUCKET_DOMAIN: z.string().url(),
+  TOKEN_ENCRYPTION_KEY: z.string(),
 });
 
 /**
@@ -43,6 +44,7 @@ export const serverEnv = {
   DISCORD_SECRET: process.env.DISCORD_SECRET,
   BUCKET_NAME: process.env.BUCKET_NAME,
   BUCKET_DOMAIN: process.env.BUCKET_DOMAIN,
+  TOKEN_ENCRYPTION_KEY: process.env.TOKEN_ENCRYPTION_KEY,
 };
 
 /**

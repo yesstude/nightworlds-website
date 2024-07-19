@@ -4,6 +4,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
 import { Provider } from "next-auth/providers";
 import { prisma } from "../db";
+import CryptoJS from "crypto-js";
+import { env } from "../../env/server.mjs";
 
 export async function isAuthorized() {
   const session = await getServerSession();
@@ -61,4 +63,17 @@ export async function isDiscordLinked() {
     },
   });
   return !!discord;
+}
+
+export async function issueToken() {
+  const user = await getUser();
+  return CryptoJS.AES.encrypt(
+    JSON.stringify({
+      id: user!.id,
+      passwordHash: user!.passwordHash,
+      issuedAt: Date.now(),
+    }),
+    CryptoJS.enc.Utf8.parse(env.TOKEN_ENCRYPTION_KEY),
+    { iv: CryptoJS.enc.Utf8.parse(env.TOKEN_ENCRYPTION_KEY) }
+  ).toString();
 }
