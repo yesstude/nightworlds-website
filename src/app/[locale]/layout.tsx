@@ -30,12 +30,12 @@ export default async function RootLayout({
 }) {
   const { locale } = await params;
 
-  if (!(await getCurrentSession()).session) {
-    const url = (await headers()).get("x-url") ?? "/";
-    return redirect(
-      "/api/generate-session?redirect=" + encodeURIComponent(url)
-    );
-  }
+  // if (!(await getCurrentSession()).session) {
+  //   const url = (await headers()).get("x-url") ?? "/";
+  //   return redirect(
+  //     "/api/generate-session?redirect=" + encodeURIComponent(url)
+  //   );
+  // }
 
   const messages = await getMessages();
 
