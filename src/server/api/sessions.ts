@@ -134,3 +134,27 @@ export const getCurrentSession = async (): Promise<SessionValidationResult> => {
 export async function invalidateSession(sessionId: string): Promise<void> {
   await db.delete(sessionsTable).where(eq(sessionsTable.id, sessionId));
 }
+
+export async function authorizeSession(sessionId: string, userId: string) {
+  await db
+    .update(sessionsTable)
+    .set({ userId, loggedAt: new Date() })
+    .where(eq(sessionsTable.id, sessionId));
+}
+
+export async function getSession() {
+  return (await getCurrentSession()).session;
+}
+
+export async function getMe() {
+  return (await getCurrentSession()).user;
+}
+
+export async function getMySessions() {
+  const me = await getMe();
+  const sessions = await db
+    .select()
+    .from(sessionsTable)
+    .where(eq(sessionsTable.userId, me!.id));
+  return sessions;
+}

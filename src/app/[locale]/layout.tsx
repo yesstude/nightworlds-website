@@ -30,12 +30,12 @@ export default async function RootLayout({
 }) {
   const { locale } = await params;
 
-  // if (!(await getCurrentSession()).session) {
-  //   const url = (await headers()).get("x-url") ?? "/";
-  //   return redirect(
-  //     "/api/generate-session?redirect=" + encodeURIComponent(url)
-  //   );
-  // }
+  if (!(await getCurrentSession()).session) {
+    const url = (await headers()).get("x-url") ?? "/";
+    return redirect(
+      "/api/generate-session?redirect=" + encodeURIComponent(url)
+    );
+  }
 
   const messages = await getMessages();
 
@@ -45,11 +45,10 @@ export default async function RootLayout({
         <html lang={locale}>
           <body className={`${cygre.className}`}>
             {children}
-            <p className="mt-8 text-center text-foreground/50">
+            {/* <p className="mt-8 text-center text-foreground/50">
               <span>ИНН 434584407807</span>
-              {/* <span>| Договор-оферта, политика конфиденциальности, документы</span> */}
               <span> | © 2024</span>
-            </p>
+            </p> */}
           </body>
         </html>
       </MaterialSymbolsProvider>

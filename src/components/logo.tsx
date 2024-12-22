@@ -5,9 +5,9 @@ import { Button } from "./ui/button";
 import logo from "../assets/logo.svg";
 import Image from "next/image";
 
-export function Logo() {
+export function Logo(props: { className?: string }) {
   return (
-    <Link href="/">
+    <Link href="/" className={props.className}>
       <div className="flex h-full place-items-center gap-2">
         <Image
           src={logo}

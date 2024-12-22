@@ -10,6 +10,7 @@ export const serverSchema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("production"),
   DISCORD_ID: z.string(),
   DISCORD_SECRET: z.string(),
+  TELEGRAM_BOT_TOKEN: z.string(),
   TOKEN_ENCRYPTION_KEY: z.string(),
 });
 
@@ -23,6 +24,7 @@ export const serverEnv = {
   NODE_ENV: process.env.NODE_ENV,
   DISCORD_ID: process.env.DISCORD_ID,
   DISCORD_SECRET: process.env.DISCORD_SECRET,
+  TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
   TOKEN_ENCRYPTION_KEY: process.env.TOKEN_ENCRYPTION_KEY,
 };
 

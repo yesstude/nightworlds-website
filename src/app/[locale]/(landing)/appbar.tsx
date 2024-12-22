@@ -5,19 +5,19 @@ import { Logo } from "~/components/logo";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 
-export function TopBar() {
+export function LandingAppBar() {
   return (
     <>
-      <div className="fixed z-50 w-full bg-background print:relative">
-        <div className="flex h-[80px] w-full place-items-center bg-secondary/5 px-4 shadow-md">
+      <div className="fixed z-50 w-full rounded-b-[24px] bg-background print:relative">
+        <div className="flex h-[80px] w-full place-items-center rounded-b-[24px] bg-secondary/5 px-4 shadow-md">
           <Logo />
           <div className="grow" />
           {/* <Link href="/signin"> */}
           <Button
-            disabled
             size="bg"
             variant="filled"
             className="hidden md:block"
+            disabled
           >
             <span>Начать игру</span>
             <Icon
@@ -28,10 +28,10 @@ export function TopBar() {
             />
           </Button>
           <Button
-            disabled
             size="bg"
             variant="filled"
             className="block md:hidden"
+            disabled
           >
             <Icon icon="play_arrow" size={32} />
           </Button>
