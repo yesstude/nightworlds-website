@@ -33,7 +33,12 @@ export const metadata: Metadata = {
   other: {
     "theme-color": "#542369",
   },
-  icons: [{ url: "/favicon.svg" }],
+  icons: [
+    { url: "/favicon-96x96.png", sizes: "96x96" },
+    { url: "/favicon.svg", type: "image/svg+xml" },
+    { url: "/favicon.ico", rel: "shortcut icon" },
+    { url: "/apple-touch-icon.png", rel: "apple-touch-icon", sizes: "180x180" },
+  ],
   openGraph: {
     type: "website",
     siteName: "NightWorlds",
