@@ -34,6 +34,12 @@ export const metadata: Metadata = {
     "theme-color": "#542369",
   },
   icons: [{ url: "/favicon.svg" }],
+  openGraph: {
+    type: "website",
+    siteName: "NightWorlds",
+    title: "NightWorlds",
+    description: "Сеть Minecraft серверов, направленных на выживание",
+  },
 };
 
 export default async function RootLayout({
