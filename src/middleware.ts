@@ -1,9 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
-import { env } from "./env/server.mjs";
-
-const locales = ["en", "ru", "uk"];
+import { encodeBase32LowerCaseNoPadding } from "@oslojs/encoding";
 
 export default async (req: NextRequest) => {
   // CSRF Protection
@@ -40,6 +38,28 @@ export default async (req: NextRequest) => {
     !["api", "_next", "favicon"].find((v) =>
       new URL(req.url).pathname.startsWith(`/${v}`)
     )
-  )
-    return createMiddleware(routing)(req);
+  ) {
+    const res = createMiddleware(routing)(req);
+
+    if (!req.cookies.has("session")) {
+      const token = await generateSessionToken();
+
+      res.cookies.set("session", token, {
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+        path: "/",
+      });
+    }
+
+    return res;
+  }
 };
+
+export async function generateSessionToken(): Promise<string> {
+  const bytes = new Uint8Array(20);
+  crypto.getRandomValues(bytes);
+  const token = encodeBase32LowerCaseNoPadding(bytes);
+  return token;
+}

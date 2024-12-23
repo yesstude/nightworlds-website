@@ -47,6 +47,14 @@ export async function generateSessionToken(): Promise<string> {
   return token;
 }
 
+export async function createSessionIfNone(
+  ...params: Parameters<typeof createSession>
+) {
+  const r = await validateSessionToken(params[0]);
+  if (r.session) return;
+  createSession(...params);
+}
+
 export async function createSession(
   token: string,
   type: Session["type"],

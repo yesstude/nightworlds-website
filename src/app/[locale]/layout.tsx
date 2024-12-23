@@ -1,5 +1,8 @@
-import { getCurrentSession } from "../../server/api/sessions";
-import { headers } from "next/headers";
+import {
+  createSessionIfNone,
+  getCurrentSession,
+} from "../../server/api/sessions";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
@@ -8,13 +11,25 @@ import cygre from "../../fonts/cygre/cygre";
 
 import "~/styles/globals.css";
 import { MaterialSymbolsProvider } from "./material-symbols-provider";
+import { env } from "~/env/server.mjs";
 
 export const metadata: Metadata = {
   title: "NightWorlds",
   applicationName: "NightWorlds",
-  creator: "NightWorlds",
-  publisher: "NightWorlds",
+  creator: "NightLight Communities",
+  publisher: "NightLight Communities",
   description: "Сеть Minecraft серверов, направленных на выживание",
+  keywords: [
+    "NW",
+    "NightWorld",
+    "НВ",
+    "найтворлд",
+    "найтворлдс",
+    "НВм",
+    "майнкрафт",
+    "выживание",
+    "приватный сервер",
+  ],
   other: {
     "theme-color": "#542369",
   },
@@ -30,10 +45,22 @@ export default async function RootLayout({
 }) {
   const { locale } = await params;
 
-  if (!(await getCurrentSession()).session) {
-    const url = (await headers()).get("x-url") ?? "/";
-    return redirect(
-      "/api/generate-session?redirect=" + encodeURIComponent(url)
+  const cs = await cookies();
+
+  if (cs.has("session")) {
+    const hs = await headers();
+    const forwarded =
+      env.NODE_ENV == "production"
+        ? hs.get("x-forwarded-for")
+        : "162.158.154.215"; // Some random Cloudflare IP for testing
+    const ip = forwarded ? forwarded.split(/, /)[0] : undefined;
+
+    await createSessionIfNone(
+      cs.get("session")!.value,
+      "web",
+      undefined,
+      ip,
+      hs.get("user-agent") ?? undefined
     );
   }
 
@@ -43,13 +70,7 @@ export default async function RootLayout({
     <NextIntlClientProvider messages={messages}>
       <MaterialSymbolsProvider>
         <html lang={locale}>
-          <body className={`${cygre.className}`}>
-            {children}
-            {/* <p className="mt-8 text-center text-foreground/50">
-              <span>ИНН 434584407807</span>
-              <span> | © 2024</span>
-            </p> */}
-          </body>
+          <body className={`${cygre.className}`}>{children}</body>
         </html>
       </MaterialSymbolsProvider>
     </NextIntlClientProvider>

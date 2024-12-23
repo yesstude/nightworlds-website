@@ -33,6 +33,7 @@ const buttonVariants = cva(
         sm: "h-9 rounded-[100px]",
         bg: "font-bold text-md h-[50px] rounded-[100px]",
         extended_fab: "h-14 rounded-[16px]",
+        fab: "h-14 rounded-[16px]",
         icon: "h-10 w-10 rounded-full",
       },
     },
@@ -49,6 +50,7 @@ const sizePaddings: {
   sm: "px-4",
   bg: "px-6",
   extended_fab: "px-6",
+  fab: "px-4",
   icon: "",
 };
 
@@ -66,27 +68,28 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     let cname = cn(buttonVariants({ variant, size, className }));
 
-    if (!props.noripple) {
-      const Ripple = createRipples(
-        props.ripples ?? { during: 1000, color: "rgba(0, 0, 0, .2)" }
-      );
-      props.children = (
-        <Ripple
-          className={
-            "inline-flex h-full w-full items-center justify-center gap-2 whitespace-nowrap " +
-            sizePaddings[size ?? "default"]
-          }
-          onClick={props.onClick as any}
-        >
-          {props.children}
-        </Ripple>
-      );
-    } else
-      cname +=
-        " inline-flex items-center justify-center gap-2 whitespace-nowrap " +
-        sizePaddings[size ?? "default"];
+    const Ripple = createRipples({
+      during: props.noripple ? 0 : 1000,
+      color: "rgba(0, 0, 0, .2)",
+      onClick: props.onClick as any,
+      className:
+        "inline-flex h-full w-full items-center justify-center gap-2 whitespace-nowrap " +
+        sizePaddings[size ?? "default"],
+      ...props.ripples,
+    });
+    // if (props.noripple)
+    //   cname +=
+    //     " inline-flex items-center justify-center gap-2 whitespace-nowrap " +
+    //     sizePaddings[size ?? "default"];
 
-    return <Comp className={cname} ref={ref} {...props} />;
+    return (
+      <Comp
+        className={cname}
+        ref={ref}
+        {...props}
+        children={<Ripple>{props.children}</Ripple>}
+      />
+    );
   }
 );
 Button.displayName = "Button";
