@@ -3,7 +3,6 @@ import {
   getCurrentSession,
 } from "../../server/api/sessions";
 import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -16,6 +15,7 @@ import { env } from "~/env/server.mjs";
 export const metadata: Metadata = {
   title: "NightWorlds",
   applicationName: "NightWorlds",
+  authors: { name: "NightLight Communities" },
   creator: "NightLight Communities",
   publisher: "NightLight Communities",
   description: "Сеть Minecraft серверов, направленных на выживание",
