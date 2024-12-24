@@ -28,7 +28,7 @@ export default async function HomePage() {
     <>
       <div className="mb-24 flex max-w-[600px] flex-col place-items-center gap-2 rounded-[48px] bg-foreground/5 px-8 py-16 md:mt-16">
         <Icon icon="timer" className="mb-8" size={48} />
-        <div className="text-center text-[18px] font-medium leading-relaxed tracking-wide text-foreground/80 subpixel-antialiased [&_h2]:mb-4 [&_h2]:text-[32px] [&_h2]:font-bold [&_h2]:leading-tight [&_h2]:tracking-normal [&_h2]:text-foreground">
+        <div className="text-center text-[18px] font-medium leading-relaxed tracking-wide text-foreground/80 subpixel-antialiased [&_h1]:mb-4 [&_h1]:text-[32px] [&_h1]:font-bold [&_h1]:leading-tight [&_h1]:tracking-normal [&_h1]:text-foreground">
           <h1>Придется подождать...</h1>
           <p>
             NightWorlds в данный момент находится в стадии обновления. К
@@ -110,7 +110,7 @@ function FeatureBox(props: {
         alt={props.alt}
       />
       <div className={props.reverse ? "order-1" : ""} />
-      <div className="col-span-3 flex flex-col justify-center text-[18px] font-medium leading-relaxed tracking-wide text-foreground/80 subpixel-antialiased [&_h2]:mb-4 [&_h2]:text-[32px] [&_h2]:font-bold [&_h2]:leading-tight [&_h2]:tracking-normal [&_h2]:text-foreground">
+      <div className="col-span-3 flex flex-col justify-center text-[18px] font-medium leading-relaxed tracking-wide text-foreground/80 subpixel-antialiased [&_h1]:mb-4 [&_h1]:text-[32px] [&_h1]:font-bold [&_h1]:leading-tight [&_h1]:tracking-normal [&_h1]:text-foreground">
         {props.children}
       </div>
     </div>
