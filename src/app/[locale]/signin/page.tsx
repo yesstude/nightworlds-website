@@ -2,6 +2,20 @@ import { getMe } from "~/server/api/sessions";
 import TelegramWidget from "./tgwidget";
 import { redirect } from "next/navigation";
 import { Icon } from "~/components/ui/icon";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Авторизация",
+  description:
+    "Войдите в свой аккаунт, чтобы получить доступ к полному функционалу веб-сайта и игровых серверов NightWorlds",
+  openGraph: {
+    type: "website",
+    siteName: "NightWorlds",
+    title: "Авторизация в NightWorlds",
+    description:
+      "Войдите в свой аккаунт, чтобы получить доступ к полному функционалу веб-сайта и игровых серверов NightWorlds",
+  },
+};
 
 export default async function SignInPage() {
   const user = await getMe();

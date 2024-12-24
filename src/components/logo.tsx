@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "./ui/button";
-import logo from "../assets/logo.svg";
 import Image from "next/image";
+import Link from "next/link";
+import logo from "../assets/logo.svg";
 
 export function Logo(props: { className?: string }) {
   return (
@@ -11,7 +10,7 @@ export function Logo(props: { className?: string }) {
       <div className="flex h-full place-items-center gap-2">
         <Image
           src={logo}
-          alt="NightWorlds"
+          alt="Cuboid moon logo"
           width={42}
           loading="eager"
           // className="brightness-125"

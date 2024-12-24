@@ -1,5 +1,19 @@
 import React from "react";
 import Documents from "./documents";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Документы",
+  description:
+    "Публичная оферта, политика конфиденциальности и прочие документы, необходимые для предоставления услуг",
+  openGraph: {
+    type: "article",
+    siteName: "NightWorlds",
+    title: "Документы NightWorlds",
+    description:
+      "Публичная оферта, политика конфиденциальности и прочие документы, необходимые для предоставления услуг",
+  },
+};
 
 export default function DocumentsPage() {
   return (

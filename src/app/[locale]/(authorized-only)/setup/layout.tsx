@@ -1,6 +1,11 @@
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { ReactNode, Suspense } from "react";
 import { getMe } from "~/server/api/sessions";
+
+export const metadata: Metadata = {
+  title: "Первоначальная настройка аккаунта",
+};
 
 export default async function AccountSetupLayout({
   children,

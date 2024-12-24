@@ -8,6 +8,20 @@ import simplicity from "~/assets/homepage/simplicity.webp";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Minecraft-сервер, посвященный выживанию",
+  description:
+    "Возводите удивительные постройки, общайтесь с игроками и выживайте в мирах с уникальными игровыми режимами, разработанными специально для NightWorlds",
+  openGraph: {
+    type: "website",
+    siteName: "NightWorlds",
+    title: "Minecraft-сервер, посвященный выживанию",
+    description:
+      "Возводите удивительные постройки, общайтесь с игроками и выживайте в мирах с уникальными игровыми режимами, разработанными специально для NightWorlds",
+  },
+};
 
 export default async function HomePage() {
   return (

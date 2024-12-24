@@ -13,7 +13,7 @@ import { MaterialSymbolsProvider } from "./material-symbols-provider";
 import { env } from "~/env/server.mjs";
 
 export const metadata: Metadata = {
-  title: "NightWorlds",
+  title: "NightWorlds - сервера по выживанию",
   applicationName: "NightWorlds",
   authors: { name: "NightLight Communities" },
   creator: "NightLight Communities",
