@@ -29,7 +29,7 @@ export default async function HomePage() {
       <div className="mb-24 flex max-w-[600px] flex-col place-items-center gap-2 rounded-[48px] bg-foreground/5 px-8 py-16 md:mt-16">
         <Icon icon="timer" className="mb-8" size={48} />
         <div className="text-center text-[18px] font-medium leading-relaxed tracking-wide text-foreground/80 subpixel-antialiased [&_h2]:mb-4 [&_h2]:text-[32px] [&_h2]:font-bold [&_h2]:leading-tight [&_h2]:tracking-normal [&_h2]:text-foreground">
-          <h2>Придется подождать...</h2>
+          <h1>Придется подождать...</h1>
           <p>
             NightWorlds в данный момент находится в стадии обновления. К
             сожалению, поиграть пока не получится. Мы обязательно объявим о
@@ -53,7 +53,7 @@ export default async function HomePage() {
       </div>
       <div className="flex max-w-[1400px] flex-col gap-16 px-8 py-8 md:px-20">
         <FeatureBox img={build} alt="Two players building a tower" reverse>
-          <h2>Стройте удивительные вещи</h2>
+          <h1>Стройте удивительные вещи</h1>
           <p>
             Правила сервера созданы таким образом, чтобы позволить игрокам
             строить всё, что они хотят. Вы можете построить статую,
@@ -62,7 +62,7 @@ export default async function HomePage() {
           </p>
         </FeatureBox>
         <FeatureBox img={communicate} alt="Two players trading">
-          <h2>Общайтесь с игроками</h2>
+          <h1>Общайтесь с игроками</h1>
           <p>
             Один из главных приоритетов NightWorlds – это люди. Это правило
             работает во всех наших мирах. Вместе мы можем сделать всё!
@@ -83,7 +83,7 @@ export default async function HomePage() {
           </div>
         </FeatureBox>
         <FeatureBox img={simplicity} alt="Minimalistic building" reverse>
-          <h2>Сила в простоте</h2>
+          <h1>Сила в простоте</h1>
           <p>
             Мы любим минимализм. В простоте настоящая сила! Здесь вы не увидите
             страницы с дизайном из 2007 года. Также, мы не показываем целые
