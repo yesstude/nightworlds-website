@@ -27,6 +27,8 @@ body {
     --background: 348 56% 98%; /* surface */
     --foreground: 287 15% 12%; /* on-surface */
     --border: 291 3% 47%; /* outline */
+    --destructive: 0 75% 42% /* error */;
+    --destructive-foreground: 0 0% 100% /* on-error */;
 
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -36,8 +38,6 @@ body {
     --muted-foreground: 0 0% 45.1%;
     --accent: 0 0% 96.1%;
     --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
     --chart-1: 12 76% 61%;
@@ -55,6 +55,8 @@ body {
     --background: 287 21% 8%;
     --foreground: 348 9% 89%;
     --border: 300 3% 57%;
+    --destructive: 6 100% 84%;
+    --destructive-foreground: 357 100% 21%;
 
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
@@ -64,8 +66,6 @@ body {
     --muted-foreground: 0 0% 63.9%;
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
     --chart-1: 220 70% 50%;

@@ -15,6 +15,9 @@ export const autocuid = (name: string) =>
 export const usersTable = table("user", {
   id: autocuid("id").notNull().primaryKey(),
   isSetUp: boolean("is_set_up").default(false).notNull(),
+  licenseType: varchar("license_type", { length: 16 }).$type<
+    "online" | "partial" | "offline"
+  >(),
   nickname: varchar("nickname", { length: 32 }).unique(),
   passwordHash: varchar("password_hash", { length: 64 }),
   registeredAt: datetime("registered_at")

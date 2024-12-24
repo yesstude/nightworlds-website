@@ -13,6 +13,7 @@ export function Logo(props: { className?: string }) {
           src={logo}
           alt="NightWorlds"
           width={42}
+          loading="eager"
           // className="brightness-125"
         />
         <span className="mt-1 text-[24px] font-bold text-foreground">

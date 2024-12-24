@@ -1,0 +1,12 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/shyim/devcontainers-features/bun:0": {}
+  },
+  "postStartCommand": "./start-database.sh",
+  "portsAttributes": {
+    "3000": {
+      "label": "next"
+    }
+  }
+}

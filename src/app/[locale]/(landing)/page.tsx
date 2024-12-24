@@ -90,6 +90,7 @@ function FeatureBox(props: {
   return (
     <div className="w-full grid-cols-7 lg:grid">
       <Image
+        loading="eager"
         className={`col-span-3 mb-8 lg:mb-0 ${props.reverse ? "order-2" : ""}`}
         src={props.img}
         alt={props.alt}

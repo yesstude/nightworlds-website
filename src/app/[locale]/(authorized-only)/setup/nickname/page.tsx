@@ -1,0 +1,130 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ReactNode, useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
+import { Button } from "~/components/ui/button";
+import { Icon } from "~/components/ui/icon";
+import { Input } from "~/components/ui/input";
+import {
+  checkNicknameAvailability,
+  NicknameAvailability,
+} from "~/server/api/account";
+import { setNicknameAction } from "./actions";
+
+export default function SetupPage() {
+  const [allowContinue, setAllowContinue] = useState(false);
+  const [error, setError] = useState<NicknameAvailability | undefined>();
+
+  const [input, setInput] = useState("");
+  const [nickname] = useDebounce(input, 1000);
+
+  useEffect(() => {
+    if (nickname.length == 0) return;
+    checkNicknameAvailability(nickname).then((res) => {
+      if (res == "available") {
+        setAllowContinue(true);
+        setError(undefined);
+      } else setError(res);
+    });
+  }, [nickname]);
+
+  const router = useRouter();
+
+  return (
+    <>
+      <Icon icon="text_select_start" size={48} />
+      <div>
+        <h1>Игровой никнейм</h1>
+        <p>
+          Вы должны будете использовать именно этот никнейм при входе в игру
+        </p>
+      </div>
+      <form
+        action={setNicknameAction}
+        className="flex w-full grow flex-col gap-4"
+      >
+        <div className="flex w-full grow flex-col text-left text-sm [&_span]:mx-4">
+          <Input
+            pattern="[A-Za-z0-9_]{3,16}"
+            style={{
+              borderColor: error ? `hsl(var(--destructive))` : undefined,
+              borderBottomWidth: error ? `3px` : undefined,
+            }}
+            aria-invalid={error != undefined}
+            required
+            type="text"
+            placeholder="Ваш никнейм"
+            name="nickname"
+            onInput={(e) => {
+              setAllowContinue(false);
+              setInput(e.currentTarget.value);
+            }}
+          />
+          <ErrorMessage current={error} error="invalid">
+            Никнейм содержит недопустимые символы
+          </ErrorMessage>
+          <ErrorMessage current={error} error="too-short">
+            Никнейм не может быть короче 3 символов
+          </ErrorMessage>
+          <ErrorMessage current={error} error="too-long">
+            Никнейм не может быть длиннее 16 символов
+          </ErrorMessage>
+          <ErrorMessage current={error} error="contains-politics">
+            Мы подозреваем, что этот никнейм содержит какие-либо политические
+            символы или высказывания. Мы не одобряем политическую пропаганду или
+            обсуждение какой-либо реальной политики на игровых серверах.
+          </ErrorMessage>
+          <ErrorMessage current={error} error="nonlicensed">
+            Этот никнейм не лицензионный. Используйте свой лицензионный никнейм
+            либо{" "}
+            <Link className="underline" href="/setup/license">
+              смените способ авторизации
+            </Link>
+            .
+          </ErrorMessage>
+          <ErrorMessage current={error} error="licensed">
+            Этот никнейм лицензионный. Используйте нелицензионный никнейм или,
+            если он принадлежит вам,{" "}
+            <Link className="underline" href="/setup/license">
+              смените способ авторизации
+            </Link>
+            .
+          </ErrorMessage>
+          <ErrorMessage current={error} error="taken">
+            Этот никнейм уже используется на сервере. Используйте другой.
+          </ErrorMessage>
+        </div>
+        <div className="w-full bg-background sm:relative ">
+          <div className="w-full bg-foreground/5 sm:p-0 [&_>_button]:w-full">
+            <Button size="extended_fab" disabled={!allowContinue} type="submit">
+              Установить
+            </Button>
+          </div>
+        </div>
+      </form>
+    </>
+  );
+}
+
+function ErrorMessage({
+  children,
+  error,
+  current: status,
+}: {
+  children: ReactNode;
+  error: NicknameAvailability;
+  current?: NicknameAvailability;
+}) {
+  return (
+    <span
+      className={
+        "text-destructive transition-opacity " +
+        (error != status ? "max-h-0 overflow-hidden opacity-0" : "mt-2")
+      }
+    >
+      {children}
+    </span>
+  );
+}
