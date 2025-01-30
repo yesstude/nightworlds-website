@@ -36,7 +36,7 @@ export default async function LandingFooter() {
       <div className="flex rounded-b-[24px] bg-foreground/5 px-6 py-4 shadow-sm">
         <span>ИНН 434584407807</span>
         <div className="grow" />
-        <span>© 2024</span>
+        <span>© 2025</span>
       </div>
     </div>
   );
