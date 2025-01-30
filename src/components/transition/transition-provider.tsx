@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   Dispatch,
   ReactNode,
@@ -12,28 +12,38 @@ import {
   useState,
 } from "react";
 
-export type Transition = "fade-out";
+export type Transition = "emphasized-fade";
+export type TransitionData = {
+  name: Transition;
+  inTime: number;
+  outTime: number;
+};
+export const TRANSITIONS: { [key in Transition]: TransitionData } = {
+  "emphasized-fade": {
+    name: "emphasized-fade",
+    outTime: 200,
+    inTime: 400,
+  },
+};
 
 interface TransitionContext {
-  animation: React.MutableRefObject<Transition | null>;
+  transition: React.MutableRefObject<Transition | null>;
   className: string;
   setClassName: Dispatch<SetStateAction<string>>;
 }
 
 const TransitionContext = createContext<TransitionContext | null>(null);
 
-const TRANSITION_DURATION = 400;
-
 export function TransitionProvider({ children }: { children: ReactNode }) {
   const [className, setClassName] = useState("");
-  const animation = useRef<Transition | null>(null);
+  const transition = useRef<Transition | null>(null);
 
   return (
     <TransitionContext.Provider
       value={{
         className,
         setClassName,
-        animation,
+        transition,
       }}
     >
       {children}
@@ -69,40 +79,42 @@ export function useTransitions() {
   }
 
   useEffect(() => {
-    fadeIntoViewport();
+    transitionIntoViewport();
   }, [pathname]);
 
   const context = transitionContext;
 
-  function fadeOut() {
-    return animate("fade-out", context);
+  function emphasizedFadeOut() {
+    return runTransition("emphasized-fade", context);
   }
 
-  function fadeIntoViewport() {
-    if (context.animation.current) {
-      const animation = getInAnimation(context.animation.current);
-      context.setClassName(animation);
-      setTimeout(() => context.setClassName(""), TRANSITION_DURATION);
+  function transitionIntoViewport() {
+    if (context.transition.current) {
+      const cssAnim = getCSSAnimation(context.transition.current, "in");
+      context.setClassName(cssAnim.className);
+      setTimeout(() => context.setClassName(""), cssAnim.duration);
     }
   }
 
-  return { fadeOut, fadeIntoViewport };
+  return { emphasizedFadeOut, transitionIntoViewport };
 }
 
-function getOutAnimation(animation: Transition) {
-  return `animate-${animation}-out`;
+function getCSSAnimation(
+  transition: Transition,
+  direction: "in" | "out"
+): { duration: number; className: string } {
+  return {
+    className: `animate-${transition}-${direction}`,
+    duration: TRANSITIONS[transition][`${direction}Time`],
+  };
 }
 
-function getInAnimation(animation: Transition) {
-  return `animate-${animation}-in`;
-}
-
-function animate(animation: Transition, context: TransitionContext) {
+function runTransition(transition: Transition, context: TransitionContext) {
   return new Promise((resolve) => {
-    const className = getOutAnimation(animation);
-    context.setClassName(className);
-    context.animation.current = animation;
+    const cssAnim = getCSSAnimation(transition, "out");
+    context.setClassName(cssAnim.className);
+    context.transition.current = transition;
 
-    setTimeout(resolve, TRANSITION_DURATION);
+    setTimeout(resolve, cssAnim.duration);
   });
 }

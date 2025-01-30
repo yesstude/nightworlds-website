@@ -28,7 +28,7 @@ function generateOnClick(
       // if (event.defaultPrevented) return;
       if (!dontPrevent) event.preventDefault();
       transitions
-        .fadeOut()
+        .emphasizedFadeOut()
         .then(() => router.push(formattedhref))
         .then(() => {
           window.scrollTo({ top: 0, behavior: "instant" });
