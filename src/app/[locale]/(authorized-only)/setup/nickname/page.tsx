@@ -34,6 +34,12 @@ export default function SetupPage() {
   const router = useRouter();
   const transitions = useTransitions();
 
+  useEffect(() => {
+    router.prefetch("/setup/license");
+    router.prefetch("/setup/password");
+    router.prefetch("/setup/finish");
+  }, []);
+
   return (
     <>
       <Icon icon="text_select_start" size={48} />

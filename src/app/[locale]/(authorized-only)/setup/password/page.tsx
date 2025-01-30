@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { memo, ReactNode, useState } from "react";
+import { memo, ReactNode, useEffect, useState } from "react";
 import { useTransitions } from "~/components/transition/transition-provider";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
@@ -16,6 +16,10 @@ export default function SetupPage() {
 
   const router = useRouter();
   const transitions = useTransitions();
+
+  useEffect(() => {
+    router.prefetch("/setup/finish");
+  }, []);
 
   return (
     <>
