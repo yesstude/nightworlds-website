@@ -13,13 +13,17 @@ function generateOnClick(
   const transitions = useTransitions();
   const router = useRouter();
   let pathname = usePathname();
-  if (pathname.split("/")[1]?.length == 2) pathname = pathname.slice(3);
+  if (pathname.startsWith("/") && pathname.split("/")[1]?.length == 2)
+    pathname = pathname.slice(3);
+  // if (href.startsWith("/") && href.split("/")[1]?.length == 2)
+  //   href = href.slice(3);
   const current = new URL(pathname, "http://localhost").pathname;
   const formattedhref = new URL(href, "http://localhost").pathname;
 
   if (transitions && current != formattedhref) {
     // const defaultOnClick = props.onClick;
     const onClick: MouseEventHandler<HTMLElement> = async (event) => {
+      // alert(JSON.stringify({ current, formattedhref }));
       await defaultOnClick?.(event);
       // if (event.defaultPrevented) return;
       if (!dontPrevent) event.preventDefault();
@@ -27,7 +31,7 @@ function generateOnClick(
         .fadeOut()
         .then(() => router.push(formattedhref))
         .then(() => {
-          window.scrollTo({ top: 0 });
+          window.scrollTo({ top: 0, behavior: "instant" });
         });
     };
     return onClick;
@@ -45,7 +49,10 @@ export default function Link(
   return <a {...props} />;
 }
 
-const MemoButton = memo(Button, (prev, next) => prev.disabled == next.disabled);
+const MemoButton = memo(
+  Button,
+  (prev, next) => prev.disabled == next.disabled && prev.onClick == next.onClick
+);
 
 export function LinkButton(
   dprops: Parameters<typeof MemoButton>[0] & { href: string }
