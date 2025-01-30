@@ -1,12 +1,13 @@
 "use client";
 
-import { useTransitions } from "./transition-provider";
+import { Transition, useTransitions } from "./transition-provider";
 import { usePathname, useRouter } from "next/navigation";
 import { AnchorHTMLAttributes, MouseEventHandler, memo } from "react";
 import { Button } from "../ui/button";
 
 function generateOnClick(
   href: string,
+  transition?: Transition,
   defaultOnClick?: MouseEventHandler<HTMLElement>,
   dontPrevent?: boolean
 ) {
@@ -28,7 +29,7 @@ function generateOnClick(
       // if (event.defaultPrevented) return;
       if (!dontPrevent) event.preventDefault();
       transitions
-        .emphasizedFadeOut()
+        .transitionOut(transition ?? "emphasized-fade")
         .then(() => router.push(formattedhref))
         .then(() => {
           window.scrollTo({ top: 0, behavior: "instant" });
@@ -40,11 +41,14 @@ function generateOnClick(
 }
 
 export default function Link(
-  dprops: AnchorHTMLAttributes<HTMLAnchorElement> & { href: string }
+  dprops: AnchorHTMLAttributes<HTMLAnchorElement> & {
+    href: string;
+    transition?: Transition;
+  }
 ) {
   let props = { ...dprops };
 
-  props.onClick = generateOnClick(props.href, props.onClick);
+  props.onClick = generateOnClick(props.href, props.transition, props.onClick);
 
   return <a {...props} />;
 }
@@ -55,11 +59,19 @@ const MemoButton = memo(
 );
 
 export function LinkButton(
-  dprops: Parameters<typeof MemoButton>[0] & { href: string }
+  dprops: Parameters<typeof MemoButton>[0] & {
+    href: string;
+    transition?: Transition;
+  }
 ) {
   let props = { ...dprops };
 
-  props.onClick = generateOnClick(props.href, props.onClick, true);
+  props.onClick = generateOnClick(
+    props.href,
+    props.transition,
+    props.onClick,
+    true
+  );
   if (props.disabled) props.onClick = undefined;
 
   return <MemoButton {...props} />;

@@ -1,17 +1,18 @@
 "use client";
 
-import Link from "next/link";
+import Link from "~/components/transition/link";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
+import { useTransitions } from "~/components/transition/transition-provider";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
 import {
-  checkNicknameAvailability,
   NicknameAvailability,
+  checkNicknameAvailability,
+  setNickname,
 } from "~/server/api/account";
-import { setNicknameAction } from "./actions";
 
 export default function SetupPage() {
   const [allowContinue, setAllowContinue] = useState(false);
@@ -31,6 +32,7 @@ export default function SetupPage() {
   }, [nickname]);
 
   const router = useRouter();
+  const transitions = useTransitions();
 
   return (
     <>
@@ -41,10 +43,7 @@ export default function SetupPage() {
           Вы должны будете использовать именно этот никнейм при входе в игру
         </p>
       </div>
-      <form
-        action={setNicknameAction}
-        className="flex w-full grow flex-col gap-4"
-      >
+      <div className="flex w-full grow flex-col gap-4">
         <div className="flex w-full grow flex-col text-left text-sm [&_span]:mx-4">
           <Input
             pattern="[A-Za-z0-9_]{3,16}"
@@ -79,7 +78,11 @@ export default function SetupPage() {
           <ErrorMessage current={error} error="nonlicensed">
             Этот никнейм не лицензионный. Используйте свой лицензионный никнейм
             либо{" "}
-            <Link className="underline" href="/setup/license">
+            <Link
+              className="underline"
+              href="/setup/license"
+              transition="emphasized-right"
+            >
               смените способ авторизации
             </Link>
             .
@@ -87,7 +90,11 @@ export default function SetupPage() {
           <ErrorMessage current={error} error="licensed">
             Этот никнейм лицензионный. Используйте нелицензионный никнейм или,
             если он принадлежит вам,{" "}
-            <Link className="underline" href="/setup/license">
+            <Link
+              className="underline"
+              href="/setup/license"
+              transition="emphasized-right"
+            >
               смените способ авторизации
             </Link>
             .
@@ -98,12 +105,22 @@ export default function SetupPage() {
         </div>
         <div className="w-full bg-background sm:relative ">
           <div className="w-full bg-foreground/5 sm:p-0 [&_>_button]:w-full">
-            <Button size="extended_fab" disabled={!allowContinue} type="submit">
+            <Button
+              size="extended_fab"
+              disabled={!allowContinue}
+              onClick={() => {
+                if (!allowContinue) return;
+
+                setNickname(nickname)
+                  .then(transitions?.emphasizedLeftOut)
+                  .then(() => router.push("/setup/password"));
+              }}
+            >
               Установить
             </Button>
           </div>
         </div>
-      </form>
+      </div>
     </>
   );
 }

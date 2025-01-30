@@ -12,18 +12,28 @@ import {
   useState,
 } from "react";
 
-export type Transition = "emphasized-fade";
-export type TransitionData = {
-  name: Transition;
-  inTime: number;
-  outTime: number;
-};
-export const TRANSITIONS: { [key in Transition]: TransitionData } = {
+import "./emphasized-fade.css";
+import "./emphasized-left.css";
+import "./emphasized-right.css";
+
+export const TRANSITIONS = {
   "emphasized-fade": {
-    name: "emphasized-fade",
     outTime: 200,
     inTime: 400,
   },
+  "emphasized-left": {
+    outTime: 200,
+    inTime: 400,
+  },
+  "emphasized-right": {
+    outTime: 200,
+    inTime: 400,
+  },
+} satisfies { [key: string]: TransitionData };
+export type Transition = keyof typeof TRANSITIONS;
+export type TransitionData = {
+  inTime: number;
+  outTime: number;
 };
 
 interface TransitionContext {
@@ -84,10 +94,6 @@ export function useTransitions() {
 
   const context = transitionContext;
 
-  function emphasizedFadeOut() {
-    return runTransition("emphasized-fade", context);
-  }
-
   function transitionIntoViewport() {
     if (context.transition.current) {
       const cssAnim = getCSSAnimation(context.transition.current, "in");
@@ -96,7 +102,13 @@ export function useTransitions() {
     }
   }
 
-  return { emphasizedFadeOut, transitionIntoViewport };
+  return {
+    emphasizedFadeOut: () => runTransition("emphasized-fade", context),
+    emphasizedLeftOut: () => runTransition("emphasized-left", context),
+    emphasizedRightOut: () => runTransition("emphasized-right", context),
+    transitionOut: (which: Transition) => runTransition(which, context),
+    transitionIntoViewport,
+  };
 }
 
 function getCSSAnimation(

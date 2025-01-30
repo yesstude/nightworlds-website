@@ -1,13 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { MaterialSymbolProps } from "react-material-symbols";
+import { useTransitions } from "~/components/transition/transition-provider";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { setAccountSetUp } from "~/server/api/account";
 
 export default function SetupPage() {
   const router = useRouter();
+  const transitions = useTransitions();
 
   return (
     <>
@@ -22,7 +23,9 @@ export default function SetupPage() {
           <Button
             size="extended_fab"
             onClick={() => {
-              setAccountSetUp().then(() => router.push("/dashboard"));
+              setAccountSetUp()
+                .then(transitions?.emphasizedFadeOut)
+                .then(() => router.push("/dashboard"));
             }}
           >
             Продолжить

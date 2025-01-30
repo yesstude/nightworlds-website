@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MaterialSymbolProps } from "react-material-symbols";
+import { useTransitions } from "~/components/transition/transition-provider";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { setLicenseType } from "~/server/api/account";
@@ -11,6 +12,7 @@ import { User } from "~/server/db/schema";
 
 export default function SetupPage() {
   const [type, setType] = useState<undefined | User["licenseType"]>();
+  const transitions = useTransitions();
   const router = useRouter();
 
   useEffect(() => {
@@ -81,7 +83,9 @@ export default function SetupPage() {
             disabled={!type}
             onClick={() => {
               if (!type) return;
-              setLicenseType(type).then(() => router.push("/setup/nickname"));
+              setLicenseType(type)
+                .then(() => transitions?.transitionOut("emphasized-left"))
+                .then(() => router.push("/setup/nickname"));
             }}
           >
             Выбрать

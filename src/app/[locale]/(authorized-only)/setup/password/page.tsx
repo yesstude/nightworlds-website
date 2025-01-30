@@ -2,10 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { memo, ReactNode, useState } from "react";
+import { useTransitions } from "~/components/transition/transition-provider";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
-import { setPassword } from "./actions";
+import { setIngamePassword } from "~/server/api/account";
 
 export default function SetupPage() {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -14,6 +15,7 @@ export default function SetupPage() {
   const error = input.length > 0 && input.length < 5 ? "too-short" : undefined;
 
   const router = useRouter();
+  const transitions = useTransitions();
 
   return (
     <>
@@ -25,7 +27,7 @@ export default function SetupPage() {
           использовать только в игре для подтверждения своей личности.
         </p>
       </div>
-      <form action={setPassword} className="flex w-full grow flex-col gap-4">
+      <div className="flex w-full grow flex-col gap-4">
         <div className="flex w-full grow flex-col text-left text-sm [&_span]:mx-4">
           <div
             className={
@@ -79,13 +81,19 @@ export default function SetupPage() {
             <Button
               size="extended_fab"
               disabled={input.length < 5}
-              type="submit"
+              onClick={() => {
+                if (input.length < 5) return;
+
+                setIngamePassword(input)
+                  .then(transitions?.emphasizedLeftOut)
+                  .then(() => router.push("/setup/finish"));
+              }}
             >
               Установить
             </Button>
           </div>
         </div>
-      </form>
+      </div>
     </>
   );
 }
