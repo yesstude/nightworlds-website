@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function DocumentsPage() {
+export default async function DocumentsPage() {
   return (
     <div className="max-w-[1200px] flex-col gap-16 px-8 md:px-20">
       <h1 className="mb-4 text-[32px] font-bold leading-tight tracking-normal text-foreground">

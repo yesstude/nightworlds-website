@@ -11,6 +11,7 @@ import cygre from "../../fonts/cygre/cygre";
 import "~/styles/globals.css";
 import { MaterialSymbolsProvider } from "./material-symbols-provider";
 import { env } from "~/env/server.mjs";
+import { TransitionProvider } from "~/components/transition/transition-provider";
 
 export const metadata: Metadata = {
   title: "NightWorlds - сервера по выживанию",
@@ -81,7 +82,9 @@ export default async function RootLayout({
     <NextIntlClientProvider messages={messages}>
       <MaterialSymbolsProvider>
         <html lang={locale}>
-          <body className={`${cygre.className}`}>{children}</body>
+          <body className={`${cygre.className}`}>
+            <TransitionProvider>{children}</TransitionProvider>
+          </body>
         </html>
       </MaterialSymbolsProvider>
     </NextIntlClientProvider>

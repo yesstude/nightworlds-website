@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link, { LinkButton } from "~/components/transition/link";
 import { Logo } from "~/components/logo";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
@@ -12,11 +12,11 @@ export function LandingAppBar() {
         <div className="flex h-[80px] w-full place-items-center rounded-b-[24px] bg-secondary/5 px-4 shadow-md">
           <Logo />
           <div className="grow" />
-          {/* <Link href="/signin"> */}
-          <Button
+          <LinkButton
             size="bg"
             variant="filled"
             className="hidden md:block"
+            href="/signin"
             disabled
           >
             <span>Начать игру</span>
@@ -26,16 +26,16 @@ export function LandingAppBar() {
               size={32}
               weight={200}
             />
-          </Button>
-          <Button
+          </LinkButton>
+          <LinkButton
             size="bg"
             variant="filled"
             className="block md:hidden"
+            href="/signin"
             disabled
           >
             <Icon icon="play_arrow" size={32} />
-          </Button>
-          {/* </Link> */}
+          </LinkButton>
         </div>
       </div>
       <div className="h-[80px] print:hidden" />

@@ -10,10 +10,7 @@ const config = withNextIntl(
   withMDX({
     experimental: {
       serverActions: {
-        allowedOrigins: [
-          "stunning-cod-5p77wjx5653wg5-3000.app.github.dev",
-          "localhost:3000",
-        ],
+        allowedOrigins: ["*.cloudworkstations.dev", "localhost:3000"],
       },
     },
   })

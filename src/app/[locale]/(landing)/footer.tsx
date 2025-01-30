@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link, { LinkButton } from "~/components/transition/link";
 import { Logo } from "~/components/logo";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
@@ -25,16 +25,12 @@ export default async function LandingFooter() {
               <Icon icon="arrow_outward" size={12} className="-mr-1" />
             </Button>
           </Link>
-          <Link href="/documents">
-            <Button variant="text" size="sm">
-              Публичная оферта
-            </Button>
-          </Link>
-          <Link href="/documents">
-            <Button variant="text" size="sm">
-              Политика конфиденциальности
-            </Button>
-          </Link>
+          <LinkButton href="/documents" variant="text" size="sm">
+            Публичная оферта
+          </LinkButton>
+          <LinkButton href="/documents" variant="text" size="sm">
+            Политика конфиденциальности
+          </LinkButton>
         </div>
       </div>
       <div className="flex rounded-b-[24px] bg-foreground/5 px-6 py-4 shadow-sm">

@@ -28,13 +28,13 @@
     "Prisma.prisma"
   ]; 
 
-  idx.previews = {
-    enable = true;
-    previews = {
-      web = {
-        command = [ "bun" "run" "dev" "--" "--port" "$PORT" ];
-        manager = "web"; 
-      };
-    };
-  };
+  # idx.previews = {
+  #   enable = false;
+  #   previews = {
+  #     web = {
+  #       command = [ "bun" "run" "dev" "--" "--port" "$PORT" ];
+  #       manager = "web"; 
+  #     };
+  #   };
+  # };
 }

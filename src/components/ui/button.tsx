@@ -59,7 +59,7 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   ripples?: Partial<RipplesProps>;
-  noripple?: boolean;
+  noripple?: "true";
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -69,7 +69,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     let cname = cn(buttonVariants({ variant, size, className }));
 
     const Ripple = createRipples({
-      during: props.noripple ? 0 : 1000,
+      during: 1000,
       color: "rgba(0, 0, 0, .2)",
       onClick: props.onClick as any,
       className:
@@ -84,10 +84,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <Comp
-        className={cname}
+        className={
+          cname +
+          (props.noripple
+            ? " inline-flex items-center justify-center gap-2 whitespace-nowrap " +
+              sizePaddings[size ?? "default"]
+            : "")
+        }
         ref={ref}
         {...props}
-        children={<Ripple>{props.children}</Ripple>}
+        children={
+          props.noripple ? props.children : <Ripple>{props.children}</Ripple>
+        }
       />
     );
   }

@@ -26,7 +26,7 @@ export default function TelegramWidget() {
           authWithTelegramData
         );
       }}
-      disabled={bot_id.length == 0}
+      disabled={!bot_id || bot_id?.length == 0}
     >
       Войти с помощью Telegram
     </Button>

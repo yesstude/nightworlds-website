@@ -19,7 +19,6 @@ export type TelegramAuthData = {
 };
 
 export async function getTelegramBotId() {
-  if (env.NODE_ENV == "production") return "";
   return env.TELEGRAM_BOT_TOKEN.split(":")[0]!;
 }
 export async function checkTelegramDataIntegrity(data: TelegramAuthData) {

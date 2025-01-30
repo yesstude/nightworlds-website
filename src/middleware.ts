@@ -4,30 +4,30 @@ import { routing } from "./i18n/routing";
 import { encodeBase32LowerCaseNoPadding } from "@oslojs/encoding";
 
 export default async (req: NextRequest) => {
-  // CSRF Protection
-  if (req.method !== "GET") {
-    const originHeader = req.headers.get("Origin");
-    // NOTE: You may need to use `X-Forwarded-Host` instead
-    const hostHeader = req.headers.get("Host");
-    if (originHeader === null || hostHeader === null) {
-      return new NextResponse(null, {
-        status: 403,
-      });
-    }
-    let origin: URL;
-    try {
-      origin = new URL(originHeader);
-    } catch {
-      return new NextResponse(null, {
-        status: 403,
-      });
-    }
-    if (origin.host !== hostHeader) {
-      return new NextResponse(null, {
-        status: 403,
-      });
-    }
-  }
+  // // CSRF Protection
+  // if (req.method !== "GET") {
+  //   const originHeader = req.headers.get("Origin");
+  //   // NOTE: You may need to use `X-Forwarded-Host` instead
+  //   const hostHeader = req.headers.get("Host");
+  //   if (originHeader === null || hostHeader === null) {
+  //     return new NextResponse(null, {
+  //       status: 403,
+  //     });
+  //   }
+  //   let origin: URL;
+  //   try {
+  //     origin = new URL(originHeader);
+  //   } catch {
+  //     return new NextResponse(null, {
+  //       status: 403,
+  //     });
+  //   }
+  //   if (origin.host !== hostHeader) {
+  //     return new NextResponse(null, {
+  //       status: 403,
+  //     });
+  //   }
+  // }
 
   // URL and Pathname providers
   req.headers.set("x-url", req.url);
