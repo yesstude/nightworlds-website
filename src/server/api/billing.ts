@@ -1,15 +1,8 @@
 import { and, eq, gt, isNotNull, lt, or } from "drizzle-orm";
 import { db } from "../db";
 import { BaseSubscription, subscriptionsTable } from "../db/schema";
-import { getMeUnsafe } from "./sessions";
-import { ClientSafeUser, getClientSafeUser, getUser } from "./users";
-import {
-  ClientSafeWorld,
-  WorldId,
-  getClientSafeWorld,
-  getWorld,
-  getWorldAvailability,
-} from "./worlds";
+import { ClientSafeUser } from "./users";
+import { ClientSafeWorld, WorldId } from "./worlds";
 
 export type FreeFeatureAccessPolicy = {
   type: "free";
@@ -78,60 +71,15 @@ export type WorldSubscriptionPaymentInput = {
 export type WorldSubscriptionPaymentPreview = {
   world: ClientSafeWorld;
   giftToUser?: ClientSafeUser;
-  prolongation?: {
+  prolongation: {
     from?: Date;
-    to: Date;
+    to?: Date;
     period: SubscriptionFeatureAccessPolicy["period"];
   };
+  donation?: number;
   willBeFrozen?: { reason: Exclude<BaseSubscription["freezeReason"], null> };
   price: number;
 };
-
-export async function previewWorldSubscription(
-  payment: WorldSubscriptionPaymentInput
-): Promise<WorldSubscriptionPaymentPreview> {
-  "use server";
-
-  const me = await getMeUnsafe();
-  if (!me) throw new Error("Unauthorized");
-
-  const [availability, newName] = await getWorldAvailability(payment.worldId);
-  if (availability == "none")
-    throw new Error("The world is not available for purchase");
-  const serverWorld = await getWorld(payment.worldId);
-  if (serverWorld.accessPolicy.type != "subscription")
-    throw new Error("The world billing type is not a subscription");
-  let world = await getClientSafeWorld(serverWorld);
-  if (newName) world.name = newName;
-
-  const user = payment.giftToUserId
-    ? (await getUser(payment.giftToUserId))!
-    : me;
-
-  // let period = serverWorld.accessPolicy.period;
-  const willBeFrozen =
-    availability == "preorder" ? ({ reason: "preorder" } as const) : undefined;
-
-  let price = (
-    await getSubscriptionPricingFor(
-      serverWorld.accessPolicy,
-      payment.giftToUserId ? undefined : user.id
-    )
-  ).price;
-  if (payment.giftToUserId) price *= 1.2;
-  price += payment.donation ?? 0;
-
-  const giftToUser = payment.giftToUserId
-    ? await getClientSafeUser(user)
-    : undefined;
-
-  return {
-    world,
-    giftToUser,
-    willBeFrozen,
-    price,
-  };
-}
 
 export async function checkoutWorldSubscription(
   payment: WorldSubscriptionPaymentInput

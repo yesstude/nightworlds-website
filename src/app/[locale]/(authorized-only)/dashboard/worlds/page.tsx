@@ -1,3 +1,5 @@
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import Image from "next/image";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -7,31 +9,19 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
-import { Icon } from "~/components/ui/icon";
-import Image from "next/image";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
+import { Icon } from "~/components/ui/icon";
 import {
   PersonalizedWorld,
-  PersonalizedWorldAvailability,
   getPersonalizedWorlds,
 } from "~/server/api/personalized-worlds";
-import { WorldId } from "~/server/api/worlds";
-
-import nwm4 from "./nwm37.svg";
-import unknown from "./unknown.svg";
-
-const logos: { [key in WorldId]?: { logo: StaticImport; alt: string } } = {
-  medium: {
-    logo: nwm4,
-    alt: "Cuboid letter M logo",
-  },
-};
+import { WorldSubscriptionSheet } from "../billing/(components)/world-subscription-sheet";
+import { worldLogo } from "./worlds-logos";
 
 export default async function DashboardWorldsPage() {
   const worlds = await getPersonalizedWorlds();
@@ -52,8 +42,8 @@ export default async function DashboardWorldsPage() {
           <div className="flex grid-cols-[repeat(auto-fill,_minmax(330px,1fr))] flex-col gap-4 md:grid md:[&_>div]:max-w-[470px]">
             {availableWorlds.map((w) => (
               <WorldCard
-                logo={logos[w.id]?.logo}
-                logoAlt={logos[w.id]?.alt}
+                logo={worldLogo(w.id).logo}
+                logoAlt={worldLogo(w.id).alt}
                 world={w}
                 key={w.id}
               />
@@ -68,14 +58,15 @@ export default async function DashboardWorldsPage() {
         <div className="flex grid-cols-[repeat(auto-fill,_minmax(330px,1fr))] flex-col gap-4 md:grid md:[&_>div]:max-w-[470px]">
           {unavailableWorlds.map((w) => (
             <WorldCard
-              logo={logos[w.id]?.logo}
-              logoAlt={logos[w.id]?.alt}
+              logo={worldLogo(w.id).logo}
+              logoAlt={worldLogo(w.id).alt}
               world={w}
               key={w.id}
             />
           ))}
         </div>
       </div>
+      {/* <WorldSubscriptionSheet worldId="medium" defaultOpen /> */}
     </div>
   );
 }
@@ -85,8 +76,8 @@ function WorldCard({
   logo,
   logoAlt,
 }: {
-  logo?: string | StaticImport;
-  logoAlt?: string;
+  logo: string | StaticImport;
+  logoAlt: string;
   world: PersonalizedWorld;
 }) {
   return (
@@ -94,8 +85,8 @@ function WorldCard({
       <CardHeader>
         <CardTitle className="flex h-full place-items-center gap-2">
           <Image
-            src={logo ?? unknown}
-            alt={logoAlt ?? "Unknown server cuboid logo"}
+            src={logo}
+            alt={logoAlt}
             width={42}
             loading="eager"
             className="logo"

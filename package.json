@@ -18,6 +18,7 @@
     "@mdx-js/react": "^3.0.1",
     "@mui/icons-material": "^5.11.0",
     "@next/mdx": "^14.2.4",
+    "@next/third-parties": "^15.1.6",
     "@oslojs/crypto": "^1.0.1",
     "@oslojs/encoding": "^1.1.0",
     "@paralleldrive/cuid2": "^2.2.2",

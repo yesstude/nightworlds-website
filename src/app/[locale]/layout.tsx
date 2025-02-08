@@ -13,6 +13,8 @@ import { MaterialSymbolsProvider } from "./material-symbols-provider";
 import { env } from "~/env/server.mjs";
 import { TransitionProvider } from "~/components/transition/transition-provider";
 
+import { GoogleAnalytics } from "@next/third-parties/google";
+
 export const metadata: Metadata = {
   title: "NightWorlds - сервера по выживанию",
   applicationName: "NightWorlds",
@@ -86,6 +88,7 @@ export default async function RootLayout({
             <TransitionProvider>{children}</TransitionProvider>
           </body>
         </MaterialSymbolsProvider>
+        <GoogleAnalytics gaId="G-R2NPRT0L4W" />
       </html>
     </NextIntlClientProvider>
   );

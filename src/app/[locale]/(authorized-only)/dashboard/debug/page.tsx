@@ -1,5 +1,6 @@
 import { eq } from "drizzle-orm";
 import { revalidatePath, revalidateTag } from "next/cache";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 import { Button } from "~/components/ui/button";
@@ -45,6 +46,34 @@ export default async function DashboardDebugPage() {
         </div>
       </div>
       <Servers />
+      <Players />
+    </div>
+  );
+}
+
+async function Players() {
+  const players = await db.select().from(usersTable);
+
+  return (
+    <div>
+      <h2 className="mb-3 text-[24px] font-bold leading-tight tracking-normal text-foreground">
+        Игроки
+      </h2>
+      <div className="flex flex-wrap gap-4">
+        {players.map((p) => (
+          <div>
+            <img
+              src={`https://minotar.net/helm/${
+                p.nickname ?? "MHF_Steve"
+              }/48.png`}
+              alt={`${p.nickname}'s avatar`}
+            />
+            <span>
+              #{p.id}, @{p.nickname}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
