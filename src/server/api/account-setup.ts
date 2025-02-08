@@ -2,12 +2,18 @@
 
 import { eq } from "drizzle-orm";
 import { db } from "../db";
-import { User, usersTable } from "../db/schema";
-import { getMe } from "./sessions";
+import { BaseUser, usersTable } from "../db/schema";
+import { getMeUnsafe } from "./sessions";
 import { enc, SHA256 } from "crypto-js";
 
-export async function setLicenseType(licenseType: User["licenseType"]) {
-  const me = await getMe();
+export type LicenseType = Exclude<BaseUser["licenseType"], null>;
+export async function getLicenseType() {
+  const me = await getMeUnsafe();
+  return me!.licenseType ?? undefined;
+}
+
+export async function setLicenseType(licenseType: LicenseType) {
+  const me = await getMeUnsafe();
   if (!me) return;
 
   await db
@@ -34,7 +40,7 @@ export async function checkNicknameAvailability(
   if (nickname.length < 3) return "too-short";
   if (nickname.length > 16) return "too-long";
 
-  const me = await getMe();
+  const me = await getMeUnsafe();
   if (!me) return "taken";
 
   if (me.nickname && me.nickname == nickname) return "available";
@@ -60,7 +66,7 @@ export async function checkNicknameAvailability(
 }
 
 export async function setNickname(nickname: string) {
-  const me = await getMe();
+  const me = await getMeUnsafe();
   if (me!.nickname) throw new Error("Nickname is already set");
   if ((await checkNicknameAvailability(nickname)) != "available")
     throw new Error("Cannot set this nickname");
@@ -72,7 +78,7 @@ export async function setNickname(nickname: string) {
 }
 
 export async function setIngamePassword(password: string) {
-  const me = await getMe();
+  const me = await getMeUnsafe();
   if (password.length < 5) throw new Error("Password is too short");
 
   const passwordHash = enc.Base64.stringify(SHA256(enc.Utf8.parse(password)));
@@ -84,7 +90,7 @@ export async function setIngamePassword(password: string) {
 }
 
 export async function setAccountSetUp() {
-  const me = await getMe();
+  const me = await getMeUnsafe();
 
   await db
     .update(usersTable)

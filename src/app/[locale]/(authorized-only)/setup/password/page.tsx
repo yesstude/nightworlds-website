@@ -6,7 +6,7 @@ import { useTransitions } from "~/components/transition/transition-provider";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
-import { setIngamePassword } from "~/server/api/account";
+import { setIngamePassword } from "~/server/api/account-setup";
 
 export default function SetupPage() {
   const [passwordVisibility, setPasswordVisibility] = useState(false);

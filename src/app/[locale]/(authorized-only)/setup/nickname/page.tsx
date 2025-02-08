@@ -12,7 +12,7 @@ import {
   NicknameAvailability,
   checkNicknameAvailability,
   setNickname,
-} from "~/server/api/account";
+} from "~/server/api/account-setup";
 
 export default function SetupPage() {
   const [allowContinue, setAllowContinue] = useState(false);

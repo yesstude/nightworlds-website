@@ -1,12 +1,10 @@
-"use server";
-
 import {
   encodeBase32LowerCaseNoPadding,
   encodeHexLowerCase,
 } from "@oslojs/encoding";
 import { sha256 } from "@oslojs/crypto/sha2";
 import {
-  type User,
+  type BaseUser,
   type Session,
   sessionsTable,
   usersTable,
@@ -81,7 +79,7 @@ export async function createSession(
 
   const ipData = ipAddress ? await getIpData(ipAddress) : null;
 
-  const session: Session = {
+  const session: typeof sessionsTable.$inferInsert = {
     id: sessionId,
     userId: userId ?? null,
     expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
@@ -95,11 +93,11 @@ export async function createSession(
     regionName: ipData ? `${ipData.country}, ${ipData.city}` : null,
   };
   await db.insert(sessionsTable).values(session);
-  return session;
+  return { ...session, createdAt: new Date() } as Session;
 }
 
 export type SessionValidationResult =
-  | { session: Session; user: User | null }
+  | { session: Session; user: BaseUser | null }
   | { session: null; user: null };
 
 export async function validateSessionToken(
@@ -152,16 +150,16 @@ export async function authorizeSession(sessionId: string, userId: string) {
     .where(eq(sessionsTable.id, sessionId));
 }
 
-export async function getSession() {
+export async function getSessionUnsafe() {
   return (await getCurrentSession()).session;
 }
 
-export async function getMe() {
+export async function getMeUnsafe() {
   return (await getCurrentSession()).user;
 }
 
 export async function getMySessions() {
-  const me = await getMe();
+  const me = await getMeUnsafe();
   const sessions = await db
     .select()
     .from(sessionsTable)

@@ -5,7 +5,9 @@ import {
   json,
   mysqlTableCreator,
   varchar,
+  text,
 } from "drizzle-orm/mysql-core";
+import { WorldId } from "../api/worlds";
 
 const table = mysqlTableCreator((name) => `nw_${name}`);
 export const cuid = (name: string) => varchar(name, { length: 25 });
@@ -24,7 +26,7 @@ export const usersTable = table("user", {
     .$default(() => new Date())
     .notNull(),
 });
-export type User = typeof usersTable.$inferSelect;
+export type BaseUser = typeof usersTable.$inferSelect;
 
 export const accountsTable = table("account", {
   id: autocuid("id").notNull().primaryKey(),
@@ -49,7 +51,74 @@ export const sessionsTable = table("session", {
   useragent: varchar("useragent", { length: 256 }),
   platform: varchar("platform", { length: 32 }),
   browser: varchar("browser", { length: 64 }),
+  createdAt: datetime("expires_at")
+    .$default(() => new Date())
+    .notNull(),
   loggedAt: datetime("logged_at"),
   expiresAt: datetime("expires_at").notNull(),
 });
 export type Session = typeof sessionsTable.$inferSelect;
+
+export const serversTable = table("servers", {
+  id: autocuid("id").primaryKey(),
+  worldId: varchar("world_id", { length: 32 }).$type<WorldId>().notNull(),
+  overwriteWorldName: varchar("overwrite_name", { length: 64 }),
+  isPreOrderable: boolean("preorderable").default(false).notNull(),
+  startedAt: datetime("started_at")
+    .$default(() => new Date())
+    .notNull(),
+  closedAt: datetime("closed_at"),
+});
+export type BaseServer = typeof serversTable.$inferSelect;
+
+export const playersTable = table("players", {
+  id: autocuid("id").primaryKey(),
+  userId: cuid("user_id")
+    .references(() => usersTable.id)
+    .notNull(),
+  lastKnownNickname: varchar("last_nickname", { length: 32 }).unique(),
+  createdAt: datetime("created_at")
+    .$default(() => new Date())
+    .notNull(),
+});
+export type BasePlayer = typeof playersTable.$inferSelect;
+
+export const subscriptionsTable = table("subscriptions", {
+  id: autocuid("id").primaryKey(),
+  userId: cuid("user_id")
+    .references(() => usersTable.id)
+    .notNull(),
+  type: varchar("type", { length: 16 }).$type<"world">().notNull(),
+  worldId: varchar("world_id", { length: 32 }).$type<WorldId>(),
+  createdAt: datetime("created_at")
+    .$default(() => new Date())
+    .notNull(),
+  startedAt: datetime("started_at"),
+  shouldEndAt: datetime("should_end_at"),
+  endedAt: datetime("ended_at"),
+  frozenAt: datetime("frozen_at"),
+  freezeReason: varchar("freeze_reason", { length: 16 }).$type<"preorder">(),
+});
+export type BaseSubscription = typeof subscriptionsTable.$inferSelect;
+
+export const paymentsTable = table("payments", {
+  id: autocuid("id").primaryKey(),
+  userId: cuid("user_id")
+    .references(() => usersTable.id)
+    .notNull(),
+  provider: varchar("provider", { length: 16 })
+    .$type<"yookassa" | "admin">()
+    .notNull(),
+  providerId: varchar("provider_id", { length: 256 }),
+  type: varchar("type", { length: 16 }).$type<"subscription">().notNull(),
+  subscriptionId: cuid("subscription_id").references(
+    () => subscriptionsTable.id
+  ),
+  description: text("description"),
+  createdAt: datetime("created_at")
+    .$default(() => new Date())
+    .notNull(),
+  closedAt: datetime("closed_at"),
+  result: varchar("result", { length: 16 }).$type<"succeeded" | "canceled">(),
+});
+export type BasePayment = typeof paymentsTable.$inferSelect;

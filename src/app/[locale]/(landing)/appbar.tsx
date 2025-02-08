@@ -17,7 +17,6 @@ export function LandingAppBar() {
             variant="filled"
             className="hidden md:block"
             href="/signin"
-            disabled
           >
             <span>Начать игру</span>
             <Icon
@@ -32,7 +31,6 @@ export function LandingAppBar() {
             variant="filled"
             className="block md:hidden"
             href="/signin"
-            disabled
           >
             <Icon icon="play_arrow" size={32} />
           </LinkButton>

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useTransitions } from "~/components/transition/transition-provider";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
-import { setAccountSetUp } from "~/server/api/account";
+import { setAccountSetUp } from "~/server/api/account-setup";
 
 export default function SetupPage() {
   const router = useRouter();

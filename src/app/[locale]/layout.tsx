@@ -80,13 +80,13 @@ export default async function RootLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <MaterialSymbolsProvider>
-        <html lang={locale}>
+      <html lang={locale}>
+        <MaterialSymbolsProvider>
           <body className={`${cygre.className}`}>
             <TransitionProvider>{children}</TransitionProvider>
           </body>
-        </html>
-      </MaterialSymbolsProvider>
+        </MaterialSymbolsProvider>
+      </html>
     </NextIntlClientProvider>
   );
 }

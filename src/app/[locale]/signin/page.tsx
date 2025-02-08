@@ -1,4 +1,4 @@
-import { getMe } from "~/server/api/sessions";
+import { getMeUnsafe } from "~/server/api/sessions";
 import TelegramWidget from "./tgwidget";
 import { redirect } from "next/navigation";
 import { Icon } from "~/components/ui/icon";
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default async function SignInPage() {
-  const user = await getMe();
+  const user = await getMeUnsafe();
   if (user) return redirect("/dashboard");
 
   return (

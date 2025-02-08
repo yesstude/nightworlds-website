@@ -6,18 +6,20 @@ import { MaterialSymbolProps } from "react-material-symbols";
 import { useTransitions } from "~/components/transition/transition-provider";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
-import { setLicenseType } from "~/server/api/account";
-import { getMe } from "~/server/api/sessions";
-import { User } from "~/server/db/schema";
+import {
+  LicenseType,
+  getLicenseType,
+  setLicenseType,
+} from "~/server/api/account-setup";
 
 export default function SetupPage() {
-  const [type, setType] = useState<undefined | User["licenseType"]>();
+  const [type, setType] = useState<undefined | LicenseType>();
   const transitions = useTransitions();
   const router = useRouter();
 
   useEffect(() => {
     router.prefetch("/setup/nickname");
-    getMe().then((u) => setType(u!.licenseType));
+    getLicenseType().then((t) => setType(t));
   }, []);
 
   return (

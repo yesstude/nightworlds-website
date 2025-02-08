@@ -6,7 +6,7 @@ import { env } from "~/env/server.mjs";
 import { db } from "../db";
 import { accountsTable, usersTable } from "../db/schema";
 import { and, eq } from "drizzle-orm";
-import { authorizeSession, getSession } from "./sessions";
+import { authorizeSession, getSessionUnsafe } from "./sessions";
 
 export type TelegramAuthData = {
   auth_date: number;
@@ -37,7 +37,7 @@ export async function checkTelegramDataIntegrity(data: TelegramAuthData) {
 }
 
 export async function authWithTelegramData(data: TelegramAuthData) {
-  const session = await getSession();
+  const session = await getSessionUnsafe();
   if (!(await checkTelegramDataIntegrity(data)))
     return redirect("?error=integrity");
 

@@ -13,7 +13,7 @@ export function Logo(props: { className?: string }) {
           alt="Cuboid moon logo"
           width={42}
           loading="eager"
-          // className="brightness-125"
+          className="logo"
         />
         <span className="mt-1 text-[24px] font-bold text-foreground">
           NightWorlds

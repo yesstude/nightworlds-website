@@ -2,6 +2,8 @@
 
 import { MaterialSymbol } from "react-material-symbols";
 
+export type IconName = Parameters<typeof MaterialSymbol>[0]["icon"];
+
 export function Icon(props: Parameters<typeof MaterialSymbol>[0]) {
   const style = {
     ...props.style,
