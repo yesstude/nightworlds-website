@@ -9,9 +9,9 @@ import { Icon } from "~/components/ui/icon";
 
 export default function SetupPage() {
   const router = useRouter();
-  useEffect(() => {
-    router.prefetch("/setup/license");
-  }, []);
+  // useEffect(() => {
+  //   router.prefetch("/setup/license");
+  // }, []);
 
   return (
     <>

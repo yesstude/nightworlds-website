@@ -17,9 +17,9 @@ export default function SetupPage() {
   const router = useRouter();
   const transitions = useTransitions();
 
-  useEffect(() => {
-    router.prefetch("/setup/finish");
-  }, []);
+  // useEffect(() => {
+  //   router.prefetch("/setup/finish");
+  // }, []);
 
   return (
     <>

@@ -8,6 +8,7 @@ import {
   text,
 } from "drizzle-orm/mysql-core";
 import { WorldId } from "../api/worlds";
+import { sql } from "drizzle-orm";
 
 const table = mysqlTableCreator((name) => `nw_${name}`);
 export const cuid = (name: string) => varchar(name, { length: 25 });
@@ -51,8 +52,8 @@ export const sessionsTable = table("session", {
   useragent: varchar("useragent", { length: 256 }),
   platform: varchar("platform", { length: 32 }),
   browser: varchar("browser", { length: 64 }),
-  createdAt: datetime("expires_at")
-    .$default(() => new Date())
+  createdAt: datetime("created_at")
+    .default(sql`now()`)
     .notNull(),
   loggedAt: datetime("logged_at"),
   expiresAt: datetime("expires_at").notNull(),

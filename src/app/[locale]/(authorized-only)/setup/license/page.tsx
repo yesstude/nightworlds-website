@@ -18,7 +18,7 @@ export default function SetupPage() {
   const router = useRouter();
 
   useEffect(() => {
-    router.prefetch("/setup/nickname");
+    // router.prefetch("/setup/nickname");
     getLicenseType().then((t) => setType(t));
   }, []);
 
