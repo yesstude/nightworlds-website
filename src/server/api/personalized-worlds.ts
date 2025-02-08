@@ -40,8 +40,10 @@ export async function getPersonalizedWorlds() {
   for (let i = 0; i < worlds.length; i++) {
     const w = worlds[i]!;
 
+    const [worldAvailability, newName] = worldsAvailability[i]!;
+
     let availability: PersonalizedWorldAvailability = { type: "unavailable" };
-    if (worldsAvailability[i] != "none") {
+    if (worldAvailability != "none") {
       if (w.accessPolicy.type == "free") availability = { type: "free" };
       if (w.accessPolicy.type == "subscription") {
         const { period } = w.accessPolicy;
@@ -49,13 +51,18 @@ export async function getPersonalizedWorlds() {
           w.accessPolicy,
           me?.id
         );
-        availability = { type: "subscription", period, price };
+        availability = {
+          type: "subscription",
+          period,
+          price,
+          isPreorder: worldAvailability == "preorder",
+        };
       }
     }
 
     result.push({
       id: w.id as any,
-      name: w.name,
+      name: newName ?? w.name,
       techDesc: w.techDesc,
       description: w.description,
       availability,

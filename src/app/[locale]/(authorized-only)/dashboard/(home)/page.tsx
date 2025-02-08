@@ -1,12 +1,8 @@
-import { getMeUnsafe, getMySessions } from "~/server/api/sessions";
+import { getMeUnsafe } from "~/server/api/sessions";
 import { GameserverIP } from "./gameserver-ip";
 
-import serverinfopic from "./serverinfo.webp";
 import Image from "next/image";
-import { Button } from "~/components/ui/button";
-import { db } from "~/server/db";
-import { usersTable } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
+import serverinfopic from "./serverinfo.webp";
 
 export default async function DashboardHome() {
   const user = await getMeUnsafe();
@@ -38,29 +34,6 @@ export default async function DashboardHome() {
             alt="tutorial screenshot"
             src={serverinfopic}
           />
-        </div>
-        <div>
-          <form
-            action={async () => {
-              "use server";
-
-              const me = await getMeUnsafe();
-
-              await db
-                .update(usersTable)
-                .set({
-                  isSetUp: false,
-                  nickname: null,
-                  licenseType: null,
-                  passwordHash: null,
-                })
-                .where(eq(usersTable.id, me!.id));
-            }}
-          >
-            <Button variant="outlined" type="submit">
-              Сброс учётки
-            </Button>
-          </form>
         </div>
       </div>
     </div>

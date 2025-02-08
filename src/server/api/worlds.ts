@@ -2,7 +2,7 @@ import { ArrayElement } from "~/lib/utils";
 import { WorldAccessPolicy } from "./billing";
 import { db } from "../db";
 import { serversTable } from "../db/schema";
-import { and, desc, eq, gt, inArray, lt, or } from "drizzle-orm";
+import { and, desc, eq, gt, inArray, isNull, lt, or } from "drizzle-orm";
 
 export async function getWorlds(ids?: WorldId[]): Promise<World[]> {
   return worlds.filter(({ id }) => ids?.includes(id) ?? true);
@@ -24,7 +24,7 @@ export async function getClientSafeWorld(world: WorldId | ClientSafeWorld) {
 export type WorldAvailability = "full" | "preorder" | "none";
 export async function getWorldsAvailability(
   ids: WorldId[]
-): Promise<WorldAvailability[]> {
+): Promise<[WorldAvailability, string?][]> {
   const servers = await db
     .select()
     .from(serversTable)
@@ -34,7 +34,10 @@ export async function getWorldsAvailability(
         or(
           and(
             lt(serversTable.startedAt, new Date()),
-            gt(serversTable.closedAt, new Date())
+            or(
+              gt(serversTable.closedAt, new Date()),
+              isNull(serversTable.closedAt)
+            )
           ),
           and(
             gt(serversTable.startedAt, new Date()),
@@ -46,14 +49,13 @@ export async function getWorldsAvailability(
     .orderBy(desc(serversTable.startedAt));
   return ids.map((id) => {
     const server = servers.find((v) => v.worldId == id);
-    if (!server) return "none";
-    if (server.startedAt.getTime() > Date.now()) return "preorder";
-    return "full";
+    if (!server) return ["none", undefined];
+    if (server.startedAt.getTime() > Date.now())
+      return ["preorder", server.overwriteWorldName ?? undefined];
+    return ["full", server.overwriteWorldName ?? undefined];
   });
 }
-export async function getWorldAvailability(
-  id: WorldId
-): Promise<WorldAvailability> {
+export async function getWorldAvailability(id: WorldId) {
   return (await getWorldsAvailability([id]))[0]!;
 }
 
@@ -68,7 +70,7 @@ export type World = ClientSafeWorld & {
 };
 
 export type WorldId = ArrayElement<typeof worlds>["id"];
-export async function getAllServerIds() {
+export async function getAllWorldIds() {
   return worlds.map((v) => v.id);
 }
 
@@ -84,7 +86,7 @@ const worlds = [
       period: "monthly",
       pricingAfter: {
         0: {
-          price: 69.0,
+          price: 69,
         },
       },
     },

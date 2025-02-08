@@ -98,7 +98,10 @@ export function useTransitions() {
     if (context.transition.current) {
       const cssAnim = getCSSAnimation(context.transition.current, "in");
       context.setClassName(cssAnim.className);
-      setTimeout(() => context.setClassName(""), cssAnim.duration);
+      setTimeout(() => {
+        context.setClassName("");
+        context.transition.current = null;
+      }, cssAnim.duration);
     }
   }
 

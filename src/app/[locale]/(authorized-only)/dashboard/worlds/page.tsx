@@ -18,6 +18,7 @@ import {
 } from "~/components/ui/dropdown-menu";
 import {
   PersonalizedWorld,
+  PersonalizedWorldAvailability,
   getPersonalizedWorlds,
 } from "~/server/api/personalized-worlds";
 import { WorldId } from "~/server/api/worlds";
@@ -34,15 +35,38 @@ const logos: { [key in WorldId]?: { logo: StaticImport; alt: string } } = {
 
 export default async function DashboardWorldsPage() {
   const worlds = await getPersonalizedWorlds();
+  const availableWorlds = worlds.filter(
+    (w) => w.availability.type != "unavailable"
+  );
+  const unavailableWorlds = worlds.filter(
+    (w) => w.availability.type == "unavailable"
+  );
 
   return (
-    <div className="flex flex-col lg:p-8">
+    <div className="flex flex-col gap-12 lg:p-8">
+      {availableWorlds.length > 0 && (
+        <div>
+          <h1 className="mb-4 text-[32px] font-bold leading-tight tracking-normal text-foreground">
+            Миры
+          </h1>
+          <div className="flex grid-cols-[repeat(auto-fill,_minmax(330px,1fr))] flex-col gap-4 md:grid md:[&_>div]:max-w-[470px]">
+            {availableWorlds.map((w) => (
+              <WorldCard
+                logo={logos[w.id]?.logo}
+                logoAlt={logos[w.id]?.alt}
+                world={w}
+                key={w.id}
+              />
+            ))}
+          </div>
+        </div>
+      )}
       <div>
         <h1 className="mb-4 text-[32px] font-bold leading-tight tracking-normal text-foreground">
-          Миры
+          Недоступные миры
         </h1>
         <div className="flex grid-cols-[repeat(auto-fill,_minmax(330px,1fr))] flex-col gap-4 md:grid md:[&_>div]:max-w-[470px]">
-          {worlds.map((w) => (
+          {unavailableWorlds.map((w) => (
             <WorldCard
               logo={logos[w.id]?.logo}
               logoAlt={logos[w.id]?.alt}
@@ -66,7 +90,10 @@ function WorldCard({
   world: PersonalizedWorld;
 }) {
   return (
-    <Card variant="filled" className="flex flex-col">
+    <Card
+      variant={world.availability.type == "unavailable" ? "filled" : "elevated"}
+      className="flex flex-col"
+    >
       <CardHeader>
         <CardTitle className="flex h-full place-items-center gap-2">
           <Image
@@ -105,7 +132,9 @@ function WorldCard({
             disabled={world.availability.type == "unavailable"}
           >
             {world.availability.type == "subscription"
-              ? "Купить"
+              ? world.availability.isPreorder
+                ? "Предзаказ"
+                : "Купить"
               : world.availability.type == "free"
               ? "Играть"
               : "Недоступно"}

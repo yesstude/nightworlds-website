@@ -95,13 +95,14 @@ export async function previewWorldSubscription(
   const me = await getMeUnsafe();
   if (!me) throw new Error("Unauthorized");
 
-  const availability = await getWorldAvailability(payment.worldId);
+  const [availability, newName] = await getWorldAvailability(payment.worldId);
   if (availability == "none")
     throw new Error("The world is not available for purchase");
   const serverWorld = await getWorld(payment.worldId);
   if (serverWorld.accessPolicy.type != "subscription")
     throw new Error("The world billing type is not a subscription");
-  const world = await getClientSafeWorld(serverWorld);
+  let world = await getClientSafeWorld(serverWorld);
+  if (newName) world.name = newName;
 
   const user = payment.giftToUserId
     ? (await getUser(payment.giftToUserId))!

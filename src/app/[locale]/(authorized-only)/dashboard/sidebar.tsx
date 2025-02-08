@@ -2,7 +2,7 @@
 
 import { Logo } from "~/components/logo";
 import Link from "~/components/transition/link";
-import { Button } from "~/components/ui/button";
+import { useTransitions } from "~/components/transition/transition-provider";
 import { Icon, IconName } from "~/components/ui/icon";
 import {
   Sidebar,
@@ -12,29 +12,40 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "~/components/ui/sidebar";
-import { usePathname } from "~/i18n/routing";
+import { useIsDevelopment } from "~/hooks/debug";
+import { usePathname, useRouter } from "~/i18n/routing";
 
 type SidebarLink = {
   label: string;
   icon: IconName;
   href: string;
+  doShow?: () => boolean;
 };
 
-const links = [
-  {
-    icon: "home",
-    label: "Домашняя страница",
-    href: "/dashboard",
-  },
-  {
-    icon: "globe",
-    label: "Миры",
-    href: "/dashboard/worlds",
-  },
-] satisfies SidebarLink[];
-
 export default function NavDrawer() {
+  const isDevelopment = useIsDevelopment();
+
+  let links = [
+    {
+      icon: "home",
+      label: "Домашняя страница",
+      href: "/dashboard",
+    },
+    {
+      icon: "globe",
+      label: "Миры",
+      href: "/dashboard/worlds",
+    },
+    {
+      icon: "bug_report",
+      label: "Отладка",
+      href: "/dashboard/debug",
+      doShow: () => isDevelopment,
+    },
+  ] as SidebarLink[];
+
   return (
     <Sidebar variant="floating">
       <SidebarHeader>
@@ -49,9 +60,11 @@ export default function NavDrawer() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {links.map((link, i) => (
-              <SidebarLinkItem sidebarLink={link} key={i} />
-            ))}
+            {links
+              .filter((v) => (v?.doShow ? v?.doShow() : true))
+              .map((link, i) => (
+                <SidebarLinkItem sidebarLink={link} key={i} />
+              ))}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
@@ -73,22 +86,36 @@ export default function NavDrawer() {
 }
 
 function SidebarLinkItem({ sidebarLink: link }: { sidebarLink: SidebarLink }) {
+  const sidebar = useSidebar();
   const pathname = usePathname();
+  const transitions = useTransitions()!;
+  const router = useRouter();
 
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild isActive={pathname == link.href}>
-        <Link href={link.href}>
-          <div className="ml-4 mr-6 flex grow flex-row place-items-center justify-start gap-3 font-bold text-foreground">
-            <Icon
-              icon={link.icon}
-              size={24}
-              className="-translate-y-[1px]"
-              fill={pathname == link.href}
-            />
-            <span className="grow text-left">{link.label}</span>
-          </div>
-        </Link>
+        <div
+          className="flex grow cursor-pointer flex-row place-items-center justify-start gap-3 pl-4 pr-6 font-medium data-[active=true]:font-bold [&_*]:text-foreground"
+          onClick={() => {
+            setTimeout(
+              () => {
+                transitions
+                  .emphasizedFadeOut()
+                  .then(() => router.push(link.href));
+              },
+              sidebar.isMobile ? 200 : 0
+            );
+            if (sidebar.isMobile) sidebar.setOpenMobile(false);
+          }}
+        >
+          <Icon
+            icon={link.icon}
+            size={24}
+            className="-translate-y-[1px]"
+            fill={pathname == link.href}
+          />
+          <span className="grow text-left">{link.label}</span>
+        </div>
       </SidebarMenuButton>
     </SidebarMenuItem>
   );
