@@ -24,7 +24,7 @@ export default function SetupPage() {
             size="extended_fab"
             onClick={() => {
               setAccountSetUp()
-                .then(transitions?.emphasizedFadeOut)
+                .then(transitions?.emphasizedFadeUp)
                 .then(() => router.push("/dashboard"));
             }}
           >

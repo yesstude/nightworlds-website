@@ -63,7 +63,12 @@ export default function NavDrawer() {
             {links
               .filter((v) => (v?.doShow ? v?.doShow() : true))
               .map((link, i) => (
-                <SidebarLinkItem sidebarLink={link} key={i} />
+                <SidebarLinkItem
+                  sidebarLink={link}
+                  key={i}
+                  index={i}
+                  hrefs={links.map((v) => v.href)}
+                />
               ))}
           </SidebarMenu>
         </SidebarGroup>
@@ -85,7 +90,15 @@ export default function NavDrawer() {
   );
 }
 
-function SidebarLinkItem({ sidebarLink: link }: { sidebarLink: SidebarLink }) {
+function SidebarLinkItem({
+  sidebarLink: link,
+  index,
+  hrefs,
+}: {
+  sidebarLink: SidebarLink;
+  index: number;
+  hrefs: string[];
+}) {
   const sidebar = useSidebar();
   const pathname = usePathname();
   const transitions = useTransitions()!;
@@ -93,15 +106,27 @@ function SidebarLinkItem({ sidebarLink: link }: { sidebarLink: SidebarLink }) {
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton asChild isActive={pathname == link.href}>
+      <SidebarMenuButton
+        className="transition-[background] duration-500"
+        asChild
+        isActive={pathname == link.href}
+      >
         <div
-          className="flex grow cursor-pointer flex-row place-items-center justify-start gap-3 pl-4 pr-6 font-medium data-[active=true]:font-bold [&_*]:text-foreground"
+          className="flex grow cursor-pointer flex-row place-items-center justify-start gap-3 pl-4 pr-6 font-medium data-[active=true]:cursor-default data-[active=true]:font-bold [&_*]:text-foreground"
           onClick={() => {
+            if (pathname == link.href) return;
             setTimeout(
               () => {
-                transitions
-                  .emphasizedFadeOut()
-                  .then(() => router.push(link.href));
+                const currentIndex = hrefs
+                  .map((v, i) => (pathname == v ? i : undefined))
+                  .find((v) => typeof v == "number");
+
+                const t =
+                  typeof currentIndex != "undefined" && currentIndex > index
+                    ? transitions.emphasizedFadeDown
+                    : transitions.emphasizedFadeUp;
+
+                t().then(() => router.push(link.href));
               },
               sidebar.isMobile ? 200 : 0
             );

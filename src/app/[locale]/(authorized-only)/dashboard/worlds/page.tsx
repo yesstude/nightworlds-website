@@ -90,10 +90,7 @@ function WorldCard({
   world: PersonalizedWorld;
 }) {
   return (
-    <Card
-      variant={world.availability.type == "unavailable" ? "filled" : "elevated"}
-      className="flex flex-col"
-    >
+    <Card variant="filled" className="flex flex-col">
       <CardHeader>
         <CardTitle className="flex h-full place-items-center gap-2">
           <Image

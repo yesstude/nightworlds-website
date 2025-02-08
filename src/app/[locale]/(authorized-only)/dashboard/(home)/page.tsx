@@ -8,7 +8,7 @@ export default async function DashboardHome() {
   const user = await getMeUnsafe();
 
   return (
-    <div className="flex flex-col lg:p-8">
+    <div className="flex flex-col py-4 lg:p-8">
       <div className="flex w-full flex-col gap-16 gap-y-4 md:grid md:grid-cols-2">
         <div className="col-span-1 flex h-full flex-col justify-center">
           <span className="text-[16px] font-bold leading-tight tracking-normal text-foreground">

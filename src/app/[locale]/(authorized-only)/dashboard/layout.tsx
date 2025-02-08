@@ -17,7 +17,7 @@ export default async function DashboardLayout(props: { children: ReactNode }) {
       <SidebarInset>
         <DashboardAppBar />
         <TransitionSuspense className="flex min-h-full grow flex-col place-items-center gap-4 lg:p-4">
-          <div className="w-full max-w-full rounded-b-[32px] bg-primary/[.04] p-8 lg:rounded-t-[32px]">
+          <div className="w-full max-w-full rounded-b-[32px] bg-primary/[.04] px-4 py-8 md:px-8 lg:rounded-t-[32px]">
             {props.children}
           </div>
           {/* <div className="min-h-full w-full max-w-full">{props.children}</div> */}

@@ -13,11 +13,16 @@ import {
 } from "react";
 
 import "./emphasized-fade.css";
+import "./emphasized-fade-down.css";
 import "./emphasized-left.css";
 import "./emphasized-right.css";
 
 export const TRANSITIONS = {
   "emphasized-fade": {
+    outTime: 200,
+    inTime: 400,
+  },
+  "emphasized-fade-down": {
     outTime: 200,
     inTime: 400,
   },
@@ -106,7 +111,8 @@ export function useTransitions() {
   }
 
   return {
-    emphasizedFadeOut: () => runTransition("emphasized-fade", context),
+    emphasizedFadeUp: () => runTransition("emphasized-fade", context),
+    emphasizedFadeDown: () => runTransition("emphasized-fade-down", context),
     emphasizedLeftOut: () => runTransition("emphasized-left", context),
     emphasizedRightOut: () => runTransition("emphasized-right", context),
     transitionOut: (which: Transition) => runTransition(which, context),

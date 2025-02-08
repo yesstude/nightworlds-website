@@ -1,9 +1,9 @@
 "use client";
 
 import { Transition, useTransitions } from "./transition-provider";
-import { usePathname, useRouter } from "next/navigation";
 import { AnchorHTMLAttributes, MouseEventHandler, memo } from "react";
 import { Button } from "../ui/button";
+import { usePathname, useRouter } from "~/i18n/routing";
 
 function generateOnClick(
   href: string,
@@ -14,14 +14,8 @@ function generateOnClick(
   const transitions = useTransitions();
   const router = useRouter();
   let pathname = usePathname();
-  if (pathname.startsWith("/") && pathname.split("/")[1]?.length == 2)
-    pathname = pathname.slice(3);
-  // if (href.startsWith("/") && href.split("/")[1]?.length == 2)
-  //   href = href.slice(3);
-  const current = new URL(pathname, "http://localhost").pathname;
-  const formattedhref = new URL(href, "http://localhost").pathname;
 
-  if (transitions && current != formattedhref) {
+  if (transitions && pathname != href) {
     // const defaultOnClick = props.onClick;
     const onClick: MouseEventHandler<HTMLElement> = async (event) => {
       // alert(JSON.stringify({ current, formattedhref }));
@@ -30,7 +24,7 @@ function generateOnClick(
       if (!dontPrevent) event.preventDefault();
       transitions
         .transitionOut(transition ?? "emphasized-fade")
-        .then(() => router.push(formattedhref))
+        .then(() => router.push(href))
         .then(() => {
           window.scrollTo({ top: 0, behavior: "instant" });
         });
