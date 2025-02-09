@@ -7,7 +7,7 @@ export default async function DashboardDebugLayout({
 }: {
   children: ReactNode;
 }) {
-  if (!(await isDevelopment())) return notFound();
+  if (!(await isDevelopment())) notFound();
 
   return children;
 }

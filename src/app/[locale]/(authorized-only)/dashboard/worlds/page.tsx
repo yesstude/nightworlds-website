@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import { Button } from "~/components/ui/button";
@@ -20,8 +21,11 @@ import {
   PersonalizedWorld,
   getPersonalizedWorlds,
 } from "~/server/api/personalized-worlds";
-import { WorldSubscriptionSheet } from "../billing/(components)/world-subscription-sheet";
 import { worldLogo } from "./worlds-logos";
+
+export const metadata: Metadata = {
+  title: "Миры",
+};
 
 export default async function DashboardWorldsPage() {
   const worlds = await getPersonalizedWorlds();

@@ -16,7 +16,7 @@ import { TransitionProvider } from "~/components/transition/transition-provider"
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
-  title: "NightWorlds - сервера по выживанию",
+  title: "NightWorlds",
   applicationName: "NightWorlds",
   authors: { name: "NightLight Communities" },
   creator: "NightLight Communities",

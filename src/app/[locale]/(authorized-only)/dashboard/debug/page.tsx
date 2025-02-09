@@ -1,4 +1,5 @@
 import { eq } from "drizzle-orm";
+import { Metadata } from "next";
 import { revalidatePath, revalidateTag } from "next/cache";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -10,6 +11,10 @@ import { getMeUnsafe } from "~/server/api/sessions";
 import { getAllWorldIds } from "~/server/api/worlds";
 import { db } from "~/server/db";
 import { serversTable, usersTable } from "~/server/db/schema";
+
+export const metadata: Metadata = {
+  title: "Отладка",
+};
 
 export default async function DashboardDebugPage() {
   return (

@@ -35,7 +35,7 @@ export default async (req: NextRequest) => {
 
   // Localization redirects
   if (
-    !["api", "_next", "favicon"].find((v) =>
+    !["api", "_next", "favicon", "sitemap", "robots"].find((v) =>
       new URL(req.url).pathname.startsWith(`/${v}`)
     )
   ) {
