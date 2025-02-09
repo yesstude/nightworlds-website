@@ -19,7 +19,8 @@ export async function previewWorldSubscription(
   const me = await getMeUnsafe();
   if (!me) throw new Error("Unauthorized");
 
-  const { donation } = payment;
+  const donation =
+    Math.min(Math.max(0, payment.donation ?? 0), 5000000) || undefined;
 
   const [availability, newName] = await getWorldAvailability(payment.worldId);
   if (availability == "none")
@@ -45,7 +46,7 @@ export async function previewWorldSubscription(
     )
   ).price;
   if (payment.giftToUserId) price *= 1.2;
-  price += payment.donation ?? 0;
+  price += donation ?? 0;
 
   const giftToUser = payment.giftToUserId
     ? await getClientSafeUser(user)

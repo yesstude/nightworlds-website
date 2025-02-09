@@ -59,24 +59,31 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   ripples?: Partial<RipplesProps>;
-  noripple?: "true";
+  noripple?: true;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    { className, variant, size, asChild = false, noripple, onClick, ...props },
+    ref
+  ) => {
     const Comp = asChild ? Slot : "button";
 
     let cname = cn(buttonVariants({ variant, size, className }));
 
-    const Ripple = createRipples({
-      during: 1000,
-      color: "rgba(0, 0, 0, .2)",
-      onClick: props.onClick as any,
-      className:
-        "inline-flex h-full w-full items-center justify-center gap-2 whitespace-nowrap " +
-        sizePaddings[size ?? "default"],
-      ...props.ripples,
-    });
+    const Ripple = React.useMemo(
+      () =>
+        createRipples({
+          during: 1000,
+          color: "rgba(0, 0, 0, .2)",
+          onClick: onClick as any,
+          className:
+            "inline-flex h-full w-full items-center justify-center gap-2 whitespace-nowrap " +
+            sizePaddings[size ?? "default"],
+          ...props.ripples,
+        }),
+      [props.ripples, onClick]
+    );
     // if (props.noripple)
     //   cname +=
     //     " inline-flex items-center justify-center gap-2 whitespace-nowrap " +
@@ -86,16 +93,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         className={
           cname +
-          (props.noripple
+          (noripple
             ? " inline-flex items-center justify-center gap-2 whitespace-nowrap " +
               sizePaddings[size ?? "default"]
             : "")
         }
         ref={ref}
         {...props}
-        children={
-          props.noripple ? props.children : <Ripple>{props.children}</Ripple>
-        }
+        children={noripple ? props.children : <Ripple>{props.children}</Ripple>}
+        onClick={noripple ? onClick : undefined}
       />
     );
   }

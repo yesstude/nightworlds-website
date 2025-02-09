@@ -17,11 +17,14 @@ function generateOnClick(
 
   if (transitions && pathname != href) {
     // const defaultOnClick = props.onClick;
-    const onClick: MouseEventHandler<HTMLElement> = async (event) => {
-      // alert(JSON.stringify({ current, formattedhref }));
-      await defaultOnClick?.(event);
+    const onClick: MouseEventHandler<HTMLElement> = (event) => {
+      // alert(JSON.stringify({ pathname, href }));
+      defaultOnClick?.(event);
       // if (event.defaultPrevented) return;
-      if (!dontPrevent) event.preventDefault();
+      if (!dontPrevent) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
       transitions
         .transitionOut(transition ?? "emphasized-fade")
         .then(() => router.push(href))
@@ -47,26 +50,20 @@ export default function Link(
   return <a {...props} />;
 }
 
-const MemoButton = memo(
-  Button,
-  (prev, next) => prev.disabled == next.disabled && prev.onClick == next.onClick
-);
-
 export function LinkButton(
-  dprops: Parameters<typeof MemoButton>[0] & {
+  dprops: Parameters<typeof Button>[0] & {
     href: string;
     transition?: Transition;
   }
 ) {
-  let props = { ...dprops };
+  let { href, ...props } = { ...dprops };
 
-  props.onClick = generateOnClick(
-    props.href,
-    props.transition,
-    props.onClick,
-    true
-  );
+  props.onClick = generateOnClick(href, props.transition, props.onClick);
   if (props.disabled) props.onClick = undefined;
 
-  return <MemoButton {...props} />;
+  return (
+    <a href={href}>
+      <Button {...props} />
+    </a>
+  );
 }
