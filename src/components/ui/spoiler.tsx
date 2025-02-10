@@ -47,7 +47,7 @@ export function Spoiler(props: {
 
 export function SpoilerGroup(props: { children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-1 [&_.spoiler:first-child]:rounded-b-[4px] [&_.spoiler:last-child]:rounded-t-[4px]">
+    <div className="flex flex-col gap-1 [&_.spoiler:first-child]:rounded-t-[24px] [&_.spoiler:last-child]:rounded-b-[24px] [&_.spoiler]:rounded-[4px]">
       {props.children}
     </div>
   );

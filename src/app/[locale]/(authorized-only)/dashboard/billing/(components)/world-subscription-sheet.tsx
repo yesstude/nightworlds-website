@@ -15,7 +15,10 @@ import {
   WorldSubscriptionPaymentInput,
   WorldSubscriptionPaymentPreview,
 } from "~/server/api/billing";
-import { previewWorldSubscription } from "~/app/[locale]/(authorized-only)/dashboard/billing/world-subscriptions";
+import {
+  payWorldSubscription,
+  previewWorldSubscription,
+} from "~/app/[locale]/(authorized-only)/dashboard/billing/world-subscriptions";
 import { WorldId } from "~/server/api/worlds";
 import Image from "next/image";
 import { worldLogo } from "../../worlds/worlds-logos";
@@ -23,6 +26,7 @@ import { Input } from "~/components/ui/input";
 import { useLocale } from "next-intl";
 import { Icon } from "~/components/ui/icon";
 import { useDebounce } from "use-debounce";
+import PlayerInput from "./player-input";
 
 export function WorldSubscriptionSheet({
   children,
@@ -36,12 +40,12 @@ export function WorldSubscriptionSheet({
 
   const [input, setInput] = useState<WorldSubscriptionPaymentInput>({
     worldId,
-    giftToUserId: "ui9doajp8rtuxwcaonocclaq",
+    // giftToUserId: "ui9doajp8rtuxwcaonocclaq",
   });
   const [preview, setPreview] = useState<WorldSubscriptionPaymentPreview>();
 
   const [rawDonation, setDonation] = useState(0);
-  const [donation] = useDebounce(rawDonation, 1000);
+  const [donation] = useDebounce(rawDonation, 400);
 
   useEffect(() => {
     setPreview(undefined);
@@ -62,20 +66,7 @@ export function WorldSubscriptionSheet({
         </SheetHeader>
         <div className="flex flex-grow flex-col gap-4">
           <div className="flex flex-col gap-4">
-            <div className="flex h-14 cursor-pointer place-items-center gap-3 rounded-[4px] px-4 outline outline-1 outline-border transition-[outline] duration-500 hover:outline-2 hover:outline-primary hover:duration-0 [&_>*]:select-none">
-              <img
-                src={`https://minotar.net/helm/Squaryyy/128.png`}
-                loading="eager"
-                className="relative -ml-1 block h-7 w-7 rounded-[4px]"
-              />
-              <span className="flex-grow truncate font-medium text-foreground">
-                Squaryyy
-              </span>
-              <Icon icon="edit" />
-              {/* <span className="mt-1 flex-grow truncate font-medium text-foreground">
-                Выберите игрока
-              </span> */}
-            </div>
+            {/* <PlayerInput /> */}
             <Input
               placeholder="Поддержка, ₽ (необязательно)"
               type="number"
@@ -187,7 +178,16 @@ export function WorldSubscriptionSheet({
           )}
         </div>
         <SheetFooter>
-          <Button size="extended_fab" className="w-full" disabled={!preview}>
+          <Button
+            size="extended_fab"
+            className="w-full"
+            disabled={!preview}
+            onClick={() => {
+              if (!preview) return;
+
+              payWorldSubscription({ ...input, donation }, preview.price);
+            }}
+          >
             Оплатить {preview?.price ? `${preview.price.toFixed(2)}₽` : ""}
           </Button>
         </SheetFooter>

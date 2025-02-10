@@ -6,6 +6,7 @@ import {
   mysqlTableCreator,
   varchar,
   text,
+  double,
 } from "drizzle-orm/mysql-core";
 import { WorldId } from "../api/worlds";
 import { sql } from "drizzle-orm";
@@ -75,7 +76,7 @@ export type BaseServer = typeof serversTable.$inferSelect;
 export const playersTable = table("players", {
   id: autocuid("id").primaryKey(),
   userId: cuid("user_id")
-    .references(() => usersTable.id)
+    .references(() => usersTable.id, { onDelete: "cascade" })
     .notNull(),
   lastKnownNickname: varchar("last_nickname", { length: 32 }).unique(),
   createdAt: datetime("created_at")
@@ -87,10 +88,9 @@ export type BasePlayer = typeof playersTable.$inferSelect;
 export const subscriptionsTable = table("subscriptions", {
   id: autocuid("id").primaryKey(),
   userId: cuid("user_id")
-    .references(() => usersTable.id)
+    .references(() => usersTable.id, { onDelete: "cascade" })
     .notNull(),
-  type: varchar("type", { length: 16 }).$type<"world">().notNull(),
-  worldId: varchar("world_id", { length: 32 }).$type<WorldId>(),
+  tag: varchar("tag", { length: 64 }).notNull(),
   createdAt: datetime("created_at")
     .$default(() => new Date())
     .notNull(),
@@ -102,18 +102,26 @@ export const subscriptionsTable = table("subscriptions", {
 });
 export type BaseSubscription = typeof subscriptionsTable.$inferSelect;
 
+export type PaymentProvider = "yookassa" | "admin";
+
 export const paymentsTable = table("payments", {
   id: autocuid("id").primaryKey(),
+  externalId: varchar("external_id", { length: 256 }),
   userId: cuid("user_id")
-    .references(() => usersTable.id)
+    .references(() => usersTable.id, { onDelete: "cascade" })
     .notNull(),
   provider: varchar("provider", { length: 16 })
-    .$type<"yookassa" | "admin">()
+    .$type<PaymentProvider>()
     .notNull(),
-  providerId: varchar("provider_id", { length: 256 }),
+  amount: double("amount").$type<number>().notNull(),
+  savedMethodId: cuid("saved_method_id").references(
+    () => paymentMethodsTable.id,
+    { onDelete: "set null" }
+  ),
   type: varchar("type", { length: 16 }).$type<"subscription">().notNull(),
   subscriptionId: cuid("subscription_id").references(
-    () => subscriptionsTable.id
+    () => subscriptionsTable.id,
+    { onDelete: "cascade" }
   ),
   description: text("description"),
   createdAt: datetime("created_at")
@@ -123,3 +131,23 @@ export const paymentsTable = table("payments", {
   result: varchar("result", { length: 16 }).$type<"succeeded" | "canceled">(),
 });
 export type BasePayment = typeof paymentsTable.$inferSelect;
+
+export const paymentMethodsTable = table("paymethods", {
+  id: autocuid("id").primaryKey(),
+  externalId: varchar("provider_id", { length: 256 }),
+  userId: cuid("user_id")
+    .references(() => usersTable.id)
+    .notNull(),
+  provider: varchar("provider", { length: 16 })
+    .$type<PaymentProvider>()
+    .notNull(),
+  card: json("card").$type<{
+    first6: string;
+    last4: string;
+    expiry_year: string;
+    expiry_month: string;
+  }>(),
+  createdAt: datetime("created_at")
+    .$default(() => new Date())
+    .notNull(),
+});

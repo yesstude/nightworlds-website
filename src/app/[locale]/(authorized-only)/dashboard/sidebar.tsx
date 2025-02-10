@@ -1,7 +1,6 @@
 "use client";
 
 import { Logo } from "~/components/logo";
-import Link from "~/components/transition/link";
 import { useTransitions } from "~/components/transition/transition-provider";
 import { Icon, IconName } from "~/components/ui/icon";
 import {
@@ -15,7 +14,9 @@ import {
   useSidebar,
 } from "~/components/ui/sidebar";
 import { useIsDevelopment } from "~/hooks/debug";
+import { useAwait } from "~/hooks/use-await";
 import { usePathname, useRouter } from "~/i18n/routing";
+import { hadPayments } from "./billing/actions";
 
 type SidebarLink = {
   label: string;
@@ -26,6 +27,7 @@ type SidebarLink = {
 
 export default function NavDrawer() {
   const isDevelopment = useIsDevelopment();
+  const showBilling = useAwait(hadPayments);
 
   let links = [
     {
@@ -37,6 +39,12 @@ export default function NavDrawer() {
       icon: "globe",
       label: "Миры",
       href: "/dashboard/worlds",
+    },
+    {
+      icon: "credit_card",
+      label: "Платежи",
+      href: "/dashboard/billing",
+      doShow: () => showBilling,
     },
     {
       icon: "bug_report",

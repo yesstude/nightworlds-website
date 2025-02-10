@@ -92,11 +92,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         className={
-          cname +
           (noripple
             ? " inline-flex items-center justify-center gap-2 whitespace-nowrap " +
               sizePaddings[size ?? "default"]
-            : "")
+            : "") + cname
         }
         ref={ref}
         {...props}

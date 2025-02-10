@@ -26,10 +26,7 @@ export default async function LandingFooter() {
             </Button>
           </Link>
           <LinkButton href="/documents" variant="text" size="sm">
-            Публичная оферта
-          </LinkButton>
-          <LinkButton href="/documents" variant="text" size="sm">
-            Политика конфиденциальности
+            Документы
           </LinkButton>
         </div>
       </div>

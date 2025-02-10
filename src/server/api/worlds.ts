@@ -1,5 +1,5 @@
 import { ArrayElement } from "~/lib/utils";
-import { WorldAccessPolicy } from "./billing";
+import { SubscriptionFeatureAccessPolicy, WorldAccessPolicy } from "./billing";
 import { db } from "../db";
 import { serversTable } from "../db/schema";
 import { and, desc, eq, gt, inArray, isNull, lt, or } from "drizzle-orm";
@@ -69,7 +69,9 @@ export type World = ClientSafeWorld & {
   accessPolicy: WorldAccessPolicy;
 };
 
-export type WorldId = ArrayElement<typeof worlds>["id"];
+export const worldSubsciptionTags = ["medium.basic"] as const;
+export type WorldSubscriptionTag = (typeof worldSubsciptionTags)[number];
+export type WorldId = (typeof worlds)[number]["id"];
 export async function getAllWorldIds() {
   return worlds.map((v) => v.id);
 }
@@ -89,6 +91,7 @@ const worlds = [
           price: 69,
         },
       },
+      tag: "medium.basic",
     },
   },
   {

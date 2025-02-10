@@ -2,15 +2,17 @@ import { and, eq, gt, isNotNull, lt, or } from "drizzle-orm";
 import { db } from "../db";
 import { BaseSubscription, subscriptionsTable } from "../db/schema";
 import { ClientSafeUser } from "./users";
-import { ClientSafeWorld, WorldId } from "./worlds";
+import { ClientSafeWorld, WorldId, WorldSubscriptionTag } from "./worlds";
 
 export type FreeFeatureAccessPolicy = {
   type: "free";
 };
+export type SubscriptionFeatureAccessPolicyTag = WorldSubscriptionTag;
 export type SubscriptionFeatureAccessPolicy = {
   type: "subscription";
   period: "monthly";
   pricingAfter: { [key: number]: { price: number; trialLength?: number } };
+  tag: SubscriptionFeatureAccessPolicyTag;
 };
 
 export async function getSubscriptionPricingAt(
@@ -23,29 +25,39 @@ export async function getSubscriptionPricingAt(
     .at(0)![1];
 }
 
+export async function getCurrentSubscription(
+  accessPolicy: SubscriptionFeatureAccessPolicy,
+  userId: string
+) {
+  const [subscription] = await db
+    .select()
+    .from(subscriptionsTable)
+    .where(
+      and(
+        eq(subscriptionsTable.userId, userId),
+        eq(subscriptionsTable.tag, accessPolicy.tag),
+        and(
+          isNotNull(subscriptionsTable.startedAt),
+          lt(subscriptionsTable.startedAt, new Date())
+        ),
+        or(
+          gt(subscriptionsTable.endedAt, new Date()),
+          and(
+            isNotNull(subscriptionsTable.frozenAt),
+            isNotNull(subscriptionsTable.freezeReason)
+          )
+        )
+      )
+    );
+  return subscription;
+}
+
 export async function getSubscriptionPricingFor(
   accessPolicy: SubscriptionFeatureAccessPolicy,
   userId?: string
 ) {
   if (!userId) return getSubscriptionPricingAt(accessPolicy);
-  const subscription = (
-    await db
-      .select()
-      .from(subscriptionsTable)
-      .where(
-        and(
-          eq(subscriptionsTable.userId, userId),
-          lt(subscriptionsTable.startedAt, new Date()),
-          or(
-            gt(subscriptionsTable.endedAt, new Date()),
-            and(
-              isNotNull(subscriptionsTable.frozenAt),
-              isNotNull(subscriptionsTable.freezeReason)
-            )
-          )
-        )
-      )
-  )[0];
+  const subscription = await getCurrentSubscription(accessPolicy, userId);
   return getSubscriptionPricingAt(
     accessPolicy,
     subscription?.startedAt ?? new Date()
@@ -71,6 +83,7 @@ export type WorldSubscriptionPaymentInput = {
 export type WorldSubscriptionPaymentPreview = {
   world: ClientSafeWorld;
   giftToUser?: ClientSafeUser;
+  finalUser: ClientSafeUser;
   prolongation: {
     from?: Date;
     to?: Date;

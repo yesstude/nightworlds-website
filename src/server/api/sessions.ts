@@ -14,6 +14,7 @@ import BrowserDetector from "browser-dtector";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { cache } from "react";
+import User from "../models/User";
 
 type IPData = {
   query: string;
@@ -155,7 +156,9 @@ export async function getSessionUnsafe() {
 }
 
 export async function getMeUnsafe() {
-  return (await getCurrentSession()).user;
+  const me = (await getCurrentSession()).user;
+  if (!me) return undefined;
+  return User.getById(me.id);
 }
 
 export async function getMySessions() {

@@ -20,7 +20,7 @@ import { cn } from "~/lib/utils";
 // );
 
 const inputVariants = cva(
-  "flex h-14 w-full place-items-center gap-3 px-4 [&>input]:bg-transparent [&>input]:w-full [&>input]:h-full focus-visible:[&>input]:outline-none",
+  "flex h-14 w-full place-items-center gap-3 px-4 [&>input]:bg-transparent [&>input]:w-full [&>input]:h-full focus-visible:[&>input]:outline-none text-[16px]",
   {
     variants: {
       variant: {

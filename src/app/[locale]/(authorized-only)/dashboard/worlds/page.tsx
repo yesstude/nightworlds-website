@@ -22,6 +22,7 @@ import {
   getPersonalizedWorlds,
 } from "~/server/api/personalized-worlds";
 import { worldLogo } from "./worlds-logos";
+import { WorldSubscriptionSheet } from "../billing/(components)/world-subscription-sheet";
 
 export const metadata: Metadata = {
   title: "Миры",

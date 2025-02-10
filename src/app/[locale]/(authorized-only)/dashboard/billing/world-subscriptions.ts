@@ -10,8 +10,16 @@ import {
 import {
   WorldSubscriptionPaymentInput,
   WorldSubscriptionPaymentPreview,
+  getCurrentSubscription,
   getSubscriptionPricingFor,
 } from "../../../../../server/api/billing";
+import { db } from "~/server/db";
+import { paymentsTable, subscriptionsTable } from "~/server/db/schema";
+import { and, eq, gt, isNotNull, lt, or } from "drizzle-orm";
+import { IItemWithoutData, YooCheckout } from "@a2seven/yoo-checkout";
+import { env } from "~/env/server.mjs";
+import { redirect } from "next/navigation";
+import yookassa from "~/server/yoocheckout";
 
 export async function previewWorldSubscription(
   payment: WorldSubscriptionPaymentInput
@@ -34,6 +42,7 @@ export async function previewWorldSubscription(
   const user = payment.giftToUserId
     ? (await getUser(payment.giftToUserId))!
     : me;
+  const finalUser = (await getClientSafeUser(user))!;
 
   // let period = serverWorld.accessPolicy.period;
   const willBeFrozen =
@@ -48,6 +57,8 @@ export async function previewWorldSubscription(
   if (payment.giftToUserId) price *= 1.2;
   price += donation ?? 0;
 
+  price = Math.floor(price);
+
   const giftToUser = payment.giftToUserId
     ? await getClientSafeUser(user)
     : undefined;
@@ -55,6 +66,7 @@ export async function previewWorldSubscription(
   return {
     world,
     giftToUser,
+    finalUser,
     willBeFrozen,
     prolongation: {
       period: serverWorld.accessPolicy.period,
@@ -62,4 +74,129 @@ export async function previewWorldSubscription(
     donation,
     price,
   };
+}
+
+export async function payWorldSubscription(
+  input: WorldSubscriptionPaymentInput,
+  price: number
+) {
+  const me = await getMeUnsafe();
+  if (!me) throw new Error("Unauthorized");
+
+  const data = await previewWorldSubscription(input);
+  if (data.price != price)
+    throw new Error(`Payment data is invalid, ${data.price} != ${price}`);
+
+  const reciever = data.finalUser;
+  if (!reciever) throw new Error("User not found");
+
+  const world = await getWorld(input.worldId);
+
+  const payment = await db.transaction(async (tx) => {
+    if (world.accessPolicy.type != "subscription")
+      throw new Error("The world billing type is not a subscription");
+
+    let currentSub: { id: string } | undefined = await getCurrentSubscription(
+      world.accessPolicy,
+      reciever.id
+    );
+    if (!currentSub) {
+      [currentSub] = await tx
+        .insert(subscriptionsTable)
+        .values({
+          userId: reciever.id,
+          tag: world.accessPolicy.tag,
+          frozenAt: data.willBeFrozen ? new Date() : undefined,
+          freezeReason: data.willBeFrozen?.reason,
+        })
+        .$returningId();
+    }
+    if (!currentSub) throw new Error("Error creating subscription");
+
+    const description =
+      `Оплата подписки ${data.world.name} для @${reciever.nickname}` +
+      (data.giftToUser ? ` (подарок от @${me.nickname})` : "") +
+      (data.donation
+        ? ` + поддержка на ${data.donation.toFixed(2)} рублей`
+        : "");
+
+    const [payment] = await tx
+      .insert(paymentsTable)
+      .values({
+        type: "subscription",
+        userId: me.id,
+        provider: "yookassa",
+        amount: data.price,
+        description,
+      })
+      .$returningId();
+    if (!payment) throw new Error("Error creating NightWorlds payment");
+
+    const providerPayment = await yookassa.createPayment(
+      {
+        amount: {
+          value: data.price.toFixed(2),
+          currency: "RUB",
+        },
+        description,
+        receipt: {
+          customer: {
+            email: "ruslan.gulid@gmail.com",
+          },
+          items: [
+            {
+              description: `Оплата ${
+                data.giftToUser
+                  ? `подарочной подписки для @${reciever.nickname}`
+                  : "подписки"
+              } на ${data.world.name} на ${
+                data.prolongation.period == "monthly" ? "30 дней" : "7 дней"
+              }`,
+              amount: {
+                value: (data.price - (data.donation ?? 0)).toFixed(2),
+                currency: "RUB",
+              },
+              quantity: "1",
+              vat_code: 1,
+            } satisfies IItemWithoutData,
+            data.donation
+              ? ({
+                  description: `Финансовая поддержка проекта NightWorlds`,
+                  amount: {
+                    value: data.donation.toFixed(2),
+                    currency: "RUB",
+                  },
+                  quantity: "1",
+                  vat_code: 1,
+                } satisfies IItemWithoutData)
+              : undefined,
+          ].filter((v) => !!v) as any,
+        },
+        save_payment_method: true,
+        payment_method_data: {
+          type: "bank_card",
+        },
+        capture: true,
+        confirmation: {
+          type: "redirect",
+          return_url: new URL(
+            `/dashboard/billing/payment-confirmation?id=${payment.id}`,
+            "https://" + env.DOMAIN_NAME
+          ).toString(),
+        },
+      },
+      payment.id
+    );
+
+    await tx
+      .update(paymentsTable)
+      .set({
+        externalId: providerPayment.id,
+      })
+      .where(eq(paymentsTable.id, payment.id));
+
+    return providerPayment;
+  });
+
+  redirect(payment.confirmation.confirmation_url!);
 }

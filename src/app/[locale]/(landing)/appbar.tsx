@@ -13,6 +13,7 @@ export function LandingAppBar() {
           <Logo />
           <div className="grow" />
           <LinkButton
+            disabled
             size="bg"
             variant="filled"
             className="hidden md:block"
@@ -28,6 +29,7 @@ export function LandingAppBar() {
             />
           </LinkButton>
           <LinkButton
+            disabled
             size="bg"
             variant="filled"
             className="block md:hidden"

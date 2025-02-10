@@ -6,12 +6,15 @@ import { z } from "zod";
  * This way you can ensure the app isn't built with invalid env vars.
  */
 export const serverSchema = z.object({
+  DOMAIN_NAME: z.string(),
   DATABASE_URL: z.string().url(),
   NODE_ENV: z.enum(["development", "test", "production"]).default("production"),
   DISCORD_ID: z.string(),
   DISCORD_SECRET: z.string(),
   TELEGRAM_BOT_TOKEN: z.string(),
   TOKEN_ENCRYPTION_KEY: z.string(),
+  YOOKASSA_SHOP_ID: z.string(),
+  YOOKASSA_SECRET_KEY: z.string(),
 });
 
 /**
@@ -20,12 +23,15 @@ export const serverSchema = z.object({
  * @type {{ [k in keyof z.input<typeof serverSchema>]: string | undefined }}
  */
 export const serverEnv = {
+  DOMAIN_NAME: process.env.VERCEL_URL || process.env.DOMAIN_NAME,
   DATABASE_URL: process.env.DATABASE_URL,
   NODE_ENV: process.env.NODE_ENV,
   DISCORD_ID: process.env.DISCORD_ID,
   DISCORD_SECRET: process.env.DISCORD_SECRET,
   TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN,
   TOKEN_ENCRYPTION_KEY: process.env.TOKEN_ENCRYPTION_KEY,
+  YOOKASSA_SHOP_ID: process.env.YOOKASSA_SHOP_ID,
+  YOOKASSA_SECRET_KEY: process.env.YOOKASSA_SECRET_KEY,
 };
 
 /**
