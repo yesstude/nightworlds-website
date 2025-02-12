@@ -43,7 +43,7 @@ export default async function HomePage() {
               <Icon icon="arrow_outward" size={16} className="-mr-2" />
             </Button>
           </Link>
-          <Link href="https://t.me/nilicom" target="_blank">
+          <Link href="https://t.me/nightworlds_channel" target="_blank">
             <Button type="button" variant="text">
               Telegram
               <Icon icon="arrow_outward" size={16} className="-mr-2" />
@@ -74,7 +74,7 @@ export default async function HomePage() {
                 <Icon icon="arrow_outward" size={16} className="-mr-2" />
               </Button>
             </Link>
-            <Link href="https://t.me/nilicom" target="_blank">
+            <Link href="https://t.me/nightworlds_channel" target="_blank">
               <Button type="button" variant="text">
                 Telegram
                 <Icon icon="arrow_outward" size={16} className="-mr-2" />

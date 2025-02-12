@@ -19,7 +19,7 @@ export default async function LandingFooter() {
               <Icon icon="arrow_outward" size={12} className="-mr-1" />
             </Button>
           </Link>
-          <Link href="https://t.me/nilicom" target="_blank">
+          <Link href="https://t.me/nightworlds_channel" target="_blank">
             <Button variant="text" size="sm">
               Telegram
               <Icon icon="arrow_outward" size={12} className="-mr-1" />
