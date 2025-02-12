@@ -172,7 +172,7 @@ export async function payWorldSubscription(
               : undefined,
           ].filter((v) => !!v) as any,
         },
-        save_payment_method: true,
+//        save_payment_method: true,
         payment_method_data: {
           type: "bank_card",
         },
