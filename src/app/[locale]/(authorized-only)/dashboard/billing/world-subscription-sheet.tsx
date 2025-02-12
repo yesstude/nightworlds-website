@@ -207,7 +207,7 @@ export function WorldSubscriptionSheet({
           <Button
             size="extended_fab"
             className="w-full"
-            disabled={!preview || (isGift && !preview.giftToUser)}
+            disabled={!preview || (isGift && !preview.giftToUser) || !email}
             onClick={() => {
               if (!preview || (isGift && !preview.giftToUser)) return;
 
