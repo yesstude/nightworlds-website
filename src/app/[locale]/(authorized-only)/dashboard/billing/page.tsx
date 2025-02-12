@@ -1,5 +1,9 @@
 import { Metadata } from "next";
-import { getPaymentMethods, unlinkPaymentMethod } from "./actions";
+import {
+  getPaymentMethods,
+  getSubscriptions,
+  unlinkPaymentMethod,
+} from "./actions";
 import TransactionsBlock from "./transactions";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { Icon } from "~/components/ui/icon";
@@ -12,9 +16,10 @@ export const metadata: Metadata = {
 
 export default async function DashboardDebugPage() {
   const methods = await getPaymentMethods();
+  const subscriptions = await getSubscriptions();
 
   return (
-    <div className="flex w-full flex-col gap-6 pt-8 lg:p-8">
+    <div className="flex w-full flex-col gap-12 pt-8 lg:p-8">
       {methods.length > 0 && (
         <div>
           <h1 className="mb-4 text-[32px] font-bold leading-tight tracking-normal text-foreground">
@@ -63,14 +68,39 @@ export default async function DashboardDebugPage() {
           </div>
         </div>
       )}
-      <div>
-        <h1 className="mb-4 text-[32px] font-bold leading-tight tracking-normal text-foreground">
-          Подписки
-        </h1>
+      {subscriptions.length > 0 ? (
         <div>
-          <p>У вас нет активных подписок.</p>
+          <h1 className="mb-4 text-[32px] font-bold leading-tight tracking-normal text-foreground">
+            Подписки
+          </h1>
+          <div>
+            {subscriptions.map((s) => (
+              <Card key={s.id} variant="filled">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[20px] font-medium">{s.tag}</span>
+                    <span className="text-[20px] font-medium">
+                      {s.shouldEndAt.toLocaleDateString()}
+                    </span>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  {s.freezeReason && (
+                    <div className="flex items-center gap-2">
+                      <Icon icon="ac_unit" />
+                      <span className="text-[16px] font-medium text-muted-foreground">
+                        Заморожена по причине: {s.freezeReason}
+                      </span>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
-      </div>
+      ) : (
+        ""
+      )}
       <TransactionsBlock />
     </div>
   );

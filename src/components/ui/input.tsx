@@ -38,11 +38,14 @@ const inputVariants = cva(
 
 const Input = React.forwardRef<
   HTMLInputElement,
-  React.ComponentProps<"input"> & VariantProps<typeof inputVariants>
->(({ className, type, variant, ...props }, ref) => {
+  React.ComponentProps<"input"> &
+    VariantProps<typeof inputVariants> & { pre?: React.ReactNode }
+>(({ className, type, variant, children, pre, ...props }, ref) => {
   return (
     <div className={cn(inputVariants({ variant }), "", className)}>
+      {pre}
       <input type={type} ref={ref} {...props} />
+      {children}
     </div>
   );
 });

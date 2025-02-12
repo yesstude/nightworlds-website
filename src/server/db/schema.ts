@@ -90,6 +90,10 @@ export const subscriptionsTable = table("subscriptions", {
   userId: cuid("user_id")
     .references(() => usersTable.id, { onDelete: "cascade" })
     .notNull(),
+  autoprolongWith: cuid("autoprolong_with").references(
+    () => paymentMethodsTable.id,
+    { onDelete: "set null" }
+  ),
   tag: varchar("tag", { length: 64 }).notNull(),
   createdAt: datetime("created_at")
     .$default(() => new Date())

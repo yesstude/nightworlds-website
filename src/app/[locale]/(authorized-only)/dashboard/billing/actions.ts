@@ -1,13 +1,15 @@
 "use server";
 
-import { and, desc, eq, or } from "drizzle-orm";
+import { and, desc, eq, gt, isNotNull, isNull, lt, or } from "drizzle-orm";
 import { getMeUnsafe } from "~/server/api/sessions";
 import { db } from "~/server/db";
 import {
   paymentMethodsTable,
   paymentsTable,
   subscriptionsTable,
+  usersTable,
 } from "~/server/db/schema";
+import User, { ClientUser } from "~/server/models/User";
 
 export async function getPaymentMethods() {
   const me = await getMeUnsafe();
@@ -68,4 +70,55 @@ export async function hadPayments() {
   const payments = await getPayments();
 
   return payments.length > 0;
+}
+
+export async function getSubscriptions() {
+  const me = await getMeUnsafe();
+  if (!me) return [];
+
+  const subscriptions = await db
+    .select()
+    .from(subscriptionsTable)
+    .where(
+      and(
+        eq(subscriptionsTable.userId, me.id),
+        isNotNull(subscriptionsTable.shouldEndAt),
+        gt(subscriptionsTable.shouldEndAt, new Date()),
+        or(
+          isNull(subscriptionsTable.endedAt),
+          gt(subscriptionsTable.endedAt, new Date())
+        )
+      )
+    );
+  return subscriptions.map((s) => ({
+    id: s.id,
+    tag: s.tag,
+    shouldEndAt: s.shouldEndAt!,
+    freezeReason: s.freezeReason,
+  }));
+}
+
+export async function searchUserByNickname(nickname: string) {
+  const me = await getMeUnsafe();
+
+  const [user] = await db
+    .selectDistinct()
+    .from(usersTable)
+    .leftJoin(
+      subscriptionsTable,
+      and(
+        eq(usersTable.id, subscriptionsTable.userId),
+        isNotNull(subscriptionsTable.shouldEndAt),
+        lt(subscriptionsTable.shouldEndAt, new Date())
+      )
+    )
+    .where(eq(usersTable.nickname, nickname.trim()));
+  if (!user) return undefined;
+  if (user.user.id === me?.id) return undefined;
+  if (user.subscriptions) return undefined;
+  return {
+    id: user.user.id,
+    nickname: user.user.nickname!,
+    avatarUrl: User.getDefaultAvatarUrl(user.user.nickname ?? undefined),
+  } satisfies ClientUser;
 }

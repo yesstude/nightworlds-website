@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, memo, useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
 import {
   Sheet,
@@ -21,36 +21,47 @@ import {
 } from "~/app/[locale]/(authorized-only)/dashboard/billing/world-subscriptions";
 import { WorldId } from "~/server/api/worlds";
 import Image from "next/image";
-import { worldLogo } from "../../worlds/worlds-logos";
+import { worldLogo } from "../worlds/worlds-logos";
 import { Input } from "~/components/ui/input";
 import { useLocale } from "next-intl";
 import { Icon } from "~/components/ui/icon";
 import { useDebounce } from "use-debounce";
 import PlayerInput from "./player-input";
+import { PaymentMethodInput } from "./payment-method-input";
 
 export function WorldSubscriptionSheet({
   children,
   worldId,
+  isGift,
   ...props
 }: {
   children?: ReactNode;
   worldId: WorldId;
+  isGift?: boolean;
 } & Parameters<typeof Sheet>[0]) {
+  if (!worldId) return children;
+
   const locale = useLocale();
 
   const [input, setInput] = useState<WorldSubscriptionPaymentInput>({
     worldId,
-    // giftToUserId: "ui9doajp8rtuxwcaonocclaq",
   });
   const [preview, setPreview] = useState<WorldSubscriptionPaymentPreview>();
 
   const [rawDonation, setDonation] = useState(0);
   const [donation] = useDebounce(rawDonation, 400);
+  const [giftToUserId, setGiftToUserId] = useState<string | undefined>();
+  const [paymentMethodId, setPaymentMethodId] = useState<string>();
 
   useEffect(() => {
     setPreview(undefined);
-    previewWorldSubscription({ ...input, donation }).then(setPreview);
-  }, [input, donation]);
+    previewWorldSubscription({
+      ...input,
+      donation,
+      giftToUserId,
+      paymentMethodId,
+    }).then(setPreview);
+  }, [input, donation, giftToUserId]);
 
   const logo = worldLogo(preview?.world.id as any);
 
@@ -66,7 +77,7 @@ export function WorldSubscriptionSheet({
         </SheetHeader>
         <div className="flex flex-grow flex-col gap-4">
           <div className="flex flex-col gap-4">
-            {/* <PlayerInput /> */}
+            {isGift && <PlayerInput onChange={setGiftToUserId} />}
             <Input
               placeholder="Поддержка, ₽ (необязательно)"
               type="number"
@@ -176,16 +187,25 @@ export function WorldSubscriptionSheet({
               </div>
             </div>
           )}
+          <div className="relative h-full w-full overflow-x-scroll p-1 [scrollbar-width:none] [&_::-webkit-scrollbar]:hidden">
+            <PaymentMethodInput
+              className="h-max w-full flex-nowrap md:flex-wrap"
+              onChange={setPaymentMethodId}
+            />
+          </div>
         </div>
         <SheetFooter>
           <Button
             size="extended_fab"
             className="w-full"
-            disabled={!preview}
+            disabled={!preview || (isGift && !preview.giftToUser)}
             onClick={() => {
-              if (!preview) return;
+              if (!preview || (isGift && !preview.giftToUser)) return;
 
-              payWorldSubscription({ ...input, donation }, preview.price);
+              payWorldSubscription(
+                { ...input, donation, giftToUserId },
+                preview.price
+              );
             }}
           >
             Оплатить {preview?.price ? `${preview.price.toFixed(2)}₽` : ""}

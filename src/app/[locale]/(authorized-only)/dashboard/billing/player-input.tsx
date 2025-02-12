@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
@@ -8,8 +10,85 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
+import { ClientUser } from "~/server/models/User";
+import { searchUserByNickname } from "./actions";
 
-export default function PlayerInput() {
+export default function PlayerInput({
+  name,
+  onChange,
+  defaultValue,
+}: {
+  name?: string;
+  onChange?: (value: string | undefined) => any;
+  defaultValue?: string;
+}) {
+  const [value, setValue] = useState<ClientUser>();
+  const [error, setError] = useState<string>();
+
+  const [rawInput, setInput] = useState(defaultValue);
+  const [input] = useDebounce(rawInput, 500);
+
+  useEffect(() => {
+    if (!input || input?.trim().length === 0) {
+      setValue(undefined);
+      setError(undefined);
+      return;
+    }
+    searchUserByNickname(input).then((res) => {
+      if (!res) {
+        setError("Игрок не зарегистрирован на NightWorlds");
+        setValue(undefined);
+      } else {
+        setError(undefined);
+        setValue(res);
+      }
+    });
+  }, [input]);
+  useEffect(() => {
+    onChange?.(value?.id);
+  }, [value]);
+
+  return (
+    <div className="flex flex-col gap-2">
+      <input type="hidden" name={name} value={value?.id} />
+      <Input
+        variant="outlined"
+        onInput={(e) => setInput(e.currentTarget.value)}
+        pre={
+          <img
+            src={
+              value?.avatarUrl || "https://mineskin.eu/helm/MHF_Steve/128.png"
+            }
+            loading="eager"
+            className="relative -ml-1 block h-7 w-7 rounded-[4px]"
+          />
+        }
+        className={
+          error
+            ? "outline-2 outline-destructive has-[:focus-visible]:outline-destructive"
+            : ""
+        }
+        placeholder="Получатель"
+        defaultValue={defaultValue}
+      >
+        {/* <Icon icon="edit" /> */}
+        <Icon
+          icon="error"
+          fill
+          className={
+            "text-destructive transition-opacity duration-200 " +
+            (error ? "opacity-100" : "opacity-0")
+          }
+        />
+      </Input>
+      {!!error && (
+        <span className="px-3 text-sm leading-tight text-destructive">
+          {error}
+        </span>
+      )}
+    </div>
+  );
+
   return (
     <Popover>
       <PopoverTrigger asChild>

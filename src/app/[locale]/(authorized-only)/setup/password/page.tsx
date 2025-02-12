@@ -43,10 +43,11 @@ export default function SetupPage() {
           >
             <Input
               pattern="[A-Za-z0-9_]{3,16}"
-              style={{
-                borderColor: error ? `hsl(var(--destructive))` : undefined,
-                borderBottomWidth: error ? `3px` : undefined,
-              }}
+              className={
+                error
+                  ? "outline-2 outline-destructive has-[:focus-visible]:outline-destructive"
+                  : ""
+              }
               aria-invalid={error != undefined}
               required
               type={passwordVisibility ? "text" : "password"}
@@ -55,26 +56,27 @@ export default function SetupPage() {
               onInput={(e) => {
                 setInput(e.currentTarget.value);
               }}
-            />
-            <MemoButton
-              type="button"
-              variant="text"
-              size="fab"
-              onClick={() => setPasswordVisibility((v) => !v)}
             >
-              <Icon
-                className="visibility-icon transition-[transform,_opacity]"
-                as="div"
-                icon="visibility"
-                size={32}
-              />
-              <Icon
-                className="visibility-icon-off absolute right-[40px] -mr-[40px] transition-[transform,_opacity]"
-                as="div"
-                icon="visibility_off"
-                size={32}
-              />
-            </MemoButton>
+              <MemoButton
+                type="button"
+                variant="text"
+                size="icon"
+                onClick={() => setPasswordVisibility((v) => !v)}
+                className="-mr-1 gap-0"
+                noripple
+              >
+                <Icon
+                  className="visibility-icon transition-[transform,_opacity]"
+                  as="div"
+                  icon="visibility"
+                />
+                <Icon
+                  className="visibility-icon-off absolute right-[24px] -mr-[24px] transition-[transform,_opacity]"
+                  as="div"
+                  icon="visibility_off"
+                />
+              </MemoButton>
+            </Input>
           </div>
           <ErrorMessage current={error} error="too-short">
             Пароль должен состоять хотя бы из 5 символов

@@ -87,7 +87,7 @@ export default function TransactionsBlock() {
   return (
     <div>
       <h1 className="mb-4 text-[32px] font-bold leading-tight tracking-normal text-foreground">
-        Транзакции
+        Платежи
       </h1>
       <div className="flex flex-col gap-3">
         {loading ? (

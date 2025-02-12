@@ -10,7 +10,13 @@ import { Input } from "~/components/ui/input";
 import { getMeUnsafe } from "~/server/api/sessions";
 import { getAllWorldIds } from "~/server/api/worlds";
 import { db } from "~/server/db";
-import { serversTable, usersTable } from "~/server/db/schema";
+import {
+  paymentMethodsTable,
+  paymentsTable,
+  serversTable,
+  subscriptionsTable,
+  usersTable,
+} from "~/server/db/schema";
 
 export const metadata: Metadata = {
   title: "Отладка",
@@ -47,6 +53,27 @@ export default async function DashboardDebugPage() {
             }}
           >
             Сброс учётки
+          </FastButton>
+          <FastButton
+            action={async () => {
+              "use server";
+
+              const me = await getMeUnsafe();
+
+              await db
+                .delete(paymentsTable)
+                .where(eq(paymentsTable.userId, me!.id));
+              await db
+                .delete(subscriptionsTable)
+                .where(eq(subscriptionsTable.userId, me!.id));
+              await db
+                .delete(paymentMethodsTable)
+                .where(eq(paymentMethodsTable.userId, me!.id));
+
+              return redirect("/dashboard/debug");
+            }}
+          >
+            Сброс платёжных данных
           </FastButton>
         </div>
       </div>

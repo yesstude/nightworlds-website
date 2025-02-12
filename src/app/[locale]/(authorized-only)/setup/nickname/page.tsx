@@ -53,10 +53,11 @@ export default function SetupPage() {
         <div className="flex w-full grow flex-col text-left text-sm [&_span]:mx-4">
           <Input
             pattern="[A-Za-z0-9_]{3,16}"
-            style={{
-              borderColor: error ? `hsl(var(--destructive))` : undefined,
-              borderBottomWidth: error ? `3px` : undefined,
-            }}
+            className={
+              error
+                ? "outline-2 outline-destructive has-[:focus-visible]:outline-destructive"
+                : ""
+            }
             aria-invalid={error != undefined}
             required
             type="text"

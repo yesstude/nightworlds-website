@@ -75,7 +75,10 @@ export default class User
 
   static async getByIds(ids: string[]) {
     return this.selectWhere(
-      and(inArray(usersTable.id, ids), isNotNull(usersTable.nickname))
+      and(
+        inArray(usersTable.id, ids)
+        // isNotNull(usersTable.nickname)
+      )
     );
   }
   static async getById(id: string) {
@@ -89,7 +92,7 @@ export default class User
         new User(
           user.id,
           user.nickname!,
-          undefined as any,
+          User.getDefaultAvatarUrl(user.nickname ?? undefined),
           user.isSetUp,
           user.licenseType ?? undefined,
           user.registeredAt
@@ -103,11 +106,9 @@ export default class User
     public isSetUp: boolean,
     public licenseType: "online" | "partial" | "offline" | undefined,
     public readonly registeredAt: Date
-  ) {
-    if (!avatarUrl) avatarUrl = User.getDefaultAvatarUrl(nickname);
-  }
+  ) {}
 
   static getDefaultAvatarUrl(nickname?: string) {
-    return `https://minotar.net/helm/${nickname ?? "MHF_Steve"}/128.png`;
+    return `https://mineskin.eu/helm/${nickname ?? "MHF_Steve"}/128.png`;
   }
 }

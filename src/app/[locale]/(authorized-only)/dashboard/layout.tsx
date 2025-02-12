@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import NavDrawer from "./sidebar";
 import LandingFooter from "../../(landing)/footer";
-import { getMeUnsafe } from "~/server/api/sessions";
+import { getCurrentSession, getMeUnsafe } from "~/server/api/sessions";
 import { redirect } from "next/navigation";
 import { TransitionSuspense } from "~/components/transition/transition-provider";
 import { SidebarInset, SidebarProvider } from "~/components/ui/sidebar";
@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function DashboardLayout(props: { children: ReactNode }) {
-  const user = await getMeUnsafe();
-  if (!user!.isSetUp) return redirect("/setup");
+  const { user } = await getCurrentSession();
+  if (!user?.isSetUp) return redirect("/setup");
 
   return (
     <SidebarProvider>

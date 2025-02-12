@@ -14,15 +14,21 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Icon } from "~/components/ui/icon";
-import {
-  PersonalizedWorld,
-  getPersonalizedWorlds,
-} from "~/server/api/personalized-worlds";
+import { PersonalizedWorld, getPersonalizedWorlds } from "./actions";
 import { worldLogo } from "./worlds-logos";
-import { WorldSubscriptionSheet } from "../billing/(components)/world-subscription-sheet";
+import { WorldSubscriptionSheet } from "../billing/world-subscription-sheet";
+import { LinkButton } from "~/components/transition/link";
+import { SheetTrigger } from "~/components/ui/sheet";
 
 export const metadata: Metadata = {
   title: "Миры",
@@ -30,12 +36,8 @@ export const metadata: Metadata = {
 
 export default async function DashboardWorldsPage() {
   const worlds = await getPersonalizedWorlds();
-  const availableWorlds = worlds.filter(
-    (w) => w.availability.type != "unavailable"
-  );
-  const unavailableWorlds = worlds.filter(
-    (w) => w.availability.type == "unavailable"
-  );
+  const availableWorlds = worlds.filter((w) => w.isAvailable);
+  const unavailableWorlds = worlds.filter((w) => !w.isAvailable);
 
   return (
     <div className="flex flex-col gap-12 lg:p-8">
@@ -71,7 +73,6 @@ export default async function DashboardWorldsPage() {
           ))}
         </div>
       </div>
-      {/* <WorldSubscriptionSheet worldId="medium" defaultOpen /> */}
     </div>
   );
 }
@@ -108,9 +109,9 @@ function WorldCard({
       </CardContent>
       <CardFooter className="justify-start gap-2">
         <span className="flex-grow">
-          {world.availability.type == "subscription"
-            ? `${world.availability.price}₽ / месяц`
-            : world.availability.type == "free"
+          {!!world.subscription
+            ? `${world.subscription.price}₽ / месяц`
+            : world.isFree
             ? "Бесплатно"
             : ""}
         </span>
@@ -119,39 +120,90 @@ function WorldCard({
           <Icon icon="arrow_outward" size={12} className="-mr-1" />
         </Button> */}
         <div className="flex place-items-center gap-[2px]">
-          <Button
-            variant="filled"
-            className="rounded-r-none [&_>div]:pr-5"
-            disabled={world.availability.type == "unavailable"}
-          >
-            {world.availability.type == "subscription"
-              ? world.availability.isPreorder
-                ? "Предзаказ"
-                : "Купить"
-              : world.availability.type == "free"
-              ? "Играть"
-              : "Недоступно"}
-          </Button>
+          {world.isAvailable && (world.isFree || world.subscription?.isPaid) ? (
+            <LinkButton
+              variant="filled"
+              className="rounded-r-none [&_>div]:pr-5"
+              href="/dashboard"
+            >
+              Играть
+            </LinkButton>
+          ) : !!world.subscription ? (
+            <WorldSubscriptionSheet worldId={world.id}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="filled"
+                  className="rounded-r-none [&_>div]:pr-5"
+                >
+                  {world.isPreOrderable ? "Предзаказ" : "Купить"}
+                </Button>
+              </SheetTrigger>
+            </WorldSubscriptionSheet>
+          ) : (
+            <Button
+              variant="filled"
+              className="rounded-r-none [&_>div]:pr-5"
+              disabled
+            >
+              Недоступно
+            </Button>
+          )}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="filled"
                 className="rounded-l-none [&_>div]:pl-1 [&_>div]:pr-2"
-                disabled={world.availability.type == "unavailable"}
+                disabled={!world.isAvailable}
               >
                 <Icon icon="more_vert" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Icon icon="card_giftcard" />
-                Другому игроку
-              </DropdownMenuItem>
-              {/* <DropdownMenuItem>
-                <Icon icon="bug_report" />
-                Сервер не работает
-              </DropdownMenuItem> */}
-            </DropdownMenuContent>
+            <WorldSubscriptionSheet
+              worldId={world.subscription ? world.id : (undefined as any)}
+              isGift
+            >
+              <DropdownMenuContent align="end">
+                {/* {!!world.subscription?.isPaid && (
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                      <Icon icon="calendar_clock" />
+                      <span className="flex-grow">Автопродление</span>
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                      <DropdownMenuSubContent>
+                        <DropdownMenuRadioGroup value="card1">
+                          <DropdownMenuRadioItem value="off">
+                            Отключено
+                          </DropdownMenuRadioItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuRadioItem value="card1">
+                            *1234
+                          </DropdownMenuRadioItem>
+                          <DropdownMenuRadioItem value="card2">
+                            *5678
+                          </DropdownMenuRadioItem>
+                          <DropdownMenuRadioItem value="card3">
+                            *9012
+                          </DropdownMenuRadioItem>
+                        </DropdownMenuRadioGroup>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                  </DropdownMenuSub>
+                )} */}
+                {!!world.subscription && (
+                  <SheetTrigger asChild>
+                    <DropdownMenuItem>
+                      <Icon icon="featured_seasonal_and_gifts" />
+                      Подарить
+                    </DropdownMenuItem>
+                  </SheetTrigger>
+                )}
+                {/* <DropdownMenuItem>
+                  <Icon icon="bug_report" />
+                  Сервер не работает
+                </DropdownMenuItem> */}
+              </DropdownMenuContent>
+            </WorldSubscriptionSheet>
           </DropdownMenu>
         </div>
       </CardFooter>

@@ -2,7 +2,11 @@ import { NextRequest } from "next/server";
 import { Payment as YooPayment } from "@a2seven/yoo-checkout";
 import yookassa from "~/server/yoocheckout";
 import { db } from "~/server/db";
-import { paymentMethodsTable, paymentsTable } from "~/server/db/schema";
+import {
+  paymentMethodsTable,
+  paymentsTable,
+  subscriptionsTable,
+} from "~/server/db/schema";
 import { and, eq } from "drizzle-orm";
 
 export async function POST(req: NextRequest) {
@@ -63,6 +67,43 @@ async function handlePaymentUpdate(externalId: string) {
             : undefined,
         })
         .$returningId();
+  }
+
+  if (payment.type == "subscription" && payment.subscriptionId) {
+    const [subscription] = await db
+      .select()
+      .from(subscriptionsTable)
+      .where(eq(subscriptionsTable.id, payment.subscriptionId));
+    if (yoopayment.status === "canceled")
+      await db
+        .delete(subscriptionsTable)
+        .where(eq(subscriptionsTable.id, subscription!.id));
+    if (yoopayment.status === "succeeded") {
+      const toAdd = 1000 * 60 * 60 * 24 * 30;
+      await db
+        .update(subscriptionsTable)
+        .set(
+          subscription!.shouldEndAt
+            ? {
+                shouldEndAt: new Date(
+                  subscription!.shouldEndAt.getTime() + toAdd
+                ),
+                autoprolongWith:
+                  subscription!.userId === payment.userId
+                    ? method?.id
+                    : undefined,
+              }
+            : {
+                startedAt: new Date(),
+                shouldEndAt: new Date(Date.now() + toAdd),
+                autoprolongWith:
+                  subscription!.userId === payment.userId
+                    ? method?.id
+                    : undefined,
+              }
+        )
+        .where(eq(subscriptionsTable.id, subscription!.id));
+    }
   }
 
   if (yoopayment.status === "succeeded" || yoopayment.status === "canceled")

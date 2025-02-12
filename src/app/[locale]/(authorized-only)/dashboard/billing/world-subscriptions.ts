@@ -20,6 +20,7 @@ import { IItemWithoutData, YooCheckout } from "@a2seven/yoo-checkout";
 import { env } from "~/env/server.mjs";
 import { redirect } from "next/navigation";
 import yookassa from "~/server/yoocheckout";
+import User from "~/server/models/User";
 
 export async function previewWorldSubscription(
   payment: WorldSubscriptionPaymentInput
@@ -40,7 +41,7 @@ export async function previewWorldSubscription(
   if (newName) world.name = newName;
 
   const user = payment.giftToUserId
-    ? (await getUser(payment.giftToUserId))!
+    ? (await User.getById(payment.giftToUserId))!
     : me;
   const finalUser = (await getClientSafeUser(user))!;
 
@@ -59,9 +60,7 @@ export async function previewWorldSubscription(
 
   price = Math.floor(price);
 
-  const giftToUser = payment.giftToUserId
-    ? await getClientSafeUser(user)
-    : undefined;
+  const giftToUser = payment.giftToUserId ? user.getClient() : undefined;
 
   return {
     world,
@@ -124,6 +123,7 @@ export async function payWorldSubscription(
       .insert(paymentsTable)
       .values({
         type: "subscription",
+        subscriptionId: currentSub.id,
         userId: me.id,
         provider: "yookassa",
         amount: data.price,

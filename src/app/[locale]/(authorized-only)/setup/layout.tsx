@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { ReactNode, Suspense } from "react";
+import { ReactNode } from "react";
 import { TransitionSuspense } from "~/components/transition/transition-provider";
-import { getMeUnsafe } from "~/server/api/sessions";
+import { getCurrentSession } from "~/server/api/sessions";
 
 export const metadata: Metadata = {
   title: "Первоначальная настройка аккаунта",
@@ -13,7 +13,7 @@ export default async function AccountSetupLayout({
 }: {
   children: ReactNode;
 }) {
-  const user = await getMeUnsafe();
+  const { user } = await getCurrentSession();
 
   if (user!.isSetUp) return redirect("/dashboard");
 

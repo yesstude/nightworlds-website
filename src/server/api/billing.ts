@@ -1,8 +1,8 @@
 import { and, eq, gt, isNotNull, lt, or } from "drizzle-orm";
 import { db } from "../db";
 import { BaseSubscription, subscriptionsTable } from "../db/schema";
-import { ClientSafeUser } from "./users";
 import { ClientSafeWorld, WorldId, WorldSubscriptionTag } from "./worlds";
+import { ClientUser } from "../models/User";
 
 export type FreeFeatureAccessPolicy = {
   type: "free";
@@ -79,11 +79,12 @@ export type WorldSubscriptionPaymentInput = {
   worldId: WorldId;
   donation?: number;
   giftToUserId?: string;
+  paymentMethodId?: string;
 };
 export type WorldSubscriptionPaymentPreview = {
   world: ClientSafeWorld;
-  giftToUser?: ClientSafeUser;
-  finalUser: ClientSafeUser;
+  giftToUser?: ClientUser;
+  finalUser: ClientUser;
   prolongation: {
     from?: Date;
     to?: Date;
@@ -93,9 +94,3 @@ export type WorldSubscriptionPaymentPreview = {
   willBeFrozen?: { reason: Exclude<BaseSubscription["freezeReason"], null> };
   price: number;
 };
-
-export async function checkoutWorldSubscription(
-  payment: WorldSubscriptionPaymentInput
-) {
-  "use server";
-}
