@@ -23,7 +23,7 @@ export const serverSchema = z.object({
  * @type {{ [k in keyof z.input<typeof serverSchema>]: string | undefined }}
  */
 export const serverEnv = {
-  DOMAIN_NAME: process.env.VERCEL_URL || process.env.DOMAIN_NAME,
+  DOMAIN_NAME: process.env.DOMAIN_NAME || process.env.VERCEL_URL,
   DATABASE_URL: process.env.DATABASE_URL,
   NODE_ENV: process.env.NODE_ENV,
   DISCORD_ID: process.env.DISCORD_ID,

@@ -83,7 +83,12 @@ export function WorldSubscriptionSheet({
               placeholder="Электронная почта, для чека"
               type="email"
               onInput={(e) => {
-                if (e.currentTarget.value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) setEmail(e.currentTarget.value);
+                if (
+                  e.currentTarget.value.match(
+                    /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+                  )
+                )
+                  setEmail(e.currentTarget.value);
                 else setEmail(undefined);
               }}
             />
