@@ -132,6 +132,7 @@ export async function payWorldSubscription(
       .$returningId();
     if (!payment) throw new Error("Error creating NightWorlds payment");
 
+    const { email } = input;
     const providerPayment = await yookassa.createPayment(
       {
         amount: {
@@ -141,7 +142,7 @@ export async function payWorldSubscription(
         description,
         receipt: {
           customer: {
-            email: "ruslan.gulid@gmail.com",
+            email,
           },
           items: [
             {

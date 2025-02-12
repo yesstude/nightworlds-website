@@ -48,9 +48,10 @@ export function WorldSubscriptionSheet({
   });
   const [preview, setPreview] = useState<WorldSubscriptionPaymentPreview>();
 
-  const [rawDonation, setDonation] = useState(0);
-  const [donation] = useDebounce(rawDonation, 400);
   const [giftToUserId, setGiftToUserId] = useState<string | undefined>();
+  const [rawDonation, setDonation] = useState(0);
+  const [email, setEmail] = useState<string>();
+  const [donation] = useDebounce(rawDonation, 400);
   const [paymentMethodId, setPaymentMethodId] = useState<string>();
 
   useEffect(() => {
@@ -78,6 +79,14 @@ export function WorldSubscriptionSheet({
         <div className="flex flex-grow flex-col gap-4">
           <div className="flex flex-col gap-4">
             {isGift && <PlayerInput onChange={setGiftToUserId} />}
+            <Input
+              placeholder="Электронная почта, для чека"
+              type="email"
+              onInput={(e) => {
+                if (e.currentTarget.value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) setEmail(e.currentTarget.value);
+                else setEmail(undefined);
+              }}
+            />
             <Input
               placeholder="Поддержка, ₽ (необязательно)"
               type="number"
@@ -203,7 +212,7 @@ export function WorldSubscriptionSheet({
               if (!preview || (isGift && !preview.giftToUser)) return;
 
               payWorldSubscription(
-                { ...input, donation, giftToUserId },
+                { ...input, donation, giftToUserId, email },
                 preview.price
               );
             }}

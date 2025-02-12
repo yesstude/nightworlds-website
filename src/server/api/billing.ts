@@ -80,6 +80,7 @@ export type WorldSubscriptionPaymentInput = {
   donation?: number;
   giftToUserId?: string;
   paymentMethodId?: string;
+  email?: string;
 };
 export type WorldSubscriptionPaymentPreview = {
   world: ClientSafeWorld;
