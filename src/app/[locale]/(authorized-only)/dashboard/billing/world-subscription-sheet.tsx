@@ -54,6 +54,8 @@ export function WorldSubscriptionSheet({
   const [donation] = useDebounce(rawDonation, 400);
   const [paymentMethodId, setPaymentMethodId] = useState<string>();
 
+  const [isProcessing, setIsProcessing] = useState(false);
+
   useEffect(() => {
     setPreview(undefined);
     previewWorldSubscription({
@@ -212,15 +214,31 @@ export function WorldSubscriptionSheet({
           <Button
             size="extended_fab"
             className="w-full"
-            disabled={!preview || (isGift && !preview.giftToUser) || !email}
-            onClick={() => {
-              if (!preview || (isGift && !preview.giftToUser)) return;
+            disabled={
+              !preview ||
+              (isGift && !preview.giftToUser) ||
+              !email ||
+              isProcessing
+            }
+            onClick={
+              isProcessing
+                ? undefined
+                : () => {
+                    if (!preview || (isGift && !preview.giftToUser)) return;
 
-              payWorldSubscription(
-                { ...input, donation, giftToUserId, email },
-                preview.price
-              );
-            }}
+                    payWorldSubscription(
+                      {
+                        ...input,
+                        donation,
+                        giftToUserId,
+                        email,
+                        paymentMethodId,
+                      },
+                      preview.price
+                    );
+                    setIsProcessing(true);
+                  }
+            }
           >
             Оплатить {preview?.price ? `${preview.price.toFixed(2)}₽` : ""}
           </Button>

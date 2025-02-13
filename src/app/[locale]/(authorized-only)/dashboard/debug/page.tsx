@@ -75,6 +75,40 @@ export default async function DashboardDebugPage() {
           >
             Сброс платёжных данных
           </FastButton>
+          <FastButton
+            action={async () => {
+              "use server";
+
+              const me = await getMeUnsafe();
+
+              await db
+                .update(usersTable)
+                .set({
+                  isAdmin: !me!.isAdmin,
+                })
+                .where(eq(usersTable.id, me!.id));
+
+              return redirect("/dashboard/debug");
+            }}
+          >
+            Вкл/выкл админку
+          </FastButton>
+          <FastButton
+            action={async () => {
+              "use server";
+
+              const me = await getMeUnsafe();
+
+              await db.insert(paymentMethodsTable).values({
+                userId: me!.id,
+                provider: "admin",
+              });
+
+              return redirect("/dashboard/billing");
+            }}
+          >
+            Выдать золотую карту
+          </FastButton>
         </div>
       </div>
       <Servers />

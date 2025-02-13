@@ -24,6 +24,7 @@ export const usersTable = table("user", {
   >(),
   nickname: varchar("nickname", { length: 32 }).unique(),
   passwordHash: varchar("password_hash", { length: 64 }),
+  isAdmin: boolean("is_admin").default(false).notNull(),
   registeredAt: datetime("registered_at")
     .$default(() => new Date())
     .notNull(),

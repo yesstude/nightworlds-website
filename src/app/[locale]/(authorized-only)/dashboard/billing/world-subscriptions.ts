@@ -12,9 +12,14 @@ import {
   WorldSubscriptionPaymentPreview,
   getCurrentSubscription,
   getSubscriptionPricingFor,
+  handlePaymentUpdate,
 } from "../../../../../server/api/billing";
 import { db } from "~/server/db";
-import { paymentsTable, subscriptionsTable } from "~/server/db/schema";
+import {
+  paymentMethodsTable,
+  paymentsTable,
+  subscriptionsTable,
+} from "~/server/db/schema";
 import { and, eq, gt, isNotNull, lt, or } from "drizzle-orm";
 import { IItemWithoutData, YooCheckout } from "@a2seven/yoo-checkout";
 import { env } from "~/env/server.mjs";
@@ -89,9 +94,20 @@ export async function payWorldSubscription(
   const reciever = data.finalUser;
   if (!reciever) throw new Error("User not found");
 
+  if (input.paymentMethodId)
+    var [paymentMethod] = await db
+      .select()
+      .from(paymentMethodsTable)
+      .where(
+        and(
+          eq(paymentMethodsTable.userId, me.id),
+          eq(paymentMethodsTable.id, input.paymentMethodId)
+        )
+      );
+
   const world = await getWorld(input.worldId);
 
-  const payment = await db.transaction(async (tx) => {
+  const { url, paymentId } = await db.transaction(async (tx) => {
     if (world.accessPolicy.type != "subscription")
       throw new Error("The world billing type is not a subscription");
 
@@ -125,79 +141,100 @@ export async function payWorldSubscription(
         type: "subscription",
         subscriptionId: currentSub.id,
         userId: me.id,
-        provider: "yookassa",
+        provider: paymentMethod?.provider ?? "yookassa",
+        savedMethodId: paymentMethod?.id,
         amount: data.price,
         description,
       })
       .$returningId();
     if (!payment) throw new Error("Error creating NightWorlds payment");
 
-    const { email } = input;
-    const providerPayment = await yookassa.createPayment(
-      {
-        amount: {
-          value: data.price.toFixed(2),
-          currency: "RUB",
-        },
-        description,
-        receipt: {
-          customer: {
-            email,
+    if (paymentMethod?.provider == "admin") {
+      await tx
+        .update(paymentsTable)
+        .set({
+          externalId: payment.id,
+        })
+        .where(eq(paymentsTable.id, payment.id));
+    } else {
+      const { email } = input;
+      const providerPayment = await yookassa.createPayment(
+        {
+          amount: {
+            value: data.price.toFixed(2),
+            currency: "RUB",
           },
-          items: [
-            {
-              description: `Оплата ${
-                data.giftToUser
-                  ? `подарочной подписки для @${reciever.nickname}`
-                  : "подписки"
-              } на ${data.world.name} на ${
-                data.prolongation.period == "monthly" ? "30 дней" : "7 дней"
-              }`,
-              amount: {
-                value: (data.price - (data.donation ?? 0)).toFixed(2),
-                currency: "RUB",
+          description,
+          receipt: {
+            customer: {
+              email,
+            },
+            items: [
+              {
+                description: `Оплата ${
+                  data.giftToUser
+                    ? `подарочной подписки для @${reciever.nickname}`
+                    : "подписки"
+                } на ${data.world.name} на ${
+                  data.prolongation.period == "monthly" ? "30 дней" : "7 дней"
+                }`,
+                amount: {
+                  value: (data.price - (data.donation ?? 0)).toFixed(2),
+                  currency: "RUB",
+                },
+                quantity: "1",
+                vat_code: 1,
+              } satisfies IItemWithoutData,
+              data.donation
+                ? ({
+                    description: `Финансовая поддержка проекта NightWorlds`,
+                    amount: {
+                      value: data.donation.toFixed(2),
+                      currency: "RUB",
+                    },
+                    quantity: "1",
+                    vat_code: 1,
+                  } satisfies IItemWithoutData)
+                : undefined,
+            ].filter((v) => !!v) as any,
+          },
+          //        save_payment_method: true,
+          payment_method_data: paymentMethod?.externalId
+            ? undefined
+            : {
+                type: "bank_card",
               },
-              quantity: "1",
-              vat_code: 1,
-            } satisfies IItemWithoutData,
-            data.donation
-              ? ({
-                  description: `Финансовая поддержка проекта NightWorlds`,
-                  amount: {
-                    value: data.donation.toFixed(2),
-                    currency: "RUB",
-                  },
-                  quantity: "1",
-                  vat_code: 1,
-                } satisfies IItemWithoutData)
-              : undefined,
-          ].filter((v) => !!v) as any,
+          payment_method_id: paymentMethod?.externalId ?? undefined,
+          capture: true,
+          confirmation: {
+            type: "redirect",
+            return_url: new URL(
+              `/dashboard/billing/payment-confirmation?id=${payment.id}`,
+              "https://" + env.DOMAIN_NAME
+            ).toString(),
+          },
         },
-        //        save_payment_method: true,
-        payment_method_data: {
-          type: "bank_card",
-        },
-        capture: true,
-        confirmation: {
-          type: "redirect",
-          return_url: new URL(
-            `/dashboard/billing/payment-confirmation?id=${payment.id}`,
-            "https://" + env.DOMAIN_NAME
-          ).toString(),
-        },
-      },
-      payment.id
-    );
+        payment.id
+      );
 
-    await tx
-      .update(paymentsTable)
-      .set({
-        externalId: providerPayment.id,
-      })
-      .where(eq(paymentsTable.id, payment.id));
+      await tx
+        .update(paymentsTable)
+        .set({
+          externalId: providerPayment.id,
+        })
+        .where(eq(paymentsTable.id, payment.id));
 
-    return providerPayment;
+      const url = providerPayment.confirmation?.confirmation_url;
+      if (url) return { paymentId: payment.id, url };
+    }
+
+    return {
+      paymentId: payment.id,
+      url: `/dashboard/billing/payment-confirmation?id=${payment.id}`,
+    };
   });
+  if (paymentMethod?.provider == "admin")
+    await handlePaymentUpdate("admin", paymentId);
 
-  redirect(payment.confirmation.confirmation_url!);
+  redirect(url);
 }

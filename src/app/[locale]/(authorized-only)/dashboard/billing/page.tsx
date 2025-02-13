@@ -57,9 +57,15 @@ export default async function DashboardDebugPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex place-items-center gap-2">
-                    <Icon icon="asterisk" />
+                    <Icon
+                      icon={
+                        m.provider == "admin" ? "all_inclusive" : "asterisk"
+                      }
+                    />
                     <span className="mt-1 font-mono text-[26px] font-bold">
-                      {m.card?.last4}
+                      {m.provider == "admin"
+                        ? "GOLDEN"
+                        : m.card?.last4 ?? "bug"}
                     </span>
                   </div>
                 </CardContent>

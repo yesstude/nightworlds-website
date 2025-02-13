@@ -67,9 +67,11 @@ function Method({
         <div className="flex place-items-center gap-2">
           {method ? (
             <>
-              <Icon icon="asterisk" />
+              <Icon
+                icon={method.provider == "admin" ? "all_inclusive" : "asterisk"}
+              />
               <span className="mt-1 font-mono text-[26px] font-bold">
-                {method.card?.last4}
+                {method.provider == "admin" ? "GOLDEN" : method.card?.last4 ?? "bug"}
               </span>
             </>
           ) : (

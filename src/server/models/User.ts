@@ -95,6 +95,7 @@ export default class User
           User.getDefaultAvatarUrl(user.nickname ?? undefined),
           user.isSetUp,
           user.licenseType ?? undefined,
+          user.isAdmin,
           user.registeredAt
         )
     );
@@ -105,6 +106,7 @@ export default class User
     public avatarUrl: string,
     public isSetUp: boolean,
     public licenseType: "online" | "partial" | "offline" | undefined,
+    public readonly isAdmin: boolean,
     public readonly registeredAt: Date
   ) {}
 

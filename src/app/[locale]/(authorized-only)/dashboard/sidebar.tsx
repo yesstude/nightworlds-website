@@ -17,6 +17,7 @@ import { useIsDevelopment } from "~/hooks/debug";
 import { useAwait } from "~/hooks/use-await";
 import { usePathname, useRouter } from "~/i18n/routing";
 import { hadPayments } from "./billing/actions";
+import { amIAdmin } from "./actions";
 
 type SidebarLink = {
   label: string;
@@ -28,6 +29,7 @@ type SidebarLink = {
 export default function NavDrawer() {
   const isDevelopment = useIsDevelopment();
   const showBilling = useAwait(hadPayments);
+  const isAdmin = useAwait(amIAdmin);
 
   let links = [
     {
@@ -45,6 +47,12 @@ export default function NavDrawer() {
       label: "Платежи",
       href: "/dashboard/billing",
       doShow: () => showBilling,
+    },
+    {
+      icon: "admin_panel_settings",
+      label: "Администрирование",
+      href: "/dashboard/admin",
+      doShow: () => !!isAdmin,
     },
     {
       icon: "bug_report",

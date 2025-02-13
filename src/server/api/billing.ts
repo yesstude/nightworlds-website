@@ -1,8 +1,15 @@
 import { and, eq, gt, isNotNull, lt, or } from "drizzle-orm";
 import { db } from "../db";
-import { BaseSubscription, subscriptionsTable } from "../db/schema";
-import { ClientSafeWorld, WorldId, WorldSubscriptionTag } from "./worlds";
+import {
+  BaseSubscription,
+  PaymentProvider,
+  paymentMethodsTable,
+  paymentsTable,
+  subscriptionsTable,
+} from "../db/schema";
 import { ClientUser } from "../models/User";
+import yookassa from "../yoocheckout";
+import { ClientSafeWorld, WorldId, WorldSubscriptionTag } from "./worlds";
 
 export type FreeFeatureAccessPolicy = {
   type: "free";
@@ -95,3 +102,106 @@ export type WorldSubscriptionPaymentPreview = {
   willBeFrozen?: { reason: Exclude<BaseSubscription["freezeReason"], null> };
   price: number;
 };
+
+export async function handlePaymentUpdate(
+  providerId: PaymentProvider,
+  externalId: string
+) {
+  const [payment] = await db
+    .select()
+    .from(paymentsTable)
+    .where(
+      and(
+        eq(paymentsTable.provider, providerId),
+        eq(paymentsTable.externalId, externalId)
+      )
+    );
+  if (!payment) return;
+  if (payment.closedAt && payment.closedAt.getTime() < Date.now()) return;
+
+  let status: "succeeded" | "canceled" | "waiting_for_capture" | "pending" =
+    "canceled";
+  if (providerId == "yookassa") {
+    const yoopayment = await yookassa.getPayment(externalId);
+
+    if (yoopayment.payment_method.saved) {
+      var [method]: { id: string }[] = await db
+        .select()
+        .from(paymentMethodsTable)
+        .where(
+          and(
+            eq(paymentMethodsTable.provider, providerId),
+            eq(paymentMethodsTable.externalId, yoopayment.payment_method.id)
+          )
+        );
+      if (!method)
+        [method] = await db
+          .insert(paymentMethodsTable)
+          .values({
+            userId: payment.userId,
+            provider: providerId,
+            externalId: yoopayment.payment_method.id,
+            card: yoopayment.payment_method.card
+              ? {
+                  first6: yoopayment.payment_method.card.first6,
+                  last4: yoopayment.payment_method.card.last4,
+                  expiry_month: yoopayment.payment_method.card.expiry_month,
+                  expiry_year: yoopayment.payment_method.card.expiry_year,
+                }
+              : undefined,
+          })
+          .$returningId();
+    }
+    status = yoopayment.status;
+  } else if (providerId == "admin") {
+    status = "succeeded";
+  }
+
+  if (payment.type == "subscription" && payment.subscriptionId) {
+    const [subscription] = await db
+      .select()
+      .from(subscriptionsTable)
+      .where(eq(subscriptionsTable.id, payment.subscriptionId));
+    if (status === "canceled")
+      if (!subscription?.startedAt)
+        await db
+          .delete(subscriptionsTable)
+          .where(eq(subscriptionsTable.id, subscription!.id));
+    if (status === "succeeded") {
+      const toAdd = 1000 * 60 * 60 * 24 * 30;
+      await db
+        .update(subscriptionsTable)
+        .set(
+          subscription!.shouldEndAt
+            ? {
+                shouldEndAt: new Date(
+                  subscription!.shouldEndAt.getTime() + toAdd
+                ),
+                autoprolongWith:
+                  subscription!.userId === payment.userId
+                    ? method?.id
+                    : undefined,
+              }
+            : {
+                startedAt: new Date(),
+                shouldEndAt: new Date(Date.now() + toAdd),
+                autoprolongWith:
+                  subscription!.userId === payment.userId
+                    ? method?.id
+                    : undefined,
+              }
+        )
+        .where(eq(subscriptionsTable.id, subscription!.id));
+    }
+  }
+
+  if (status === "succeeded" || status === "canceled")
+    await db
+      .update(paymentsTable)
+      .set({
+        result: status,
+        closedAt: new Date(),
+        savedMethodId: method?.id,
+      })
+      .where(eq(paymentsTable.id, payment.id));
+}

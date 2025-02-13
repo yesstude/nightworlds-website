@@ -26,6 +26,8 @@ export default function PaymentConfirmationPage() {
     check();
 
     const interval = setInterval(check, 5000);
+
+    return () => clearInterval(interval);
   }, [paymentId]);
 
   let icon: IconName = "timer";
