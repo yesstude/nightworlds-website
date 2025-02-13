@@ -4,6 +4,11 @@ export default {
   darkMode: ["class"],
   content: ["./src/**/*.tsx"],
   theme: {
+    screens: {
+      sm: "480px",
+      md: "768px",
+      lg: "1024px",
+    },
     boxShadow: {
       sm: "0 1px 4px 0 rgba(0, 0, 0, 0.37)",
       md: "0 2px 2px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.3)",

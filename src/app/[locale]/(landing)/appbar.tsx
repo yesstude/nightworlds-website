@@ -9,7 +9,7 @@ export function LandingAppBar() {
   return (
     <>
       <div className="fixed z-50 w-full rounded-b-[24px] bg-background print:relative">
-        <div className="flex h-[80px] w-full place-items-center rounded-b-[24px] bg-secondary/5 px-4 shadow-md">
+        <div className="flex h-[80px] w-full place-items-center rounded-b-[24px] bg-secondary/5 px-4 shadow-sm">
           <Logo />
           <div className="grow" />
           <LinkButton

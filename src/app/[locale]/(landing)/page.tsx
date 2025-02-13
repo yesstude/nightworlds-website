@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Metadata } from "next";
+import { LandingBanner } from "./landing-banner";
 
 export const metadata: Metadata = {
   title: "Minecraft-сервер, посвященный выживанию",
@@ -26,31 +27,7 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   return (
     <>
-      <div className="mb-24 flex max-w-[600px] flex-col place-items-center gap-2 rounded-[48px] bg-foreground/5 px-8 py-16 md:mt-16">
-        <Icon icon="timer" className="mb-8" size={48} />
-        <div className="text-center text-[18px] font-medium leading-relaxed tracking-wide text-foreground/80 subpixel-antialiased [&_h1]:mb-4 [&_h1]:text-[32px] [&_h1]:font-bold [&_h1]:leading-tight [&_h1]:tracking-normal [&_h1]:text-foreground">
-          <h1>Придется подождать...</h1>
-          <p>
-            NightWorlds в данный момент находится в стадии обновления. К
-            сожалению, поиграть пока не получится. Мы обязательно объявим о
-            запуске в своих соц. сетях.
-          </p>
-        </div>
-        <div className="mt-6 flex gap-2">
-          <Link href="https://discord.gg/jtSnBy3Wsf" target="_blank">
-            <Button type="button" variant="filled">
-              Discord
-              <Icon icon="arrow_outward" size={16} className="-mr-2" />
-            </Button>
-          </Link>
-          <Link href="https://t.me/nightworlds_channel" target="_blank">
-            <Button type="button" variant="text">
-              Telegram
-              <Icon icon="arrow_outward" size={16} className="-mr-2" />
-            </Button>
-          </Link>
-        </div>
-      </div>
+      <LandingBanner />
       <div className="flex max-w-[1400px] flex-col gap-16 px-8 py-8 md:px-20">
         <FeatureBox img={build} alt="Two players building a tower" reverse>
           <h1>Стройте удивительные вещи</h1>
