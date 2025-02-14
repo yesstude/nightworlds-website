@@ -29,10 +29,14 @@ export async function getServerStatus(serverId: string) {
         server!.worldId
       }) недоступен, хотя до этого был настроен.`
     );
-  if (server!.remoteMethod && !server!.mayBeDown && status == "stopped")
+  if (server!.remoteMethod && !server!.mayBeDown && status == "stopped") {
+    await powerServer(serverId, "start");
     await broadcastToAdmins(
-      `Сервер ${server!.id} (${server!.worldId}) оказался выключен.`
+      `Сервер ${server!.id} (${
+        server!.worldId
+      }) оказался выключен. NightWorlds осуществляет автоматическую попытку восстановления.`
     );
+  }
   if (server!.remoteMethod && server!.mayBeDown && status == "running")
     await broadcastToAdmins(
       `Сервер ${server!.id} (${server!.worldId}) был запущен после ошибки.`

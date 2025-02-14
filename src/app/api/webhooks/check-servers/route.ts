@@ -1,11 +1,12 @@
 import { and, gt, isNull, lt, or } from "drizzle-orm";
+import { headers } from "next/headers";
 import { getServerStatus } from "~/server/api/servers";
 import { db } from "~/server/db";
 import { serversTable } from "~/server/db/schema";
 
-export const dynamic = "force-dynamic";
-
 export async function GET() {
+  headers();
+
   const servers = await db
     .select({ id: serversTable.id, worldId: serversTable.worldId })
     .from(serversTable)
