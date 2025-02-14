@@ -175,6 +175,7 @@ async function Servers() {
         }}
       >
         <select name="worldId" id="worldId">
+          <option value="proxy">proxy (not a world)</option>
           {(await getAllWorldIds()).map((v) => (
             <option value={v}>{v}</option>
           ))}
@@ -205,9 +206,14 @@ async function Servers() {
         <tbody>
           {servers.map((s) => (
             <tr>
-              {Object.entries(s[1]).map((v) => (
-                <td>{v[1]?.toString()}</td>
-              ))}
+              {Object.entries(s[1]).map((v) => {
+                // try {
+                //   const c = JSON.stringify(v[1]);
+                //   return <td>{c}</td>;
+                // } catch (error) {
+                return <td>{v[1]?.toString()}</td>;
+                // }
+              })}
               <td>
                 <form
                   action={async () => {

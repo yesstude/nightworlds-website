@@ -64,8 +64,15 @@ export type Session = typeof sessionsTable.$inferSelect;
 
 export const serversTable = table("servers", {
   id: autocuid("id").primaryKey(),
-  worldId: varchar("world_id", { length: 32 }).$type<WorldId>().notNull(),
+  worldId: varchar("world_id", { length: 32 })
+    .$type<WorldId | "proxy">()
+    .notNull(),
   overwriteWorldName: varchar("overwrite_name", { length: 64 }),
+  mayBeDown: boolean("may_be_down").default(false).notNull(),
+  remoteMethod: varchar("remote_method", {
+    length: 32,
+  }).$type<"manual_pterodactyl">(),
+  remoteData: json("remote_data"),
   isPreOrderable: boolean("preorderable").default(false).notNull(),
   startedAt: datetime("started_at")
     .$default(() => new Date())
