@@ -5,7 +5,7 @@ import { serversTable } from "~/server/db/schema";
 
 export async function GET() {
   const servers = await db
-    .select({ id: serversTable.id })
+    .select({ id: serversTable.id, worldId: serversTable.worldId })
     .from(serversTable)
     .where(
       and(
@@ -13,8 +13,10 @@ export async function GET() {
         or(gt(serversTable.closedAt, new Date()), isNull(serversTable.closedAt))
       )
     );
-  for (const { id } of servers) {
-    await getServerStatus(id);
+  let result: { id: string; status: string }[] = [];
+  for (const { id, ...server } of servers) {
+    const status = await getServerStatus(id);
+    result.push({ ...server, id, status });
   }
-  return new Response(undefined, { status: 200 });
+  return Response.json(result, { status: 200 });
 }
