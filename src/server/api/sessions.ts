@@ -73,7 +73,8 @@ export async function createSession(
     useragent &&
     !browser &&
     useragent?.match(
-      /^Minecraft (((\d{1,2}\.?){2,3}-?){1,2}|Unknown Version)$/gm
+      /^Minecraft.*$/gm
+      // /^Minecraft (((\d{1,2}\.?){2,3}-?){1,2}|Unknown Version)$/gm
     )
   )
     browser = useragent;
@@ -86,7 +87,7 @@ export async function createSession(
     expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
     type,
     useragent: useragent ?? null,
-    loggedAt: null,
+    loggedAt: userId ? new Date() : null,
     browser,
     platform: browserData?.platform ?? null,
     ipAddress: ipAddress ?? null,

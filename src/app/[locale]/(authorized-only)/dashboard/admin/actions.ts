@@ -10,7 +10,7 @@ import { db } from "~/server/db";
 import { accountsTable, serversTable, usersTable } from "~/server/db/schema";
 import User from "~/server/models/User";
 
-async function getMe() {
+export async function getAdminMe() {
   const me = await getMeUnsafe();
   if (!me?.isAdmin) {
     throw new Error("Not authorized");
@@ -19,7 +19,7 @@ async function getMe() {
 }
 
 export async function getUsers(page: number = 0, pageSize: number = 20) {
-  const me = await getMe();
+  const me = await getAdminMe();
 
   const users = await db
     .select()
@@ -41,7 +41,7 @@ export async function getUsers(page: number = 0, pageSize: number = 20) {
 }
 
 export async function getProxy() {
-  const me = await getMe();
+  const me = await getAdminMe();
 
   const [server] = await db
     .select()
@@ -56,7 +56,7 @@ export async function getProxy() {
 }
 
 export async function setProxyRemoteData(data: string) {
-  const me = await getMe();
+  const me = await getAdminMe();
 
   const json = data.match(/{(.|\s)*}/)?.[0];
   const url = data.match(/"(.*)"/)?.[1];

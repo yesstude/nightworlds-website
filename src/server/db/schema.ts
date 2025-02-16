@@ -74,6 +74,7 @@ export const serversTable = table("servers", {
   }).$type<"manual_pterodactyl">(),
   remoteData: json("remote_data"),
   isPreOrderable: boolean("preorderable").default(false).notNull(),
+  apiKeyHash: varchar("api_key_hash", { length: 64 }),
   startedAt: datetime("started_at")
     .$default(() => new Date())
     .notNull(),
