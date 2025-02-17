@@ -23,15 +23,16 @@ export function LandingBanner() {
             NightWorld Medium 3.7
           </h1>
           <p className="mb-2">
-            Что если совместить Майнкрафт-сервер с современными технологиями?
+            Приватный сервер, выживание. Модерируемое комьюнити. Стабильная
+            работа и минимальные лаги.
           </p>
-          <p>16 февраля в 19:00 МСК</p>
+          <p>Всего 69₽ в месяц</p>
         </div>
         <LinkButton
           className="transition-shadow hover:bg-primary/95 hover:shadow-xl sm:h-[50px] sm:shadow-lg lg:h-[72px] lg:px-[28px] lg:text-[24px] [&_.icon]:hover:translate-x-1 lg:[&_.icon]:hover:translate-x-2"
           href="/dashboard/worlds"
         >
-          Предзаказ
+          Играть
           <Icon
             icon="arrow_right_alt"
             weight={200}
