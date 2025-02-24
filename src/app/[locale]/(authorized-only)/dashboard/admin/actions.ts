@@ -18,6 +18,12 @@ export async function getAdminMe() {
   return me!;
 }
 
+export async function getUsersCount() {
+  await getAdminMe();
+
+  return await db.$count(usersTable);
+}
+
 export async function getUsers(page: number = 0, pageSize: number = 20) {
   const me = await getAdminMe();
 

@@ -8,7 +8,7 @@ import {
 import { getUsers } from "./actions";
 
 export default async function AdminDashboard() {
-  const users = await getUsers(0, 50);
+  const newUsers = await getUsers(0, 3);
 
   return (
     <div className="flex w-full flex-col gap-6 lg:p-8">
@@ -28,20 +28,20 @@ export default async function AdminDashboard() {
           <CardContent className="flex-grow" />
           <CardFooter>
             <LinkButton variant="outlined" href="/dashboard/admin/worlds">
-              Перейти
+              Все серверы
             </LinkButton>
           </CardFooter>
         </Card>
-        <Card variant="filled">
+        <Card variant="filled" className="flex flex-col">
           <CardHeader>
             <span className="pt-1 text-[24px] font-medium text-foreground">
               Пользователи
             </span>
             <p className="text-muted-foreground">Новые пользователи:</p>
           </CardHeader>
-          <CardContent className="h-full">
+          <CardContent className="flex-grow">
             <div className="flex flex-col">
-              {users.map((u, i) => (
+              {newUsers.map((u, i) => (
                 <div
                   // href={`/dashboard/admin/users/${u.id}`}
                   key={u.id}
@@ -57,14 +57,18 @@ export default async function AdminDashboard() {
                   />
                   <div className="flex flex-col [&_span]:leading-tight">
                     <span className="text-[18px] font-medium text-foreground">
-                      {u.nickname ?? "--"} #{i + 1}
+                      {u.nickname ?? "--"}
                     </span>
-                    <span className="text-muted-foreground">{u.account}</span>
                   </div>
                 </div>
               ))}
             </div>
           </CardContent>
+          <CardFooter>
+            <LinkButton variant="outlined" href="/dashboard/admin/users">
+              Все пользователи
+            </LinkButton>
+          </CardFooter>
           {/* <CardFooter className="justify-end">
             <LinkButton variant="outlined" href="/dashboard/admin/users">
               Управление

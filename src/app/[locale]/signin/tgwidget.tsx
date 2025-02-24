@@ -10,6 +10,7 @@ import {
 
 export default function TelegramWidget() {
   const [bot_id, setBotId] = useState("");
+  const [isPopupOpen, setPopupOpen] = useState(false);
 
   useEffect(() => {
     getTelegramBotId().then(setBotId);
@@ -20,13 +21,14 @@ export default function TelegramWidget() {
       type="button"
       onClick={(e) => {
         const test_bot_id = (window as any).tg_bot_id;
-        if (!bot_id && !test_bot_id) return;
+        if ((!bot_id && !test_bot_id) || isPopupOpen) return;
         auth(
           { bot_id: bot_id || test_bot_id, request_access: "write" },
           authWithTelegramData
         );
+        setPopupOpen(true);
       }}
-      disabled={!bot_id || bot_id?.length == 0}
+      disabled={!bot_id || bot_id?.length == 0 || isPopupOpen}
     >
       Войти с помощью Telegram
     </Button>
