@@ -13,7 +13,7 @@ export default async function LandingLayout(props: { children: ReactNode }) {
         <LandingAppBar />
       </header>
       <TransitionSuspense>
-        <main className="mb-8 flex flex-col place-items-center">
+        <main className="mt-8 flex flex-col place-items-center">
           {props.children}
         </main>
         <footer className="flex flex-col place-items-center">

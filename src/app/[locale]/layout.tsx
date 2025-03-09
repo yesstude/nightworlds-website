@@ -1,21 +1,18 @@
-import { createSessionIfNone } from "../../server/api/sessions";
-import { cookies, headers } from "next/headers";
 import { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { cookies, headers } from "next/headers";
 import cygre from "../../fonts/cygre/cygre";
+import { createSessionIfNone } from "../../server/api/sessions";
 
+import { TransitionProvider } from "~/components/transition/transition-provider";
+import { env } from "~/env/server.mjs";
 import "~/styles/globals.css";
 import { MaterialSymbolsProvider } from "./material-symbols-provider";
-import { env } from "~/env/server.mjs";
-import { TransitionProvider } from "~/components/transition/transition-provider";
 
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const url = new URL(headers().get("x-url")!);
-  const canonical = url.pathname.substring(0, 1) + url.pathname.substring(4);
-
   return {
     title: "NightWorlds",
     applicationName: "NightWorlds",
@@ -52,9 +49,6 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "NightWorlds",
       title: "NightWorlds",
       description: "Сеть Minecraft серверов, направленных на выживание",
-    },
-    alternates: {
-      canonical,
     },
   };
 }
