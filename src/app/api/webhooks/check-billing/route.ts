@@ -49,9 +49,7 @@ export async function GET() {
 
   if (subscriptions.length == 0)
     return new Response(undefined, { status: 200 });
-  console.log(
-    `Sending ${subscriptions.length} Telegram notifications about subscriptions...`
-  );
+  console.log(`Checking ${subscriptions.length} subscriptions...`);
 
   const bot = await getBot();
 
@@ -76,6 +74,10 @@ export async function GET() {
       message = `<u>сегодня</u>. Это означает, что вы в любой момент можете потерять доступ к услуге.`;
 
     if (!message) continue;
+
+    console.log(
+      `(Telegram) Notifying ${user.nickname} about their ${subscription.tag} subscription expiring in ${daysLeft} days.`
+    );
 
     await bot.telegram.sendMessage(
       telegram.identifier,
