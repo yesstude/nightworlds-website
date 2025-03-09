@@ -1,6 +1,7 @@
 "use server";
 
 import { and, eq, inArray, lt, or } from "drizzle-orm";
+import { daysUntil } from "~/lib/utils";
 import { SubscriptionFeatureAccessPolicy } from "~/server/api/billing";
 import { getMeUnsafe } from "~/server/api/sessions";
 import { WorldId, getWorlds } from "~/server/api/worlds";
@@ -63,6 +64,10 @@ export async function getPersonalizedWorlds() {
               .pop()![1].price,
             period: w.accessPolicy.period,
             isPaid: !!currentSubscription,
+            isRenewable: currentSubscription?.shouldEndAt
+              ? daysUntil(currentSubscription?.shouldEndAt) <= 7 &&
+                daysUntil(currentSubscription?.shouldEndAt) >= 0
+              : false,
           }
         : undefined;
 

@@ -26,6 +26,7 @@ import {
   SheetTrigger,
 } from "~/components/ui/sheet";
 import { Icon } from "~/components/ui/icon";
+import { useLocale } from "next-intl";
 
 export default function AdminServersPage() {
   const servers = useAwait(getServers) ?? [];
@@ -47,6 +48,8 @@ export default function AdminServersPage() {
 type Server = Awaited<ReturnType<typeof getServers>>[number];
 
 function ServerCard({ server: originalServer }: { server: Server }) {
+  const locale = useLocale();
+
   const [isLoading, setIsLoading] = useState(false);
   const [server, setServer] = useState<Server | undefined>(originalServer);
 
@@ -82,6 +85,13 @@ function ServerCard({ server: originalServer }: { server: Server }) {
               ? "Остановка"
               : "Удалённый доступ недоступен"}
           </span>
+          <span>
+            Доступно с {server.startedAt.toLocaleString(locale)}
+            {server.isPreOrderable && " (предзаказ)"}
+          </span>
+          {server.closedAt && (
+            <span>Закрыто с {server.closedAt.toLocaleString(locale)}</span>
+          )}
           {server.status == "remote-down" && (
             <form
               action={(fd: FormData) => {
@@ -107,31 +117,31 @@ function ServerCard({ server: originalServer }: { server: Server }) {
       </CardContent>
       <CardFooter>
         <div className="flex flex-wrap gap-4">
-          {server.status != "remote-down" && (
-            <>
-              <Button
-                disabled={isLoading}
-                onClick={() => {
-                  powerServer(server.id, "start");
-                  refetchAfter(3000);
-                }}
-                variant="outlined"
-                type="submit"
-              >
-                Запустить
-              </Button>
-              <Button
-                disabled={isLoading}
-                onClick={() => {
-                  powerServer(server.id, "stop");
-                  refetchAfter(3000);
-                }}
-                variant="outlined"
-                type="submit"
-              >
-                Остановить
-              </Button>
-            </>
+          {server.status == "stopped" && (
+            <Button
+              disabled={isLoading}
+              onClick={() => {
+                powerServer(server.id, "start");
+                refetchAfter(3000);
+              }}
+              variant="outlined"
+              type="submit"
+            >
+              Запустить
+            </Button>
+          )}
+          {server.status == "running" && (
+            <Button
+              disabled={isLoading}
+              onClick={() => {
+                powerServer(server.id, "stop");
+                refetchAfter(3000);
+              }}
+              variant="outlined"
+              type="submit"
+            >
+              Остановить
+            </Button>
           )}
           <KeyResetSheet server={server}>
             <Button variant="outlined">Сброс ключа</Button>

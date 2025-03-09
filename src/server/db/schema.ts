@@ -111,7 +111,9 @@ export const subscriptionsTable = table("subscriptions", {
   shouldEndAt: datetime("should_end_at"),
   endedAt: datetime("ended_at"),
   frozenAt: datetime("frozen_at"),
-  freezeReason: varchar("freeze_reason", { length: 16 }).$type<"preorder">(),
+  freezeReason: varchar("freeze_reason", { length: 16 }).$type<
+    "preorder" | "requested" | "unknown"
+  >(),
 });
 export type BaseSubscription = typeof subscriptionsTable.$inferSelect;
 
@@ -163,4 +165,22 @@ export const paymentMethodsTable = table("paymethods", {
   createdAt: datetime("created_at")
     .$default(() => new Date())
     .notNull(),
+});
+
+export const notificationsTable = table("notifications", {
+  id: autocuid("id").primaryKey(),
+  userId: cuid("user_id")
+    .references(() => usersTable.id, { onDelete: "cascade" })
+    .notNull(),
+  type: varchar("type", { length: 32 })
+    .$type<"subscription-expires" | "payment-received">()
+    .notNull(),
+  subscriptionId: cuid("subscription_id").references(
+    () => subscriptionsTable.id,
+    { onDelete: "cascade" }
+  ),
+  paymentId: cuid("payment_id").references(() => paymentsTable.id, {
+    onDelete: "cascade",
+  }),
+  sentDate: datetime("sent_date"),
 });

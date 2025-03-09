@@ -19,7 +19,7 @@ export default async function DashboardHome() {
           </h1>
           <ol className="list-inside list-decimal leading-relaxed [&_li]:mb-2">
             <li>
-              Запустите Minecraft Java Edition (рекомендуем версию 1.21.1)
+              Запустите Minecraft Java Edition (рекомендуем версию 1.21.4)
             </li>
             <li>Выберите вариант "Сетевая игра"</li>
             <li>Нажмите кнопку "Добавить"</li>

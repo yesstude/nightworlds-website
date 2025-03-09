@@ -11,6 +11,7 @@ import { getMeUnsafe } from "~/server/api/sessions";
 import { getAllWorldIds } from "~/server/api/worlds";
 import { db } from "~/server/db";
 import {
+  notificationsTable,
   paymentMethodsTable,
   paymentsTable,
   serversTable,
@@ -108,6 +109,21 @@ export default async function DashboardDebugPage() {
             }}
           >
             Выдать золотую карту
+          </FastButton>
+          <FastButton
+            action={async () => {
+              "use server";
+
+              const me = await getMeUnsafe();
+
+              await db
+                .delete(notificationsTable)
+                .where(eq(notificationsTable.userId, me!.id));
+
+              return redirect("/dashboard/debug");
+            }}
+          >
+            Очистить уведомления
           </FastButton>
         </div>
       </div>

@@ -120,9 +120,11 @@ function WorldCard({
           <Icon icon="arrow_outward" size={12} className="-mr-1" />
         </Button> */}
         <div className="flex place-items-center gap-[2px]">
-          {world.isAvailable && (world.isFree || world.subscription?.isPaid) ? (
+          {world.isAvailable &&
+          (world.isFree || world.subscription?.isPaid) &&
+          !world.subscription?.isRenewable ? (
             <LinkButton
-              variant="filled"
+              variant="outlined"
               className="rounded-r-none [&_>div]:pr-5"
               href="/dashboard"
             >
@@ -132,16 +134,22 @@ function WorldCard({
             <WorldSubscriptionSheet worldId={world.id}>
               <SheetTrigger asChild>
                 <Button
-                  variant="filled"
+                  variant={
+                    world.subscription.isRenewable ? "filled" : "outlined"
+                  }
                   className="rounded-r-none [&_>div]:pr-5"
                 >
-                  {world.isPreOrderable ? "Предзаказ" : "Купить"}
+                  {world.subscription.isRenewable
+                    ? "Продлить"
+                    : world.isPreOrderable
+                    ? "Предзаказ"
+                    : "Купить"}
                 </Button>
               </SheetTrigger>
             </WorldSubscriptionSheet>
           ) : (
             <Button
-              variant="filled"
+              variant="outlined"
               className="rounded-r-none [&_>div]:pr-5"
               disabled
             >
@@ -151,7 +159,7 @@ function WorldCard({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                variant="filled"
+                variant="outlined"
                 className="rounded-l-none [&_>div]:pl-1 [&_>div]:pr-2"
                 disabled={!world.isAvailable}
               >

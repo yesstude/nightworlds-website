@@ -4,7 +4,7 @@ import { db } from "../db";
 import { accountsTable, usersTable } from "../db/schema";
 import { and, eq } from "drizzle-orm";
 
-export const getBot = async () => {
+export const getBot = async (): Promise<Telegraf> => {
   if (!(globalThis as any).tg_bot) {
     const bot = new Telegraf(env.TELEGRAM_BOT_TOKEN);
 
