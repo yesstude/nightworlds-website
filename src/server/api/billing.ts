@@ -1,4 +1,4 @@
-import { and, eq, gt, isNotNull, isNull, lt, or } from "drizzle-orm";
+import { and, eq, gt, isNotNull, isNull, lt, or, sql } from "drizzle-orm";
 import { db } from "../db";
 import {
   BaseSubscription,
@@ -45,16 +45,20 @@ export async function getCurrentSubscription(
         eq(subscriptionsTable.tag, accessPolicy.tag),
         and(
           isNotNull(subscriptionsTable.startedAt),
-          lt(subscriptionsTable.startedAt, new Date())
+          lt(subscriptionsTable.startedAt, sql`now()`)
         ),
         or(
-          isNull(subscriptionsTable.endedAt),
-          gt(subscriptionsTable.endedAt, new Date())
-        ),
-        gt(subscriptionsTable.shouldEndAt, new Date()),
-        and(
-          isNotNull(subscriptionsTable.frozenAt),
-          isNotNull(subscriptionsTable.freezeReason)
+          and(
+            or(
+              isNull(subscriptionsTable.endedAt),
+              gt(subscriptionsTable.endedAt, sql`now()`)
+            ),
+            gt(subscriptionsTable.shouldEndAt, sql`now()`)
+          ),
+          and(
+            isNotNull(subscriptionsTable.frozenAt),
+            isNotNull(subscriptionsTable.freezeReason)
+          )
         )
       )
     );
