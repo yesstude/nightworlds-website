@@ -1,4 +1,4 @@
-import { and, eq, gt, isNotNull, lt, or } from "drizzle-orm";
+import { and, eq, gt, isNotNull, isNull, lt, or } from "drizzle-orm";
 import { db } from "../db";
 import {
   BaseSubscription,
@@ -48,11 +48,13 @@ export async function getCurrentSubscription(
           lt(subscriptionsTable.startedAt, new Date())
         ),
         or(
-          gt(subscriptionsTable.endedAt, new Date()),
-          and(
-            isNotNull(subscriptionsTable.frozenAt),
-            isNotNull(subscriptionsTable.freezeReason)
-          )
+          isNull(subscriptionsTable.endedAt),
+          gt(subscriptionsTable.endedAt, new Date())
+        ),
+        gt(subscriptionsTable.shouldEndAt, new Date()),
+        and(
+          isNotNull(subscriptionsTable.frozenAt),
+          isNotNull(subscriptionsTable.freezeReason)
         )
       )
     );
