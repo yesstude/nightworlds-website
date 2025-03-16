@@ -15,6 +15,13 @@ export const serverSchema = z.object({
   TOKEN_ENCRYPTION_KEY: z.string(),
   YOOKASSA_SHOP_ID: z.string(),
   YOOKASSA_SECRET_KEY: z.string(),
+  YANDEX_CLOUD_ID: z.string(),
+  YANDEX_CLOUD_SECRET: z.string(),
+  YANDEX_CLOUD_BUCKET: z.string(),
+  FIREBASE_JSON_CERT: z
+    .string()
+    .optional()
+    .transform((val) => (val ? JSON.parse(val) : undefined)),
 });
 
 /**
@@ -32,6 +39,10 @@ export const serverEnv = {
   TOKEN_ENCRYPTION_KEY: process.env.TOKEN_ENCRYPTION_KEY,
   YOOKASSA_SHOP_ID: process.env.YOOKASSA_SHOP_ID,
   YOOKASSA_SECRET_KEY: process.env.YOOKASSA_SECRET_KEY,
+  YANDEX_CLOUD_ID: process.env.YANDEX_CLOUD_ID,
+  YANDEX_CLOUD_SECRET: process.env.YANDEX_CLOUD_SECRET,
+  YANDEX_CLOUD_BUCKET: process.env.YANDEX_CLOUD_BUCKET,
+  FIREBASE_JSON_CERT: process.env.FIREBASE_JSON_CERT,
 };
 
 /**
