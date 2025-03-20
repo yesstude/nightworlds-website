@@ -18,6 +18,7 @@ import { useAwait } from "~/hooks/use-await";
 import { usePathname, useRouter } from "~/i18n/routing";
 import { hadPayments } from "./billing/actions";
 import { amIAdmin } from "./actions";
+import { useTranslations } from "next-intl";
 
 type SidebarLink = {
   label: string;
@@ -34,29 +35,29 @@ export default function NavDrawer() {
   let links = [
     {
       icon: "home",
-      label: "Домашняя страница",
+      label: "home",
       href: "/dashboard",
     },
     {
       icon: "globe",
-      label: "Миры",
+      label: "worlds",
       href: "/dashboard/worlds",
     },
     {
       icon: "credit_card",
-      label: "Платежи",
+      label: "billing",
       href: "/dashboard/billing",
       doShow: () => showBilling,
     },
     {
       icon: "admin_panel_settings",
-      label: "Администрирование",
+      label: "admin",
       href: "/dashboard/admin",
       doShow: () => !!isAdmin,
     },
     {
       icon: "bug_report",
-      label: "Отладка",
+      label: "debug",
       href: "/dashboard/debug",
       doShow: () => isDevelopment,
     },
@@ -120,6 +121,8 @@ function SidebarLinkItem({
   const transitions = useTransitions()!;
   const router = useRouter();
 
+  const t = useTranslations();
+
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
@@ -155,7 +158,9 @@ function SidebarLinkItem({
             className="-translate-y-[1px]"
             fill={pathname == link.href}
           />
-          <span className="grow text-left">{link.label}</span>
+          <span className="grow text-left">
+            {t(`dashboard.navlinks.${link.label}`)}
+          </span>
         </div>
       </SidebarMenuButton>
     </SidebarMenuItem>

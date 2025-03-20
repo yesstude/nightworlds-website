@@ -2,16 +2,16 @@ import Link, { LinkButton } from "~/components/transition/link";
 import { Logo } from "~/components/logo";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
+import { getTranslations } from "next-intl/server";
 
 export default async function LandingFooter() {
+  const t = await getTranslations();
+
   return (
     <div className="flex w-full max-w-[1200px] flex-col gap-1 px-8 py-8 text-foreground/80 md:px-20">
       <div className="flex flex-col gap-2 rounded-t-[24px] bg-foreground/5 px-6 py-6 shadow-sm">
         <Logo />
-        <p className="max-w-[600px] pl-1">
-          Сеть приватных Minecraft-серверов, направленных на режим выживания.
-          Равные права игроков и неограниченные возможности.
-        </p>
+        <p className="max-w-[600px] pl-1">{t("footer.description")}</p>
         <div className="mt-4 flex flex-wrap gap-4">
           <Link href="https://discord.gg/jtSnBy3Wsf" target="_blank">
             <Button variant="text" size="sm">
@@ -26,12 +26,12 @@ export default async function LandingFooter() {
             </Button>
           </Link>
           <LinkButton href="/documents" variant="text" size="sm">
-            Документы
+            {t("footer.buttons.documents")}
           </LinkButton>
         </div>
       </div>
       <div className="flex rounded-b-[24px] bg-foreground/5 px-6 py-4 shadow-sm">
-        <span>ИНН 434584407807</span>
+        <span>{t("footer.tin")} 434584407807</span>
         <div className="grow" />
         <span>© 2025</span>
       </div>

@@ -6,25 +6,31 @@ import PublicOffer from "./public-offer.mdx";
 import SubscriptionOffer from "./subscription-offer.mdx";
 import PrivacyPolicy from "./privacy-policy.mdx";
 import { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 
 export default function Documents() {
+  const t = useTranslations();
+
   return (
     <div className="my-4 flex flex-col">
       <SpoilerGroup>
-        <Spoiler title="Договор-оферта (Публичная оферта)" key="public-offer">
+        <Spoiler title={t("documents.names.publicoffer")} key="public-offer">
           <Formatted>
             <PublicOffer />
           </Formatted>
         </Spoiler>
         <Spoiler
-          title="Оферта на оказание платных услуг по подписке"
+          title={t("documents.names.subscriptionoffer")}
           key="subscription-offer"
         >
           <Formatted>
             <SubscriptionOffer />
           </Formatted>
         </Spoiler>
-        <Spoiler title="Политика конфиденциальности" key="privacy-policy">
+        <Spoiler
+          title={t("documents.names.privacypolicy")}
+          key="privacy-policy"
+        >
           <Formatted>
             <PrivacyPolicy />
           </Formatted>

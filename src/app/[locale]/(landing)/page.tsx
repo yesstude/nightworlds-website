@@ -10,6 +10,7 @@ import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Metadata } from "next";
 import { LandingBanner } from "./landing-banner";
+import { getTranslations } from "next-intl/server";
 
 export const metadata: Metadata = {
   title: "Minecraft-сервер, посвященный выживанию",
@@ -25,25 +26,19 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
+  const t = await getTranslations();
+
   return (
     <>
       <LandingBanner />
       <div className="flex max-w-[1400px] flex-col gap-16 px-8 py-8 md:px-20">
         <FeatureBox img={build} alt="Two players building a tower" reverse>
-          <h1>Стройте удивительные вещи</h1>
-          <p>
-            Правила сервера созданы таким образом, чтобы позволить игрокам
-            строить всё, что они хотят. Вы можете построить статую,
-            футуристичный город или кафе – мы не против. Главное – не заниматься
-            грифом.
-          </p>
+          <h1>{t("landing.features.build.title")}</h1>
+          <p>{t("landing.features.build.description")}</p>
         </FeatureBox>
         <FeatureBox img={communicate} alt="Two players trading">
-          <h1>Общайтесь с игроками</h1>
-          <p>
-            Один из главных приоритетов NightWorlds – это люди. Это правило
-            работает во всех наших мирах. Вместе мы можем сделать всё!
-          </p>
+          <h1>{t("landing.features.communicate.title")}</h1>
+          <p>{t("landing.features.communicate.description")}</p>
           <div className="mt-6 flex gap-2">
             <Link href="https://discord.gg/jtSnBy3Wsf" target="_blank">
               <Button type="button" variant="filled">
@@ -60,12 +55,8 @@ export default async function HomePage() {
           </div>
         </FeatureBox>
         <FeatureBox img={simplicity} alt="Minimalistic building" reverse>
-          <h1>Сила в простоте</h1>
-          <p>
-            Мы любим минимализм. В простоте настоящая сила! Здесь вы не увидите
-            страницы с дизайном из 2007 года. Также, мы не показываем целые
-            абзацы текста за один раз в самой игре.
-          </p>
+          <h1>{t("landing.features.simplicity.title")}</h1>
+          <p>{t("landing.features.simplicity.description")}</p>
         </FeatureBox>
       </div>
     </>

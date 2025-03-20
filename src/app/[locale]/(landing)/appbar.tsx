@@ -4,8 +4,11 @@ import Link, { LinkButton } from "~/components/transition/link";
 import { Logo } from "~/components/logo";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
+import { useTranslations } from "next-intl";
 
 export function LandingAppBar() {
+  const t = useTranslations();
+
   return (
     <>
       <div className="fixed z-50 w-full rounded-b-[24px] bg-background print:relative">
@@ -19,7 +22,7 @@ export function LandingAppBar() {
             href="/signin"
             transition="emphasized-left"
           >
-            <span>Начать игру</span>
+            <span> {t("landing.actionbutton")}</span>
             <Icon
               className="-mx-1 translate-x-1"
               icon="arrow_right_alt"

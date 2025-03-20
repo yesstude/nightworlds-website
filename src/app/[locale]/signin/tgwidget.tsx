@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
 import {
@@ -11,6 +12,8 @@ import {
 export default function TelegramWidget() {
   const [bot_id, setBotId] = useState("");
   const [isPopupOpen, setPopupOpen] = useState(false);
+
+  const t = useTranslations();
 
   useEffect(() => {
     getTelegramBotId().then(setBotId);
@@ -30,7 +33,7 @@ export default function TelegramWidget() {
       }}
       disabled={!bot_id || bot_id?.length == 0 || isPopupOpen}
     >
-      Войти с помощью Telegram
+      {t("signin.buttons.telegram")}
     </Button>
   );
 }

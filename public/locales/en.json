@@ -1,9 +1,8 @@
 {
   "landing": {
-    "description": "Minecraft server with unlimited possibilities",
-    "actionbutton": "Sign Up and Play",
+    "description": "Rethinking Minecraft survival",
+    "actionbutton": "Sign up and play",
     "actionbutton_short": "Play",
-    "title": "{\"Minecraft\": 1,\"server\": 15,\"with\": 30,\"unlimited\": 35,\"possibilities\": 50}",
     "subscribe": {
       "title": "Subscribe",
       "subtitle": "Get notified when NightWorlds are available",
@@ -12,6 +11,10 @@
       "subscribe": "Subscribe",
       "loading": "Loading...",
       "success": "Success!"
+    },
+    "banner": {
+      "description": "A Minecraft SMP. Moderated multilingual community. Stable and performant.",
+      "price": "Only 90¢ a month"
     },
     "features": {
       "build": {
@@ -28,30 +31,46 @@
       }
     }
   },
+  "documents": {
+    "title": "Documents",
+    "subtitle": "On this page, you can familiarize yourself with the documents (currently only in Russian) that you may need while using the services of NightWorlds",
+    "names": {
+      "publicoffer": "Public Offer",
+      "subscriptionoffer": "Subscription Services Offer",
+      "privacypolicy": "Privacy Policy"
+    }
+  },
+  "footer": {
+    "description": "Minecraft servers, focused on survival. Equal player rights.",
+    "tin": "TIN (Russian Federation)",
+    "buttons": {
+      "documents": "Documents"
+    }
+  },
+  "signin": {
+    "title": "Sign In",
+    "subtitle": "We are currently based in Russia. Russia made third-party authorization with foreign services illegal. And passwords are insecure. The most safe way to sign in now is Telegram.",
+    "buttons": {
+      "telegram": "Sign in with Telegram"
+    }
+  },
   "dashboard": {
     "back_button": "Back",
+    "navlinks": {
+      "home": "Home page",
+      "worlds": "Worlds",
+      "billing": "Billing",
+      "admin": "Admin",
+      "debug": "Debug"
+    },
     "homepage": {
-      "name": "Home Page",
       "welcome": "Welcome, {name}!",
-      "playing_card": {
-        "playing": "You've been playing for {parsedTime} already",
-        "leave": "Leave",
-        "played": "Last time you played {server} for {parsedTime}",
-        "first": "First time?",
-        "neverplayed": "You never played NightWorlds yet",
-        "play": "Play"
-      },
-      "friends_online": {
-        "title": "Friends online",
-        "subtitle": "Your friends that are currently playing NightWorlds:",
-        "nofriends": "You have no friends at the time",
-        "nofriendsonline": "None of {friendslink} are online",
-        "friendslink": "your friends",
-        "andmore": "and more"
-      },
-      "news": {
-        "title": "News from NightWorlds",
-        "customize": "Customize your feed"
+      "howtoplay": {
+        "title": "How to join?",
+        "minecraft": "Launch Minecraft Java Edition (recommended version is {version})",
+        "multiplayer": "Choose \"Multiplayer\"",
+        "add_server": "Click the \"Add server\" button",
+        "add_server_menu": "Choose any name and type this address:"
       }
     },
     "characters": {

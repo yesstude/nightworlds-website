@@ -7,8 +7,11 @@ import { LinkButton } from "~/components/transition/link";
 import { Icon } from "~/components/ui/icon";
 
 import medium from "../(authorized-only)/dashboard/worlds/nwm37.svg";
+import { useTranslations } from "next-intl";
 
 export function LandingBanner() {
+  const t = useTranslations();
+
   return (
     <div className="overflow-none relative mb-[64px] mt-2 flex w-full max-w-[1400px] flex-col-reverse rounded-[32px] bg-primary/5 shadow-md sm:rounded-none sm:bg-transparent sm:p-[8px] sm:shadow-transparent md:px-[48px]">
       <div className="sm:dark inset-0 z-10 flex flex-col justify-end gap-4 p-[20px] sm:absolute sm:p-[32px] md:px-[96px] md:py-[56px]">
@@ -22,17 +25,14 @@ export function LandingBanner() {
           <h1 className="text-[18px] font-bold leading-tight tracking-normal sm:text-[32px] lg:text-[48px]">
             NightWorld Medium 3.7
           </h1>
-          <p className="mb-2">
-            Приватный сервер, выживание. Модерируемое комьюнити. Стабильная
-            работа и минимальные лаги.
-          </p>
-          <p>Всего 69₽ в месяц</p>
+          <p className="mb-2">{t("landing.banner.description")}</p>
+          <p>{t("landing.banner.price")}</p>
         </div>
         <LinkButton
           className="transition-shadow hover:bg-primary/95 hover:shadow-xl sm:h-[50px] sm:shadow-lg lg:h-[72px] lg:px-[28px] lg:text-[24px] [&_.icon]:hover:translate-x-1 lg:[&_.icon]:hover:translate-x-2"
           href="/dashboard/worlds"
         >
-          Играть
+          {t("landing.actionbutton_short")}
           <Icon
             icon="arrow_right_alt"
             weight={200}
