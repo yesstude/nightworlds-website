@@ -5,18 +5,20 @@ import { Icon } from "~/components/ui/icon";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Авторизация",
-  description:
-    "Войдите в свой аккаунт, чтобы получить доступ к полному функционалу веб-сайта и игровых серверов NightWorlds",
-  openGraph: {
-    type: "website",
-    siteName: "NightWorlds",
-    title: "Авторизация в NightWorlds",
-    description:
-      "Войдите в свой аккаунт, чтобы получить доступ к полному функционалу веб-сайта и игровых серверов NightWorlds",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations();
+
+  return {
+    title: t("signin.title"),
+    description: t("signin.description"),
+    openGraph: {
+      type: "website",
+      siteName: "NightWorlds",
+      title: t("signin.ogtitle"),
+      description: t("signin.description"),
+    },
+  };
+}
 
 export default async function SignInPage() {
   const { user } = await getCurrentSession();

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { cookies, headers } from "next/headers";
 import cygre from "../../fonts/cygre/cygre";
 import { createSessionIfNone } from "../../server/api/sessions";
@@ -13,24 +13,16 @@ import { MaterialSymbolsProvider } from "./material-symbols-provider";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations();
+
   return {
     title: "NightWorlds",
     applicationName: "NightWorlds",
     authors: { name: "NightLight Communities" },
     creator: "NightLight Communities",
     publisher: "NightLight Communities",
-    description: "Сеть Minecraft серверов, направленных на выживание",
-    keywords: [
-      "NW",
-      "NightWorld",
-      "НВ",
-      "найтворлд",
-      "найтворлдс",
-      "НВм",
-      "майнкрафт",
-      "выживание",
-      "приватный сервер",
-    ],
+    description: t("meta.description"),
+    keywords: t("meta.keywords"),
     other: {
       "theme-color": "#542369",
     },
@@ -48,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       siteName: "NightWorlds",
       title: "NightWorlds",
-      description: "Сеть Minecraft серверов, направленных на выживание",
+      description: t("meta.description"),
     },
   };
 }

@@ -3,18 +3,20 @@ import Documents from "./documents";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Документы",
-  description:
-    "Публичная оферта, политика конфиденциальности и прочие документы, необходимые для предоставления услуг",
-  openGraph: {
-    type: "article",
-    siteName: "NightWorlds",
-    title: "Документы NightWorlds",
-    description:
-      "Публичная оферта, политика конфиденциальности и прочие документы, необходимые для предоставления услуг",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations();
+
+  return {
+    title: t("documents.title"),
+    description: t("documents.description"),
+    openGraph: {
+      type: "article",
+      siteName: "NightWorlds",
+      title: t("documents.ogtitle"),
+      description: t("documents.description"),
+    },
+  };
+}
 
 export default async function DocumentsPage() {
   const t = await getTranslations();

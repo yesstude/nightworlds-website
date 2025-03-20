@@ -12,18 +12,20 @@ import { Metadata } from "next";
 import { LandingBanner } from "./landing-banner";
 import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Minecraft-сервер, посвященный выживанию",
-  description:
-    "Возводите удивительные постройки, общайтесь с игроками и выживайте в мирах с уникальными игровыми режимами, разработанными специально для NightWorlds",
-  openGraph: {
-    type: "website",
-    siteName: "NightWorlds",
-    title: "Minecraft-сервер, посвященный выживанию",
-    description:
-      "Возводите удивительные постройки, общайтесь с игроками и выживайте в мирах с уникальными игровыми режимами, разработанными специально для NightWorlds",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations();
+
+  return {
+    title: t("landing.description"),
+    description: t("landing.long_description"),
+    openGraph: {
+      type: "website",
+      siteName: "NightWorlds",
+      title: t("landing.description"),
+      description: t("landing.long_description"),
+    },
+  };
+}
 
 export default async function HomePage() {
   const t = await getTranslations();
