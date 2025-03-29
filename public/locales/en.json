@@ -8,15 +8,6 @@
     "long_description": "Build amazing structures, interact with players, and survive in worlds with unique game modes designed specifically for NightWorlds",
     "actionbutton": "Sign up and play",
     "actionbutton_short": "Play",
-    "subscribe": {
-      "title": "Subscribe",
-      "subtitle": "Get notified when NightWorlds are available",
-      "email": "Email",
-      "nickname": "Nickname (optional)",
-      "subscribe": "Subscribe",
-      "loading": "Loading...",
-      "success": "Success!"
-    },
     "banner": {
       "description": "A Minecraft SMP. Moderated multilingual community. Stable and performant.",
       "price": "Only 90¢ a month"
@@ -80,106 +71,6 @@
         "multiplayer": "Choose \"Multiplayer\"",
         "add_server": "Click the \"Add server\" button",
         "add_server_menu": "Choose any name and type this address:"
-      }
-    },
-    "characters": {
-      "name": "Characters",
-      "create": "New",
-      "subtitle": {
-        "v_zero": "You have no characters in NightWorlds",
-        "v_one": "You have {count} character in NightWorlds:",
-        "v_other": "You have {count} characters in NightWorlds:"
-      },
-      "filters": {
-        "all": "All worlds",
-        "loaded": "Loaded"
-      },
-      "actions": {
-        "avatar": "Use as avatar",
-        "avataralready": "Used as avatar"
-      }
-    },
-    "settings": {
-      "name": "Settings",
-      "subtitle": "Here you can change your account and game settings",
-      "cancel": "Cancel",
-      "save": "Save",
-      "saved": "Settings successfully saved",
-      "error": "An error occurred while saving settings",
-      "sections": {
-        "security": {
-          "name": "Security settings",
-          "ingamepassword": {
-            "name": "Change your in-game password",
-            "helpertext": "This is the password that you type in when you log in to NightWorlds Minecraft server by sending it in chat **without any commands, unlike most servers**.",
-            "new": "New password",
-            "invalid": "Invalid password. Password must be at least 8 characters long"
-          }
-        }
-      }
-    }
-  },
-  "sign-in": {
-    "title": "Sign In",
-    "subtitle": "Sign into your NightWorlds account to gain access to features and options unavailable in game",
-    "nickname": "Nickname",
-    "game_password": "In-game password",
-    "showpassword": "Show Password",
-    "remember_me": "Remember me",
-    "back_button": "Back",
-    "button": "Sign In",
-    "alternatives": "Or you can:",
-    "with": "Sign in with {name}",
-    "error": {
-      "no": {
-        "nickname": "Enter nickname",
-        "password": "Enter password"
-      },
-      "invalid": "Unable to sign you in. Please check the credentials again",
-      "default": "An unknown error has occurred. If this happens again, contact the administration"
-    }
-  },
-  "setup": {
-    "page_title": "Account setup",
-    "header": "First-time account setup",
-    "greeting": {
-      "title": "Welcome, {name}!",
-      "subtitle": "Looks like it's your first time in NightWorlds! Let us help you to start playing as soon as possible",
-      "button": "Begin!"
-    },
-    "discord": {
-      "title": "Link your Discord account",
-      "subtitle": "Discord is a great messaging platform for gamers like us. Our players use it to talk with each other every day. Create a Discord account, or, if you have one, link it with your NightWorlds profile",
-      "success": "Your Discord account seems to be successfully linked!",
-      "link_button": "Go to Discord",
-      "continue_button": "Next"
-    },
-    "nickname": {
-      "title": "Select a nickname",
-      "subtitle": "If you have a Minecraft account, type its nickname in. If you don't have one, select an in-game nickname for yourself",
-      "nickname": "Nickname",
-      "error": {
-        "none": "Awesome choice!",
-        "length": "Nicknames can only be between 3 and 16 characters",
-        "format": "Your nickname contains some characters that are not permitted",
-        "occupied": "This nickname is already used in NightWorlds"
-      },
-      "continue_button": "Next"
-    },
-    "password": {
-      "title": "Protect your account",
-      "subtitle": "Select a password for your NightWorlds account. It will be used only in game",
-      "password": "In-game Password",
-      "error": {
-        "length": "Minimum length of password is 8 characters"
-      },
-      "finish_button": "Finish"
-    },
-    "additional": {
-      "title": "Your account is done!",
-      "subtitle": "There are things you can also do right now:",
-      "actions": {
-        "dashboard": "Go to your dashboard"
       }
     }
   }
