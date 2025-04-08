@@ -14,6 +14,9 @@ import {
 export async function GET() {
   headers();
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   const subscriptions = await db
     .select()
     .from(subscriptionsTable)
@@ -25,10 +28,7 @@ export async function GET() {
         ),
         and(isNull(subscriptionsTable.frozenAt)),
         isNull(subscriptionsTable.freezeReason),
-        or(
-          gt(sql`now() - interval 1 day`, notificationsTable.sentDate),
-          isNull(notificationsTable.sentDate)
-        )
+        isNull(notificationsTable.id)
       )
     )
     .innerJoin(usersTable, eq(usersTable.id, subscriptionsTable.userId))
@@ -42,8 +42,9 @@ export async function GET() {
     .leftJoin(
       notificationsTable,
       and(
-        eq(notificationsTable.subscriptionId, subscriptionsTable.id),
-        eq(notificationsTable.type, "subscription-expires")
+        eq(subscriptionsTable.id, notificationsTable.subscriptionId),
+        eq(notificationsTable.type, "subscription-expires"),
+        sql`${notificationsTable.sentDate} >= ${today}`
       )
     );
 
@@ -79,30 +80,34 @@ export async function GET() {
       `(Telegram) Notifying ${user.nickname} about their ${subscription.tag} subscription expiring in ${daysLeft} days.`
     );
 
-    await bot.telegram.sendMessage(
-      telegram.identifier,
-      `Ваша подписка <i>${subscription.tag}</i> кончается ${message}` +
-        `\n\nПродлить подписку можно в дэшборде NightWorlds.`,
-      {
-        parse_mode: "HTML",
-        reply_markup: {
-          inline_keyboard: [
-            [
-              {
-                text: "Продлить",
-                url: `https://${env.DOMAIN_NAME}/dashboard/worlds`,
-              },
+    try {
+      await bot.telegram.sendMessage(
+        telegram.identifier,
+        `Ваша подписка <i>${subscription.tag}</i> кончается ${message}` +
+          `\n\nПродлить подписку можно в дэшборде NightWorlds.`,
+        {
+          parse_mode: "HTML",
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: "Продлить",
+                  url: `https://${env.DOMAIN_NAME}/dashboard/worlds`,
+                },
+              ],
             ],
-          ],
-        },
-      }
-    );
-    await db.insert(notificationsTable).values({
-      userId: user.id,
-      type: "subscription-expires",
-      subscriptionId: subscription.id,
-      sentDate: new Date(),
-    });
+          },
+        }
+      );
+      await db.insert(notificationsTable).values({
+        userId: user.id,
+        type: "subscription-expires",
+        subscriptionId: subscription.id,
+        sentDate: new Date(),
+      });
+    } catch (error) {
+      console.error(`Unable to send notification to ${user.nickname} about their subscription expiring in ${daysLeft} days.`, error);
+    }
   }
 
   return new Response(undefined, { status: 200 });
