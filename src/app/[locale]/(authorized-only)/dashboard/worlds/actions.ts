@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq, inArray, lt, or } from "drizzle-orm";
+import { and, eq, gt, inArray, isNull, lt, or } from "drizzle-orm";
 import { daysUntil } from "~/lib/utils";
 import { SubscriptionFeatureAccessPolicy } from "~/server/api/billing";
 import { getMeUnsafe } from "~/server/api/sessions";
@@ -39,6 +39,12 @@ export async function getPersonalizedWorlds() {
           worlds
             .filter((w) => w.accessPolicy.type == "subscription")
             .map((w) => (w.accessPolicy as SubscriptionFeatureAccessPolicy).tag)
+        ),
+        lt(subscriptionsTable.startedAt, new Date()),
+        gt(subscriptionsTable.shouldEndAt, new Date()),
+        or(
+          gt(subscriptionsTable.endedAt, new Date()),
+          isNull(subscriptionsTable.endedAt)
         )
       )
     );

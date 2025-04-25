@@ -30,7 +30,7 @@ export default async function DashboardHome() {
             <li>{t("dashboard.homepage.howtoplay.add_server")}</li>
             <li>{t("dashboard.homepage.howtoplay.add_server_menu")}</li>
           </ol>
-          <GameserverIP ip="nw.ni-li.com" />
+          <GameserverIP ip="nw.pick-me.ru" />
         </div>
         <div className="relative col-span-1 flex h-full flex-row place-items-start justify-center sm:justify-start lg:justify-end">
           <Image
