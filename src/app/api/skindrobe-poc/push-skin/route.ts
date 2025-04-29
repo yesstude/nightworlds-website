@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import EasyYandexS3 from "easy-yandex-s3";
+import { NextRequest, NextResponse } from "next/server";
 import { env } from "~/env/server.mjs";
 import { getCurrentSession } from "~/server/api/sessions";
 import { getFirebase } from "~/server/firebase";
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       buffer: Buffer.from(await file.arrayBuffer()),
       name: `${Date.now()}.png`,
     },
-    `/skindrobepoc/${session.user.id}`
+    `/skindrobepoc/${session.user.id}`,
   );
   if (!res) return new NextResponse(undefined, { status: 500 });
 

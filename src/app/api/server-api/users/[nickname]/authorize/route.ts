@@ -1,15 +1,15 @@
+import { serverProtected } from "../../../auth";
+import { SHA256, enc } from "crypto-js";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { createSession, generateSessionToken } from "~/server/api/sessions";
 import { db } from "~/server/db";
 import { usersTable } from "~/server/db/schema";
-import { serverProtected } from "../../../auth";
-import { SHA256, enc } from "crypto-js";
-import { createSession, generateSessionToken } from "~/server/api/sessions";
 
 export function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ nickname: string }> }
+  { params }: { params: Promise<{ nickname: string }> },
 ) {
   return serverProtected(async (server) => {
     try {
@@ -20,7 +20,7 @@ export function POST(
           code: 400,
           message: "Invalid request body, expected JSON",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
     const parsed = z
@@ -38,7 +38,7 @@ export function POST(
         z.object({
           ip: z.string(),
           userAgent: z.string(),
-        })
+        }),
       )
       .safeParse(unparsed);
     if (!parsed.success)
@@ -48,7 +48,7 @@ export function POST(
           message: "Invalid request body",
           errors: parsed.error.formErrors.fieldErrors,
         },
-        { status: 400 }
+        { status: 400 },
       );
     const body = parsed.data;
 
@@ -60,7 +60,7 @@ export function POST(
     if (!user)
       return NextResponse.json(
         { code: 404, message: "User not found" },
-        { status: 404 }
+        { status: 404 },
       );
 
     if (
@@ -76,7 +76,7 @@ export function POST(
             user.licenseType == "offline" ? "password" : "license"
           }"`,
         },
-        { status: 400 }
+        { status: 400 },
       );
 
     if (body.type == "license" && !body.license)
@@ -87,7 +87,7 @@ export function POST(
         },
         {
           status: 401,
-        }
+        },
       );
     if (body.type == "password") {
       const hash = enc.Base64.stringify(SHA256(enc.Utf8.parse(body.password)));
@@ -99,7 +99,7 @@ export function POST(
           },
           {
             status: 401,
-          }
+          },
         );
     }
 
@@ -109,7 +109,7 @@ export function POST(
       "game",
       user.id,
       body.ip,
-      body.userAgent
+      body.userAgent,
     );
 
     return NextResponse.json(
@@ -120,7 +120,7 @@ export function POST(
       },
       {
         status: 200,
-      }
+      },
     );
   });
 }

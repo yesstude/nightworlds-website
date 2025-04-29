@@ -1,7 +1,7 @@
-import createMiddleware from "next-intl/middleware";
-import { NextRequest, NextResponse } from "next/server";
 import { routing } from "./i18n/routing";
 import { encodeBase32LowerCaseNoPadding } from "@oslojs/encoding";
+import createMiddleware from "next-intl/middleware";
+import { NextRequest } from "next/server";
 
 export default async (req: NextRequest) => {
   // // CSRF Protection
@@ -36,7 +36,7 @@ export default async (req: NextRequest) => {
   // Localization redirects
   if (
     !["api", "_next", "favicon", "sitemap", "robots"].find((v) =>
-      new URL(req.url).pathname.startsWith(`/${v}`)
+      new URL(req.url).pathname.startsWith(`/${v}`),
     )
   ) {
     const res = createMiddleware(routing)(req);

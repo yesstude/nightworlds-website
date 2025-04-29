@@ -1,17 +1,17 @@
 "use server";
 
+import { getAdminMe } from "../actions";
+import { SHA256, enc } from "crypto-js";
+import { eq } from "drizzle-orm";
 import {
   ManualPterodactylRemoteData,
   ServerStatus,
   getServerStatus,
   powerServer as apiPowerServer,
 } from "~/server/api/servers";
+import { generateSessionToken } from "~/server/api/sessions";
 import { db } from "~/server/db";
 import { serversTable } from "~/server/db/schema";
-import { getAdminMe } from "../actions";
-import { eq } from "drizzle-orm";
-import { generateSessionToken } from "~/server/api/sessions";
-import { SHA256, enc } from "crypto-js";
 
 export async function getServers() {
   const me = await getAdminMe();
@@ -59,7 +59,7 @@ export async function setServerRemoteData(serverId: string, data: string) {
   const { cookie, Referer, ...headers } = obj.headers;
   const xsrfToken = headers["x-xsrf-token"] as string | undefined;
   const refererGroups = Referer.match(
-    /^(?<protocol>https?:\/\/)(?<host>[^\/]+)/
+    /^(?<protocol>https?:\/\/)(?<host>[^\/]+)/,
   )?.groups;
   const host = refererGroups?.protocol + refererGroups?.host;
   const externalServerId = url.match(/servers\/(?<serverId>[^/]+)\//)?.groups

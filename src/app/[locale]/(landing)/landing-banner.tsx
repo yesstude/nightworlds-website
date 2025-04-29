@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
-import photo from "./medium_banner.jpg";
-import { AspectRatio } from "~/components/ui/aspect-ratio";
-import { LinkButton } from "~/components/transition/link";
-import { Icon } from "~/components/ui/icon";
-
 import medium from "../(authorized-only)/dashboard/worlds/nwm37.svg";
+import photo from "./medium_banner.jpg";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { LinkButton } from "~/components/transition/link";
+import { AspectRatio } from "~/components/ui/aspect-ratio";
+import { Icon } from "~/components/ui/icon";
 
 export function LandingBanner() {
   const t = useTranslations();

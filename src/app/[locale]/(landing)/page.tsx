@@ -1,16 +1,14 @@
-import Image from "next/image";
-import { LandingAppBar } from "./appbar";
+import { LandingBanner } from "./landing-banner";
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
-
+import Image from "next/image";
+import Link from "next/link";
 import build from "~/assets/homepage/build.webp";
 import communicate from "~/assets/homepage/communicate.webp";
 import simplicity from "~/assets/homepage/simplicity.webp";
-import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
-import { Metadata } from "next";
-import { LandingBanner } from "./landing-banner";
-import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations();

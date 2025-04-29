@@ -20,13 +20,13 @@ export async function getPersonalizedWorlds() {
       and(
         inArray(
           serversTable.worldId as any,
-          worlds.map((w) => w.id)
+          worlds.map((w) => w.id),
         ),
         or(
           lt(serversTable.startedAt, new Date()),
-          eq(serversTable.isPreOrderable, true)
-        )
-      )
+          eq(serversTable.isPreOrderable, true),
+        ),
+      ),
     );
   const subscriptions = await db
     .select()
@@ -38,15 +38,17 @@ export async function getPersonalizedWorlds() {
           subscriptionsTable.tag,
           worlds
             .filter((w) => w.accessPolicy.type == "subscription")
-            .map((w) => (w.accessPolicy as SubscriptionFeatureAccessPolicy).tag)
+            .map(
+              (w) => (w.accessPolicy as SubscriptionFeatureAccessPolicy).tag,
+            ),
         ),
         lt(subscriptionsTable.startedAt, new Date()),
         gt(subscriptionsTable.shouldEndAt, new Date()),
         or(
           gt(subscriptionsTable.endedAt, new Date()),
-          isNull(subscriptionsTable.endedAt)
-        )
-      )
+          isNull(subscriptionsTable.endedAt),
+        ),
+      ),
     );
 
   return worlds.map((w) => {
@@ -55,7 +57,7 @@ export async function getPersonalizedWorlds() {
       w.accessPolicy.type == "subscription"
         ? subscriptions.find(
             (s) =>
-              s.tag == (w.accessPolicy as SubscriptionFeatureAccessPolicy).tag
+              s.tag == (w.accessPolicy as SubscriptionFeatureAccessPolicy).tag,
           )
         : undefined;
 

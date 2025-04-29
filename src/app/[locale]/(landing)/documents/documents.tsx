@@ -1,12 +1,11 @@
 "use client";
 
-import { Spoiler, SpoilerGroup } from "~/components/ui/spoiler";
-
+import PrivacyPolicy from "./privacy-policy.mdx";
 import PublicOffer from "./public-offer.mdx";
 import SubscriptionOffer from "./subscription-offer.mdx";
-import PrivacyPolicy from "./privacy-policy.mdx";
-import { ReactNode } from "react";
 import { useTranslations } from "next-intl";
+import { ReactNode } from "react";
+import { Spoiler, SpoilerGroup } from "~/components/ui/spoiler";
 
 export default function Documents() {
   const t = useTranslations();

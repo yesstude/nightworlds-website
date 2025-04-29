@@ -1,9 +1,9 @@
-import { getCurrentSession, getMeUnsafe } from "~/server/api/sessions";
 import TelegramWidget from "./tgwidget";
-import { redirect } from "next/navigation";
-import { Icon } from "~/components/ui/icon";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { redirect } from "next/navigation";
+import { Icon } from "~/components/ui/icon";
+import { getCurrentSession } from "~/server/api/sessions";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations();

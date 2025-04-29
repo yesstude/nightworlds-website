@@ -1,4 +1,3 @@
-import { and, eq, gt, isNotNull, isNull, lt, or, sql } from "drizzle-orm";
 import { db } from "../db";
 import {
   BaseSubscription,
@@ -10,6 +9,7 @@ import {
 import { ClientUser } from "../models/User";
 import yookassa from "../yoocheckout";
 import { ClientSafeWorld, WorldId, WorldSubscriptionTag } from "./worlds";
+import { and, eq, gt, isNotNull, isNull, lt, or, sql } from "drizzle-orm";
 
 export type FreeFeatureAccessPolicy = {
   type: "free";
@@ -24,7 +24,7 @@ export type SubscriptionFeatureAccessPolicy = {
 
 export async function getSubscriptionPricingAt(
   accessPolicy: SubscriptionFeatureAccessPolicy,
-  date: Date = new Date()
+  date: Date = new Date(),
 ) {
   return Object.entries(accessPolicy.pricingAfter)
     .filter(([k]) => Number(k) < date.getTime())
@@ -34,7 +34,7 @@ export async function getSubscriptionPricingAt(
 
 export async function getCurrentSubscription(
   accessPolicy: SubscriptionFeatureAccessPolicy,
-  userId: string
+  userId: string,
 ) {
   const [subscription] = await db
     .select()
@@ -45,35 +45,35 @@ export async function getCurrentSubscription(
         eq(subscriptionsTable.tag, accessPolicy.tag),
         and(
           isNotNull(subscriptionsTable.startedAt),
-          lt(subscriptionsTable.startedAt, sql`now()`)
+          lt(subscriptionsTable.startedAt, sql`now()`),
         ),
         or(
           and(
             or(
               isNull(subscriptionsTable.endedAt),
-              gt(subscriptionsTable.endedAt, sql`now()`)
+              gt(subscriptionsTable.endedAt, sql`now()`),
             ),
-            gt(subscriptionsTable.shouldEndAt, sql`now()`)
+            gt(subscriptionsTable.shouldEndAt, sql`now()`),
           ),
           and(
             isNotNull(subscriptionsTable.frozenAt),
-            isNotNull(subscriptionsTable.freezeReason)
-          )
-        )
-      )
+            isNotNull(subscriptionsTable.freezeReason),
+          ),
+        ),
+      ),
     );
   return subscription;
 }
 
 export async function getSubscriptionPricingFor(
   accessPolicy: SubscriptionFeatureAccessPolicy,
-  userId?: string
+  userId?: string,
 ) {
   if (!userId) return getSubscriptionPricingAt(accessPolicy);
   const subscription = await getCurrentSubscription(accessPolicy, userId);
   return getSubscriptionPricingAt(
     accessPolicy,
-    subscription?.startedAt ?? new Date()
+    subscription?.startedAt ?? new Date(),
   );
 }
 
@@ -111,7 +111,7 @@ export type WorldSubscriptionPaymentPreview = {
 
 export async function handlePaymentUpdate(
   providerId: PaymentProvider,
-  externalId: string
+  externalId: string,
 ) {
   const [payment] = await db
     .select()
@@ -119,8 +119,8 @@ export async function handlePaymentUpdate(
     .where(
       and(
         eq(paymentsTable.provider, providerId),
-        eq(paymentsTable.externalId, externalId)
-      )
+        eq(paymentsTable.externalId, externalId),
+      ),
     );
   if (!payment) return;
   if (payment.closedAt && payment.closedAt.getTime() < Date.now()) return;
@@ -137,8 +137,8 @@ export async function handlePaymentUpdate(
         .where(
           and(
             eq(paymentMethodsTable.provider, providerId),
-            eq(paymentMethodsTable.externalId, yoopayment.payment_method.id)
-          )
+            eq(paymentMethodsTable.externalId, yoopayment.payment_method.id),
+          ),
         );
       if (!method)
         [method] = await db
@@ -181,7 +181,7 @@ export async function handlePaymentUpdate(
           subscription!.shouldEndAt
             ? {
                 shouldEndAt: new Date(
-                  subscription!.shouldEndAt.getTime() + toAdd
+                  subscription!.shouldEndAt.getTime() + toAdd,
                 ),
                 autoprolongWith:
                   subscription!.userId === payment.userId
@@ -195,7 +195,7 @@ export async function handlePaymentUpdate(
                   subscription!.userId === payment.userId
                     ? method?.id
                     : undefined,
-              }
+              },
         )
         .where(eq(subscriptionsTable.id, subscription!.id));
     }

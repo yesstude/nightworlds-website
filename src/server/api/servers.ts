@@ -1,7 +1,7 @@
-import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { BaseServer, serversTable } from "../db/schema";
 import { broadcastToAdmins } from "./bot";
+import { eq } from "drizzle-orm";
 
 export type ManualPterodactylRemoteData = {
   headers: { [key: string]: string };
@@ -27,19 +27,19 @@ export async function getServerStatus(serverId: string) {
     await broadcastToAdmins(
       `Удаленный доступ к серверу ${server!.id} (${
         server!.worldId
-      }) недоступен, хотя до этого был настроен.`
+      }) недоступен, хотя до этого был настроен.`,
     );
   if (server!.remoteMethod && !server!.mayBeDown && status == "stopped") {
     await powerServer(serverId, "start");
     await broadcastToAdmins(
       `Сервер ${server!.id} (${
         server!.worldId
-      }) оказался выключен. NightWorlds осуществляет автоматическую попытку восстановления.`
+      }) оказался выключен. NightWorlds осуществляет автоматическую попытку восстановления.`,
     );
   }
   if (server!.remoteMethod && server!.mayBeDown && status == "running")
     await broadcastToAdmins(
-      `Сервер ${server!.id} (${server!.worldId}) был запущен после ошибки.`
+      `Сервер ${server!.id} (${server!.worldId}) был запущен после ошибки.`,
     );
 
   await db
@@ -50,14 +50,14 @@ export async function getServerStatus(serverId: string) {
   return status;
 }
 export async function _getServerStatus(
-  server: BaseServer
+  server: BaseServer,
 ): Promise<ServerStatus> {
   if (!server!.remoteMethod) return "remote-down";
   if (server!.remoteMethod == "manual_pterodactyl") {
     const data = server!.remoteData as ManualPterodactylRemoteData;
     const url = new URL(
       `/api/client/servers/${data.serverId}/resources`,
-      data.host
+      data.host,
     );
     try {
       const res = await fetch(url, {
@@ -83,7 +83,7 @@ export async function _getServerStatus(
 export type ServerPowerAction = "start" | "stop";
 export async function powerServer(
   serverId: string,
-  action: ServerPowerAction
+  action: ServerPowerAction,
 ): Promise<boolean> {
   const [server] = await db
     .select()
@@ -95,7 +95,7 @@ export async function powerServer(
     const data = server!.remoteData as ManualPterodactylRemoteData;
     const url = new URL(
       `/api/client/servers/${data.serverId}/power`,
-      data.host
+      data.host,
     );
     try {
       const res = await fetch(url, {

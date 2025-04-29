@@ -13,7 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: base + p,
       alternates: {
         languages: Object.fromEntries(
-          locales.map((l) => [l, `${base}/${l}${p}`] as const)
+          locales.map((l) => [l, `${base}/${l}${p}`] as const),
         ),
       },
       lastModified: new Date(),
@@ -24,6 +24,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [...format(routes10, 1.0)].concat(
     format(routes8, 0.8),
-    format(routes4, 0.4)
+    format(routes4, 0.4),
   );
 }

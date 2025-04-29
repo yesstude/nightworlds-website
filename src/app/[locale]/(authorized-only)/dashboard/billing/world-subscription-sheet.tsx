@@ -1,7 +1,19 @@
 "use client";
 
-import { ReactNode, memo, useEffect, useState } from "react";
+import { worldLogo } from "../worlds/worlds-logos";
+import { PaymentMethodInput } from "./payment-method-input";
+import PlayerInput from "./player-input";
+import { useLocale } from "next-intl";
+import Image from "next/image";
+import { ReactNode, useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
+import {
+  payWorldSubscription,
+  previewWorldSubscription,
+} from "~/app/[locale]/(authorized-only)/dashboard/billing/world-subscriptions";
 import { Button } from "~/components/ui/button";
+import { Icon } from "~/components/ui/icon";
+import { Input } from "~/components/ui/input";
 import {
   Sheet,
   SheetContent,
@@ -15,19 +27,7 @@ import {
   WorldSubscriptionPaymentInput,
   WorldSubscriptionPaymentPreview,
 } from "~/server/api/billing";
-import {
-  payWorldSubscription,
-  previewWorldSubscription,
-} from "~/app/[locale]/(authorized-only)/dashboard/billing/world-subscriptions";
 import { WorldId } from "~/server/api/worlds";
-import Image from "next/image";
-import { worldLogo } from "../worlds/worlds-logos";
-import { Input } from "~/components/ui/input";
-import { useLocale } from "next-intl";
-import { Icon } from "~/components/ui/icon";
-import { useDebounce } from "use-debounce";
-import PlayerInput from "./player-input";
-import { PaymentMethodInput } from "./payment-method-input";
 
 export function WorldSubscriptionSheet({
   children,
@@ -87,7 +87,7 @@ export function WorldSubscriptionSheet({
               onInput={(e) => {
                 if (
                   e.currentTarget.value.match(
-                    /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+                    /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
                   )
                 )
                   setEmail(e.currentTarget.value);
@@ -104,8 +104,10 @@ export function WorldSubscriptionSheet({
               onInput={(e) =>
                 setDonation(
                   Number(
-                    e.currentTarget.value.length > 0 ? e.currentTarget.value : 0
-                  )
+                    e.currentTarget.value.length > 0
+                      ? e.currentTarget.value
+                      : 0,
+                  ),
                 )
               }
             />
@@ -234,7 +236,7 @@ export function WorldSubscriptionSheet({
                         email,
                         paymentMethodId,
                       },
-                      preview.price
+                      preview.price,
                     );
                     setIsProcessing(true);
                   }

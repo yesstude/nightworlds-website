@@ -1,21 +1,19 @@
-import {
-  encodeBase32LowerCaseNoPadding,
-  encodeHexLowerCase,
-} from "@oslojs/encoding";
-import { sha256 } from "@oslojs/crypto/sha2";
+import { db } from "../db";
 import {
   type BaseUser,
   type Session,
   sessionsTable,
   usersTable,
 } from "../db/schema";
-import { db } from "../db";
+import User from "../models/User";
+import { sha256 } from "@oslojs/crypto/sha2";
+import {
+  encodeBase32LowerCaseNoPadding,
+  encodeHexLowerCase,
+} from "@oslojs/encoding";
 import BrowserDetector from "browser-dtector";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
-import { cache } from "react";
-import User from "../models/User";
-
 type IPData = {
   query: string;
   status: "success" | "fail";
@@ -61,7 +59,7 @@ export async function createSession(
   type: Session["type"],
   userId?: string,
   ipAddress?: string,
-  useragent?: string
+  useragent?: string,
 ): Promise<Session> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 
@@ -73,7 +71,7 @@ export async function createSession(
     useragent &&
     !browser &&
     useragent?.match(
-      /^Minecraft.*$/gm
+      /^Minecraft.*$/gm,
       // /^Minecraft (((\d{1,2}\.?){2,3}-?){1,2}|Unknown Version)$/gm
     )
   )
@@ -103,7 +101,7 @@ export type SessionValidationResult =
   | { session: null; user: null };
 
 export async function validateSessionToken(
-  token: string
+  token: string,
 ): Promise<SessionValidationResult> {
   const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
   const [result] = await db

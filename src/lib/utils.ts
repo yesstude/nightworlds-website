@@ -10,6 +10,6 @@ export type ArrayElement<ArrayType extends readonly unknown[]> =
 
 export function daysUntil(date: Date) {
   return Math.floor(
-    (new Date(date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
+    (new Date(date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24),
   );
 }

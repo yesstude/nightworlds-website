@@ -1,8 +1,8 @@
-import Link, { LinkButton } from "~/components/transition/link";
+import { getTranslations } from "next-intl/server";
 import { Logo } from "~/components/logo";
+import Link, { LinkButton } from "~/components/transition/link";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
-import { getTranslations } from "next-intl/server";
 
 export default async function LandingFooter() {
   const t = await getTranslations();

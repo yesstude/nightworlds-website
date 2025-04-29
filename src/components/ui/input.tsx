@@ -1,6 +1,5 @@
 import { VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
-
 import { cn } from "~/lib/utils";
 
 // const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
@@ -33,7 +32,7 @@ const inputVariants = cva(
     defaultVariants: {
       variant: "outlined",
     },
-  }
+  },
 );
 
 const Input = React.forwardRef<

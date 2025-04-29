@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { getUsers, getUsersCount } from "../actions";
-import { Skeleton } from "~/components/ui/skeleton";
+import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
+import { Skeleton } from "~/components/ui/skeleton";
 
 type User = Awaited<ReturnType<typeof getUsers>>[number];
 

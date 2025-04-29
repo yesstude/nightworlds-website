@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { getPayments } from "./actions";
-import { Skeleton } from "~/components/ui/skeleton";
-import { Icon, IconName } from "~/components/ui/icon";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardFooter } from "~/components/ui/card";
+import { Icon, IconName } from "~/components/ui/icon";
+import { Skeleton } from "~/components/ui/skeleton";
 
 type ClientPayment = Awaited<ReturnType<typeof getPayments>>[number];
 

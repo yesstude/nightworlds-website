@@ -28,10 +28,10 @@ export async function getPayments() {
     .from(paymentsTable)
     .leftJoin(
       subscriptionsTable,
-      eq(paymentsTable.subscriptionId, subscriptionsTable.id)
+      eq(paymentsTable.subscriptionId, subscriptionsTable.id),
     )
     .where(
-      or(eq(paymentsTable.userId, me.id), eq(subscriptionsTable.userId, me.id))
+      or(eq(paymentsTable.userId, me.id), eq(subscriptionsTable.userId, me.id)),
     )
     .orderBy(desc(paymentsTable.createdAt))
     .limit(10)
@@ -57,7 +57,10 @@ export async function unlinkPaymentMethod(id: string) {
     .select()
     .from(paymentMethodsTable)
     .where(
-      and(eq(paymentMethodsTable.id, id), eq(paymentMethodsTable.userId, me.id))
+      and(
+        eq(paymentMethodsTable.id, id),
+        eq(paymentMethodsTable.userId, me.id),
+      ),
     );
   if (!method) return;
 
@@ -86,9 +89,9 @@ export async function getSubscriptions() {
         gt(subscriptionsTable.shouldEndAt, new Date()),
         or(
           isNull(subscriptionsTable.endedAt),
-          gt(subscriptionsTable.endedAt, new Date())
-        )
-      )
+          gt(subscriptionsTable.endedAt, new Date()),
+        ),
+      ),
     );
   return subscriptions.map((s) => ({
     id: s.id,
@@ -109,8 +112,8 @@ export async function searchUserByNickname(nickname: string) {
       and(
         eq(usersTable.id, subscriptionsTable.userId),
         isNotNull(subscriptionsTable.shouldEndAt),
-        lt(subscriptionsTable.shouldEndAt, new Date())
-      )
+        lt(subscriptionsTable.shouldEndAt, new Date()),
+      ),
     )
     .where(eq(usersTable.nickname, nickname.trim()));
   if (!user) return undefined;

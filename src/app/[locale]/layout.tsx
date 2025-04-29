@@ -1,16 +1,14 @@
+import cygre from "../../fonts/cygre/cygre";
+import { createSessionIfNone } from "../../server/api/sessions";
+import { MaterialSymbolsProvider } from "./material-symbols-provider";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { cookies, headers } from "next/headers";
-import cygre from "../../fonts/cygre/cygre";
-import { createSessionIfNone } from "../../server/api/sessions";
-
 import { TransitionProvider } from "~/components/transition/transition-provider";
 import { env } from "~/env/server.mjs";
 import "~/styles/globals.css";
-import { MaterialSymbolsProvider } from "./material-symbols-provider";
-
-import { GoogleAnalytics } from "@next/third-parties/google";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations();
@@ -69,7 +67,7 @@ export default async function RootLayout({
       "web",
       undefined,
       ip,
-      hs.get("user-agent") ?? undefined
+      hs.get("user-agent") ?? undefined,
     );
   }
 

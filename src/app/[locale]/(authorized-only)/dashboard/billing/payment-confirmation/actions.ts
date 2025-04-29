@@ -5,7 +5,7 @@ import { db } from "~/server/db";
 import { BasePayment, paymentsTable } from "~/server/db/schema";
 
 export async function checkPaymentStatus(
-  id: string
+  id: string,
 ): Promise<{ status: BasePayment["result"]; message?: string }> {
   const [payment] = await db
     .select()

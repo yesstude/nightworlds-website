@@ -1,8 +1,8 @@
-import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { BaseUser, usersTable } from "../db/schema";
-import { getMeUnsafe } from "./sessions";
 import User, { ClientUser } from "../models/User";
+import { getMeUnsafe } from "./sessions";
+import { eq } from "drizzle-orm";
 
 export async function getUser(id?: string) {
   if (!id) return (await getMeUnsafe()) ?? undefined;
