@@ -8,6 +8,7 @@ export default {
       sm: "480px",
       md: "768px",
       lg: "1024px",
+      xl: "1280px",
     },
     boxShadow: {
       sm: "0 1px 4px 0 rgba(0, 0, 0, 0.37)",

@@ -25,7 +25,7 @@ export default function TelegramPosts() {
   if (!data) return;
   const posts = data.filter((p) => !!p.imageUrl).reverse();
   return (
-    <Carousel>
+    <Carousel className="max-w-full">
       <CarouselContent>
         {posts.map((v, i) => (
           <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/3">
