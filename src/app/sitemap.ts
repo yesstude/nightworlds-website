@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { routing } from "~/i18n/routing";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://nightworlds.ni-li.com";
+  const base = "https://nightworlds.pick-me.ru";
   const locales = routing.locales;
   const routes10 = ["/"];
   const routes8 = ["/signin"];
