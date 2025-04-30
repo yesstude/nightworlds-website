@@ -13,8 +13,11 @@ export async function GET() {
     .where(
       and(
         lt(serversTable.startedAt, new Date()),
-        or(gt(serversTable.closedAt, new Date()), isNull(serversTable.closedAt))
-      )
+        or(
+          gt(serversTable.closedAt, new Date()),
+          isNull(serversTable.closedAt),
+        ),
+      ),
     );
   let result: { id: string; status: string }[] = [];
   for (const { id, ...server } of servers) {

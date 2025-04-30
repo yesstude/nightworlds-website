@@ -1,12 +1,5 @@
 "use client";
 
-import { Button } from "~/components/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardFooter,
-} from "~/components/ui/card";
 import {
   getServer,
   getServers,
@@ -14,9 +7,17 @@ import {
   resetApiKey,
   setServerRemoteData,
 } from "./actions";
-import { Input } from "~/components/ui/input";
+import { useLocale } from "next-intl";
 import { ReactNode, useState } from "react";
-import { useAwait } from "~/hooks/use-await";
+import { Button } from "~/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardFooter,
+} from "~/components/ui/card";
+import { Icon } from "~/components/ui/icon";
+import { Input } from "~/components/ui/input";
 import {
   Sheet,
   SheetContent,
@@ -25,8 +26,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "~/components/ui/sheet";
-import { Icon } from "~/components/ui/icon";
-import { useLocale } from "next-intl";
+import { useAwait } from "~/hooks/use-await";
 
 export default function AdminServersPage() {
   const servers = useAwait(getServers) ?? [];
@@ -78,12 +78,12 @@ function ServerCard({ server: originalServer }: { server: Server }) {
             {server.status == "running"
               ? "Запущен"
               : server.status == "stopped"
-              ? "Остановлен"
-              : server.status == "starting"
-              ? "Запуск"
-              : server.status == "stopping"
-              ? "Остановка"
-              : "Удалённый доступ недоступен"}
+                ? "Остановлен"
+                : server.status == "starting"
+                  ? "Запуск"
+                  : server.status == "stopping"
+                    ? "Остановка"
+                    : "Удалённый доступ недоступен"}
           </span>
           <span>
             Доступно с {server.startedAt.toLocaleString(locale)}

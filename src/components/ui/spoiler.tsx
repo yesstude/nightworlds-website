@@ -1,7 +1,7 @@
 "use client";
 
-import { ReactNode, useState } from "react";
 import { Icon } from "./icon";
+import { ReactNode, useState } from "react";
 
 export function Spoiler(props: {
   title: string;

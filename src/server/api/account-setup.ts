@@ -1,10 +1,10 @@
 "use server";
 
-import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { BaseUser, usersTable } from "../db/schema";
 import { getMeUnsafe } from "./sessions";
 import { enc, SHA256 } from "crypto-js";
+import { eq } from "drizzle-orm";
 
 export type LicenseType = Exclude<BaseUser["licenseType"], null>;
 export async function getLicenseType() {
@@ -33,7 +33,7 @@ export type NicknameAvailability =
   | "contains-politics"
   | "invalid";
 export async function checkNicknameAvailability(
-  nickname: string
+  nickname: string,
 ): Promise<NicknameAvailability> {
   nickname = nickname.trim();
   if (!nickname.match(/^[A-Za-z0-9_]*$/)) return "invalid";
@@ -53,7 +53,7 @@ export async function checkNicknameAvailability(
 
   try {
     const res = await fetch(
-      `https://api.mojang.com/users/profiles/minecraft/${nickname}`
+      `https://api.mojang.com/users/profiles/minecraft/${nickname}`,
     ).then((r) => r.json());
 
     if (!!res.id && me.licenseType == "offline") return "licensed";

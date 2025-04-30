@@ -1,8 +1,8 @@
-import { Telegraf } from "telegraf";
-import { env } from "~/env/server.mjs";
 import { db } from "../db";
 import { accountsTable, usersTable } from "../db/schema";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
+import { Telegraf } from "telegraf";
+import { env } from "~/env/server.mjs";
 
 export const getBot = async (): Promise<Telegraf> => {
   if (!(globalThis as any).tg_bot) {

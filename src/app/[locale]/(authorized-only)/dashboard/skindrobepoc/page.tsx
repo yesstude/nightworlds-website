@@ -1,5 +1,5 @@
-import { cookies } from "next/headers";
 import { GameserverIP } from "../(home)/gameserver-ip";
+import { cookies } from "next/headers";
 
 export default function SkindrobePoCPage() {
   const cs = cookies();

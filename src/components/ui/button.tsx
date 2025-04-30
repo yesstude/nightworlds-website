@@ -1,11 +1,9 @@
 "use client";
 
-import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-
+import * as React from "react";
 import { createRipples, RipplesProps } from "react-ripples";
-
 import { cn } from "~/lib/utils";
 
 const buttonVariants = cva(
@@ -37,7 +35,7 @@ const buttonVariants = cva(
         icon: "h-10 w-10 rounded-full",
       },
     },
-  }
+  },
 );
 
 const sizePaddings: {
@@ -65,7 +63,7 @@ export interface ButtonProps
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     { className, variant, size, asChild = false, noripple, onClick, ...props },
-    ref
+    ref,
   ) => {
     const Comp = asChild ? Slot : "button";
 
@@ -82,7 +80,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             sizePaddings[size ?? "default"],
           ...props.ripples,
         }),
-      [props.ripples, onClick]
+      [props.ripples, onClick],
     );
     // if (props.noripple)
     //   cname +=
@@ -103,7 +101,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         onClick={noripple ? onClick : undefined}
       />
     );
-  }
+  },
 );
 Button.displayName = "Button";
 

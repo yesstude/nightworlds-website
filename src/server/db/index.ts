@@ -1,8 +1,7 @@
-import { drizzle } from "drizzle-orm/mysql2";
-import { createPool, type Pool } from "mysql2/promise";
-
 import { env } from "../../env/server.mjs";
 import * as schema from "./schema";
+import { drizzle } from "drizzle-orm/mysql2";
+import { createPool, type Pool } from "mysql2/promise";
 
 /**
  * Cache the database connection in development. This avoids creating a new connection on every HMR

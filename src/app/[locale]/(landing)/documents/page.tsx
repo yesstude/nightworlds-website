@@ -1,4 +1,3 @@
-import React from "react";
 import Documents from "./documents";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";

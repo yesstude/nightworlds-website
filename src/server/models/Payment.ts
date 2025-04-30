@@ -1,8 +1,8 @@
-import { SQL, inArray } from "drizzle-orm";
-import { BasePayment, PaymentProvider, paymentsTable } from "../db/schema";
-import { DbTableBased, HasClientVersion } from "./models";
 import { db } from "../db";
+import { BasePayment, PaymentProvider, paymentsTable } from "../db/schema";
 import User from "./User";
+import { DbTableBased, HasClientVersion } from "./models";
+import { SQL, inArray } from "drizzle-orm";
 
 export type ClientPayment = {
   id: string;
@@ -14,9 +14,7 @@ export type ClientPayment = {
 };
 
 export default class Payment
-  implements
-    HasClientVersion<ClientPayment>,
-    DbTableBased<typeof paymentsTable>
+  implements HasClientVersion<ClientPayment>, DbTableBased<typeof paymentsTable>
 {
   async getPayer() {
     const payer = await User.getById(this.userId);
@@ -56,8 +54,8 @@ export default class Payment
           basePayment.description ?? undefined,
           basePayment.createdAt,
           basePayment.closedAt ?? undefined,
-          basePayment.result ?? undefined
-        )
+          basePayment.result ?? undefined,
+        ),
     );
   }
   private constructor(
@@ -71,6 +69,6 @@ export default class Payment
     public description: string | undefined,
     createdAt: Date,
     public closedAt: Date | undefined,
-    public result: Exclude<BasePayment["result"], null> | undefined
+    public result: Exclude<BasePayment["result"], null> | undefined,
   ) {}
 }

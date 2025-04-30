@@ -1,12 +1,12 @@
 "use server";
 
-import { enc, HmacSHA256, SHA256 } from "crypto-js";
-import { redirect } from "next/navigation";
-import { env } from "~/env/server.mjs";
 import { db } from "../db";
 import { accountsTable, usersTable } from "../db/schema";
-import { and, eq } from "drizzle-orm";
 import { authorizeSession, getSessionUnsafe } from "./sessions";
+import { enc, HmacSHA256, SHA256 } from "crypto-js";
+import { and, eq } from "drizzle-orm";
+import { redirect } from "next/navigation";
+import { env } from "~/env/server.mjs";
 
 export type TelegramAuthData = {
   auth_date: number;
@@ -30,8 +30,8 @@ export async function checkTelegramDataIntegrity(data: TelegramAuthData) {
   const newhash = enc.Hex.stringify(
     HmacSHA256(
       enc.Utf8.parse(str),
-      SHA256(enc.Utf8.parse(env.TELEGRAM_BOT_TOKEN))
-    )
+      SHA256(enc.Utf8.parse(env.TELEGRAM_BOT_TOKEN)),
+    ),
   );
   return data.hash == newhash;
 }
@@ -47,8 +47,8 @@ export async function authWithTelegramData(data: TelegramAuthData) {
     .where(
       and(
         eq(accountsTable.type, "telegram"),
-        eq(accountsTable.identifier, data.id.toString())
-      )
+        eq(accountsTable.identifier, data.id.toString()),
+      ),
     )
     .leftJoin(usersTable, eq(usersTable.id, accountsTable.user));
   if (existing && existing.account && existing.user) {

@@ -8,7 +8,7 @@ function router(req: NextRequest) {
     },
     {
       status: 404,
-    }
+    },
   );
 }
 

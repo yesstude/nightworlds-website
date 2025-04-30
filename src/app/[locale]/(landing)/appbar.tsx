@@ -1,10 +1,9 @@
 "use client";
 
-import Link, { LinkButton } from "~/components/transition/link";
-import { Logo } from "~/components/logo";
-import { Button } from "~/components/ui/button";
-import { Icon } from "~/components/ui/icon";
 import { useTranslations } from "next-intl";
+import { Logo } from "~/components/logo";
+import { LinkButton } from "~/components/transition/link";
+import { Icon } from "~/components/ui/icon";
 
 export function LandingAppBar() {
   const t = useTranslations();

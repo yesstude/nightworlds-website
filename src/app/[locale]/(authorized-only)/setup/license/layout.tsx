@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
-import { getCurrentSession, getMeUnsafe } from "~/server/api/sessions";
+import { getCurrentSession } from "~/server/api/sessions";
 
 export default async function SetupLayout({
   children,

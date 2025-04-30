@@ -1,5 +1,8 @@
 "use client";
 
+import { amIAdmin } from "./actions";
+import { hadPayments } from "./billing/actions";
+import { useTranslations } from "next-intl";
 import { Logo } from "~/components/logo";
 import { useTransitions } from "~/components/transition/transition-provider";
 import { Icon, IconName } from "~/components/ui/icon";
@@ -16,9 +19,6 @@ import {
 import { useIsDevelopment } from "~/hooks/debug";
 import { useAwait } from "~/hooks/use-await";
 import { usePathname, useRouter } from "~/i18n/routing";
-import { hadPayments } from "./billing/actions";
-import { amIAdmin } from "./actions";
-import { useTranslations } from "next-intl";
 
 type SidebarLink = {
   label: string;
@@ -147,7 +147,7 @@ function SidebarLinkItem({
 
                 t().then(() => router.push(link.href));
               },
-              sidebar.isMobile ? 200 : 0
+              sidebar.isMobile ? 200 : 0,
             );
             if (sidebar.isMobile) sidebar.setOpenMobile(false);
           }}

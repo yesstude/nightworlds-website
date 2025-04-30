@@ -1,11 +1,11 @@
 "use client";
 
+import { getPaymentMethods } from "./actions";
+import { MouseEventHandler, useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { Icon } from "~/components/ui/icon";
 import { useAwait } from "~/hooks/use-await";
 import { ClientPaymentMethod } from "~/server/models/PaymentMethod";
-import { getPaymentMethods } from "./actions";
-import { MouseEventHandler, useEffect, useState } from "react";
 
 export function PaymentMethodInput({
   className,
@@ -71,7 +71,9 @@ function Method({
                 icon={method.provider == "admin" ? "all_inclusive" : "asterisk"}
               />
               <span className="mt-1 font-mono text-[26px] font-bold">
-                {method.provider == "admin" ? "GOLDEN" : method.card?.last4 ?? "bug"}
+                {method.provider == "admin"
+                  ? "GOLDEN"
+                  : (method.card?.last4 ?? "bug")}
               </span>
             </>
           ) : (

@@ -1,14 +1,14 @@
-import { Metadata } from "next";
 import {
   getPaymentMethods,
   getSubscriptions,
   unlinkPaymentMethod,
 } from "./actions";
 import TransactionsBlock from "./transactions";
+import { Metadata } from "next";
+import { revalidatePath } from "next/cache";
+import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { Icon } from "~/components/ui/icon";
-import { Button } from "~/components/ui/button";
-import { revalidatePath, revalidateTag } from "next/cache";
 
 export const metadata: Metadata = {
   title: "Платежи",
@@ -65,7 +65,7 @@ export default async function DashboardDebugPage() {
                     <span className="mt-1 font-mono text-[26px] font-bold">
                       {m.provider == "admin"
                         ? "GOLDEN"
-                        : m.card?.last4 ?? "bug"}
+                        : (m.card?.last4 ?? "bug")}
                     </span>
                   </div>
                 </CardContent>

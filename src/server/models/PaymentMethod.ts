@@ -1,8 +1,8 @@
-import { SQL, inArray } from "drizzle-orm";
 import { db } from "../db";
 import { PaymentProvider, paymentMethodsTable } from "../db/schema";
 import User from "./User";
 import { DbTableBased, HasClientVersion } from "./models";
+import { SQL, inArray } from "drizzle-orm";
 
 type BasePaymentMethod = (typeof paymentMethodsTable)["$inferSelect"];
 
@@ -47,8 +47,8 @@ export default class PaymentMethod
         new PaymentMethod(
           baseMethod.id,
           baseMethod.provider,
-          baseMethod.card ?? undefined
-        )
+          baseMethod.card ?? undefined,
+        ),
     );
   }
   private constructor(
@@ -61,6 +61,6 @@ export default class PaymentMethod
           expiry_year: string;
           expiry_month: string;
         }
-      | undefined
+      | undefined,
   ) {}
 }

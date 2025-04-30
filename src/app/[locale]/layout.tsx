@@ -1,16 +1,15 @@
+import cygre from "../../fonts/cygre/cygre";
+import { createSessionIfNone } from "../../server/api/sessions";
+import { MaterialSymbolsProvider } from "./material-symbols-provider";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
 import { cookies, headers } from "next/headers";
-import cygre from "../../fonts/cygre/cygre";
-import { createSessionIfNone } from "../../server/api/sessions";
-
 import { TransitionProvider } from "~/components/transition/transition-provider";
 import { env } from "~/env/server.mjs";
 import "~/styles/globals.css";
-import { MaterialSymbolsProvider } from "./material-symbols-provider";
-
-import { GoogleAnalytics } from "@next/third-parties/google";
+import Providers from "./providers";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations();
@@ -69,22 +68,24 @@ export default async function RootLayout({
       "web",
       undefined,
       ip,
-      hs.get("user-agent") ?? undefined
+      hs.get("user-agent") ?? undefined,
     );
   }
 
   const messages = await getMessages();
 
   return (
-    <NextIntlClientProvider messages={messages}>
-      <html lang={locale}>
-        <MaterialSymbolsProvider>
-          <body className={`${cygre.className}`}>
-            <TransitionProvider>{children}</TransitionProvider>
-          </body>
-        </MaterialSymbolsProvider>
-        <GoogleAnalytics gaId="G-R2NPRT0L4W" />
-      </html>
-    </NextIntlClientProvider>
+    <html lang={locale}>
+      <body className={`${cygre.className}`}>
+        <Providers>
+          <NextIntlClientProvider messages={messages}>
+            <MaterialSymbolsProvider>
+              <TransitionProvider>{children}</TransitionProvider>
+            </MaterialSymbolsProvider>
+            <GoogleAnalytics gaId="G-R2NPRT0L4W" />
+          </NextIntlClientProvider>
+        </Providers>
+      </body>
+    </html>
   );
 }

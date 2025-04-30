@@ -7,8 +7,8 @@ import { BaseServer, serversTable } from "~/server/db/schema";
 
 export async function serverProtected(
   handler: (
-    server: BaseServer
-  ) => Promise<NextResponse | void> | NextResponse | void
+    server: BaseServer,
+  ) => Promise<NextResponse | void> | NextResponse | void,
 ) {
   try {
     const header = headers().get("Authorization");
@@ -33,13 +33,13 @@ export async function serverProtected(
     if (error instanceof ServerUnauthenticatedError) {
       return NextResponse.json(
         { code: 401, message: "Unauthorized" },
-        { status: 401 }
+        { status: 401 },
       );
     } else {
       console.error(error);
       return NextResponse.json(
         { code: 500, message: "Internal server error" },
-        { status: 500 }
+        { status: 500 },
       );
     }
   }

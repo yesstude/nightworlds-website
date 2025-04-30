@@ -1,3 +1,4 @@
+import { getUsers } from "./actions";
 import { LinkButton } from "~/components/transition/link";
 import {
   Card,
@@ -5,7 +6,6 @@ import {
   CardFooter,
   CardHeader,
 } from "~/components/ui/card";
-import { getUsers } from "./actions";
 
 export default async function AdminDashboard() {
   const newUsers = await getUsers(0, 3);

@@ -1,11 +1,11 @@
-import { NextRequest } from "next/server";
+import { env } from "../../../env/server.mjs";
+import { setSessionTokenCookie } from "../../../server/api/cookies";
 import {
   createSession,
   generateSessionToken,
 } from "../../../server/api/sessions";
-import { env } from "../../../env/server.mjs";
-import { setSessionTokenCookie } from "../../../server/api/cookies";
 import { redirect } from "next/navigation";
+import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const token = await generateSessionToken();
@@ -22,12 +22,12 @@ export async function GET(req: NextRequest) {
     "web",
     undefined,
     ip,
-    hs.get("user-agent") ?? undefined
+    hs.get("user-agent") ?? undefined,
   );
 
   await setSessionTokenCookie(token);
 
   return redirect(
-    decodeURIComponent(req.nextUrl.searchParams.get("redirect") ?? "/")
+    decodeURIComponent(req.nextUrl.searchParams.get("redirect") ?? "/"),
   );
 }

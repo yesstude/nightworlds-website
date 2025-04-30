@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
 import { serverProtected } from "../../auth";
+import { eq } from "drizzle-orm";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "~/server/db";
 import { usersTable } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
 
 export function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ nickname: string }> }
+  { params }: { params: Promise<{ nickname: string }> },
 ) {
   return serverProtected(async (server) => {
     const { nickname } = await params;
@@ -17,7 +17,7 @@ export function GET(
     if (!user)
       return NextResponse.json(
         { code: 404, message: "User not found" },
-        { status: 404 }
+        { status: 404 },
       );
     return NextResponse.json({
       id: user.id,

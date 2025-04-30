@@ -1,5 +1,5 @@
-import { notFound } from "next/navigation";
 import { metadata } from "../not-found";
+import { notFound } from "next/navigation";
 
 export { metadata };
 

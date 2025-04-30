@@ -1,12 +1,12 @@
-import { ReactNode } from "react";
-import NavDrawer from "./sidebar";
 import LandingFooter from "../../(landing)/footer";
-import { getCurrentSession, getMeUnsafe } from "~/server/api/sessions";
+import DashboardAppBar from "./appbar";
+import NavDrawer from "./sidebar";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { ReactNode } from "react";
 import { TransitionSuspense } from "~/components/transition/transition-provider";
 import { SidebarInset, SidebarProvider } from "~/components/ui/sidebar";
-import DashboardAppBar from "./appbar";
-import { Metadata } from "next";
+import { getCurrentSession } from "~/server/api/sessions";
 
 export const metadata: Metadata = {
   title: "Личный кабинет",

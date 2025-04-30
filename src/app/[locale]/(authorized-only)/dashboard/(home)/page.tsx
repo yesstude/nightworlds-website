@@ -1,9 +1,8 @@
-import { getMeUnsafe } from "~/server/api/sessions";
 import { GameserverIP } from "./gameserver-ip";
-
-import Image from "next/image";
 import serverinfopic from "./serverinfo.webp";
 import { getTranslations } from "next-intl/server";
+import Image from "next/image";
+import { getMeUnsafe } from "~/server/api/sessions";
 
 export default async function DashboardHome() {
   const user = await getMeUnsafe();

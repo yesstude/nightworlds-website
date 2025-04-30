@@ -1,7 +1,7 @@
-import { WorldId } from "~/server/api/worlds";
 import nwm4 from "./nwm37.svg";
 import unknown from "./unknown.svg";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { WorldId } from "~/server/api/worlds";
 
 const worldsLogos: { [key in WorldId]?: { logo: StaticImport; alt: string } } =
   {

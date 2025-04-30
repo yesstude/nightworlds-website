@@ -1,11 +1,11 @@
 "use client";
 
+import { checkPaymentStatus } from "./actions";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { LinkButton } from "~/components/transition/link";
 import { Icon, IconName } from "~/components/ui/icon";
 import { BasePayment } from "~/server/db/schema";
-import { checkPaymentStatus } from "./actions";
-import { LinkButton } from "~/components/transition/link";
 
 type PaymentStatus = BasePayment["result"];
 

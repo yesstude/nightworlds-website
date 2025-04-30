@@ -1,5 +1,9 @@
 "use client";
 
+import "./emphasized-fade-down.css";
+import "./emphasized-fade.css";
+import "./emphasized-left.css";
+import "./emphasized-right.css";
 import { usePathname } from "next/navigation";
 import {
   Dispatch,
@@ -11,11 +15,6 @@ import {
   useRef,
   useState,
 } from "react";
-
-import "./emphasized-fade.css";
-import "./emphasized-fade-down.css";
-import "./emphasized-left.css";
-import "./emphasized-right.css";
 
 export const TRANSITIONS = {
   "emphasized-fade": {
@@ -122,7 +121,7 @@ export function useTransitions() {
 
 function getCSSAnimation(
   transition: Transition,
-  direction: "in" | "out"
+  direction: "in" | "out",
 ): { duration: number; className: string } {
   return {
     className: `animate-${transition}-${direction}`,

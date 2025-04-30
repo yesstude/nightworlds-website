@@ -1,5 +1,5 @@
 import { InferSelectModel, SQL } from "drizzle-orm";
-import { MySqlTable, MySqlTableWithColumns } from "drizzle-orm/mysql-core";
+import { MySqlTable } from "drizzle-orm/mysql-core";
 
 export type HasClientVersion<T extends object> = T & {
   getClient(): Promise<T> | T;

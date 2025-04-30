@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
-import Link from "./transition/link";
 import logo from "../assets/logo.svg";
+import Link from "./transition/link";
+import Image from "next/image";
 
 export function Logo(props: { className?: string }) {
   return (

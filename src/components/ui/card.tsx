@@ -1,6 +1,5 @@
 import { VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
-
 import { cn } from "~/lib/utils";
 
 const cardVariants = cva(
@@ -18,7 +17,7 @@ const cardVariants = cva(
           "border-border border hover:shadow-sm [&_>div]:hover:bg-primary/[0.04]",
       },
     },
-  }
+  },
 );
 
 const Card = React.forwardRef<
@@ -53,7 +52,7 @@ const CardTitle = React.forwardRef<
     ref={ref}
     className={cn(
       "text-2xl font-semibold leading-none tracking-tight",
-      className
+      className,
     )}
     {...props}
   />

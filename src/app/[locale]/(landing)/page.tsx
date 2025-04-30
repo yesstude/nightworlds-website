@@ -1,16 +1,15 @@
-import Image from "next/image";
-import { LandingAppBar } from "./appbar";
+import { LandingBanner } from "./landing-banner";
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
-
+import Image from "next/image";
+import Link from "next/link";
 import build from "~/assets/homepage/build.webp";
 import communicate from "~/assets/homepage/communicate.webp";
 import simplicity from "~/assets/homepage/simplicity.webp";
-import Link from "next/link";
+import TelegramPosts from "~/components/telegram-posts/posts";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
-import { Metadata } from "next";
-import { LandingBanner } from "./landing-banner";
-import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations();
@@ -33,7 +32,8 @@ export default async function HomePage() {
   return (
     <>
       <LandingBanner />
-      <div className="flex max-w-[1400px] flex-col gap-16 px-8 py-8 md:px-20">
+      <div className="flex max-w-full xl:max-w-[1280px] flex-col gap-16 px-8 py-8 md:px-20">
+        <TelegramPosts />
         <FeatureBox img={build} alt="Two players building a tower" reverse>
           <h1>{t("landing.features.build.title")}</h1>
           <p>{t("landing.features.build.description")}</p>

@@ -1,7 +1,6 @@
-import { ArrayElement } from "~/lib/utils";
-import { SubscriptionFeatureAccessPolicy, WorldAccessPolicy } from "./billing";
 import { db } from "../db";
 import { serversTable } from "../db/schema";
+import { WorldAccessPolicy } from "./billing";
 import { and, desc, eq, gt, inArray, isNull, lt, or } from "drizzle-orm";
 
 export async function getWorlds(ids?: WorldId[]): Promise<World[]> {
@@ -23,7 +22,7 @@ export async function getClientSafeWorld(world: WorldId | ClientSafeWorld) {
 
 export type WorldAvailability = "full" | "preorder" | "none";
 export async function getWorldsAvailability(
-  ids: WorldId[]
+  ids: WorldId[],
 ): Promise<[WorldAvailability, string?][]> {
   const servers = await db
     .select()
@@ -36,15 +35,15 @@ export async function getWorldsAvailability(
             lt(serversTable.startedAt, new Date()),
             or(
               gt(serversTable.closedAt, new Date()),
-              isNull(serversTable.closedAt)
-            )
+              isNull(serversTable.closedAt),
+            ),
           ),
           and(
             gt(serversTable.startedAt, new Date()),
-            eq(serversTable.isPreOrderable, true)
-          )
-        )
-      )
+            eq(serversTable.isPreOrderable, true),
+          ),
+        ),
+      ),
     )
     .orderBy(desc(serversTable.startedAt));
   return ids.map((id) => {

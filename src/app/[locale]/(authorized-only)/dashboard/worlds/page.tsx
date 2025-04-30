@@ -1,6 +1,10 @@
+import { WorldSubscriptionSheet } from "../billing/world-subscription-sheet";
+import { PersonalizedWorld, getPersonalizedWorlds } from "./actions";
+import { worldLogo } from "./worlds-logos";
 import { Metadata } from "next";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
+import { LinkButton } from "~/components/transition/link";
 import { Button } from "~/components/ui/button";
 import {
   Card,
@@ -14,20 +18,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuPortal,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Icon } from "~/components/ui/icon";
-import { PersonalizedWorld, getPersonalizedWorlds } from "./actions";
-import { worldLogo } from "./worlds-logos";
-import { WorldSubscriptionSheet } from "../billing/world-subscription-sheet";
-import { LinkButton } from "~/components/transition/link";
 import { SheetTrigger } from "~/components/ui/sheet";
 
 export const metadata: Metadata = {
@@ -112,8 +105,8 @@ function WorldCard({
           {!!world.subscription
             ? `${world.subscription.price}₽ / месяц`
             : world.isFree
-            ? "Бесплатно"
-            : ""}
+              ? "Бесплатно"
+              : ""}
         </span>
         {/* <Button variant="text">
           Подробнее
@@ -142,8 +135,8 @@ function WorldCard({
                   {world.subscription.isRenewable
                     ? "Продлить"
                     : world.isPreOrderable
-                    ? "Предзаказ"
-                    : "Купить"}
+                      ? "Предзаказ"
+                      : "Купить"}
                 </Button>
               </SheetTrigger>
             </WorldSubscriptionSheet>

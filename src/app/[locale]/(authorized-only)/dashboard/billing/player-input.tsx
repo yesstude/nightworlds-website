@@ -1,5 +1,6 @@
 "use client";
 
+import { searchUserByNickname } from "./actions";
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { Button } from "~/components/ui/button";
@@ -11,7 +12,6 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import { ClientUser } from "~/server/models/User";
-import { searchUserByNickname } from "./actions";
 
 export default function PlayerInput({
   name,

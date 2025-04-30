@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import { serverProtected } from "../auth";
+import { NextRequest, NextResponse } from "next/server";
 import { getWorld } from "~/server/api/worlds";
 
 export function GET(req: NextRequest) {
