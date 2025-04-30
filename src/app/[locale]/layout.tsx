@@ -9,6 +9,7 @@ import { cookies, headers } from "next/headers";
 import { TransitionProvider } from "~/components/transition/transition-provider";
 import { env } from "~/env/server.mjs";
 import "~/styles/globals.css";
+import Providers from "./providers";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations();
@@ -74,15 +75,17 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <NextIntlClientProvider messages={messages}>
-      <html lang={locale}>
-        <MaterialSymbolsProvider>
-          <body className={`${cygre.className}`}>
-            <TransitionProvider>{children}</TransitionProvider>
-          </body>
-        </MaterialSymbolsProvider>
-        <GoogleAnalytics gaId="G-R2NPRT0L4W" />
-      </html>
-    </NextIntlClientProvider>
+    <html lang={locale}>
+      <body className={`${cygre.className}`}>
+        <Providers>
+          <NextIntlClientProvider messages={messages}>
+            <MaterialSymbolsProvider>
+              <TransitionProvider>{children}</TransitionProvider>
+            </MaterialSymbolsProvider>
+            <GoogleAnalytics gaId="G-R2NPRT0L4W" />
+          </NextIntlClientProvider>
+        </Providers>
+      </body>
+    </html>
   );
 }
