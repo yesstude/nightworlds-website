@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/dashboard/",
     },
-    sitemap: "https://nightworlds.ni-li.com/sitemap.xml",
+    sitemap: "https://nightworlds.pick-me.ru/sitemap.xml",
   };
 }
