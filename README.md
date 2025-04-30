@@ -1,6 +1,6 @@
 # NightWorlds Website
 
-This is a [NightWorlds Website](https://nightworlds.ni-li.com/) source code repository.
+This is a [NightWorlds Website](https://nightworlds.pick-me.ru/) source code repository.
 
 ## Development
 
