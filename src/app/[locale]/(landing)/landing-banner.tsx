@@ -1,7 +1,7 @@
 "use client";
 
 import medium from "../(authorized-only)/dashboard/worlds/nwm37.svg";
-import photo from "./medium_banner.jpg";
+import photo from "./medium_banner.webp";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { LinkButton } from "~/components/transition/link";
@@ -45,7 +45,7 @@ export function LandingBanner() {
           src={photo}
           alt="Minecraft city screenshot"
           loading="eager"
-          className="h-full w-full rounded-t-[32px] object-cover sm:rounded-[32px] sm:shadow-xl sm:brightness-[25%] lg:rounded-[86px]"
+          className="h-full w-full rounded-t-[32px] object-cover sm:rounded-[32px] sm:shadow-xl sm:brightness-[50%] lg:rounded-[86px]"
         />
       </AspectRatio>
     </div>
