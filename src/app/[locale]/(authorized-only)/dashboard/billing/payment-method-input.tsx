@@ -61,7 +61,7 @@ function Method({
     >
       <CardHeader className="flex flex-row place-items-center justify-between pt-2">
         <Icon className="mt-2" icon={method ? "credit_card" : "add_card"} />
-        {selected && <Icon icon="check_circle" filled />}
+        {selected && <Icon icon="check_circle" fill />}
       </CardHeader>
       <CardContent>
         <div className="flex place-items-center gap-2">
@@ -71,7 +71,9 @@ function Method({
                 icon={method.provider == "admin" ? "all_inclusive" : "asterisk"}
               />
               <span className="mt-1 font-mono text-[26px] font-bold">
-                {method.provider == "admin" ? "GOLDEN" : method.card?.last4 ?? "bug"}
+                {method.provider == "admin"
+                  ? "GOLDEN"
+                  : (method.card?.last4 ?? "bug")}
               </span>
             </>
           ) : (
