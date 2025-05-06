@@ -61,7 +61,8 @@
       "worlds": "Світи",
       "billing": "Платежі",
       "admin": "Адміністрування",
-      "debug": "Налагодження"
+      "debug": "Налагодження",
+      "medium": "Medium"
     },
     "homepage": {
       "welcome": "Добрий день, {name}!",

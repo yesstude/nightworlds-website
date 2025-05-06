@@ -61,7 +61,8 @@
       "worlds": "Миры",
       "billing": "Платежи",
       "admin": "Администрирование",
-      "debug": "Отладка"
+      "debug": "Отладка",
+      "medium": "Medium"
     },
     "homepage": {
       "welcome": "Добрый день, {name}!",

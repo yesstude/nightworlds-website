@@ -61,7 +61,8 @@
       "worlds": "Worlds",
       "billing": "Billing",
       "admin": "Admin",
-      "debug": "Debug"
+      "debug": "Debug",
+      "medium": "Medium"
     },
     "homepage": {
       "welcome": "Welcome, {name}!",
