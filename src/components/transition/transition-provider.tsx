@@ -122,7 +122,7 @@ export function useTransitions() {
 
 function getCSSAnimation(
   transition: Transition,
-  direction: "in" | "out"
+  direction: "in" | "out",
 ): { duration: number; className: string } {
   return {
     className: `animate-${transition}-${direction}`,

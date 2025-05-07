@@ -1,4 +1,4 @@
-import { getCurrentSession, getMeUnsafe } from "~/server/api/sessions";
+import { getCurrentSession } from "~/server/api/sessions";
 import TelegramWidget from "./tgwidget";
 import { redirect } from "next/navigation";
 import { Icon } from "~/components/ui/icon";

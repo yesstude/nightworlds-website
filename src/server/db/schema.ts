@@ -101,7 +101,7 @@ export const subscriptionsTable = table("subscriptions", {
     .notNull(),
   autoprolongWith: cuid("autoprolong_with").references(
     () => paymentMethodsTable.id,
-    { onDelete: "set null" }
+    { onDelete: "set null" },
   ),
   tag: varchar("tag", { length: 64 }).notNull(),
   createdAt: datetime("created_at")
@@ -131,12 +131,12 @@ export const paymentsTable = table("payments", {
   amount: double("amount").$type<number>().notNull(),
   savedMethodId: cuid("saved_method_id").references(
     () => paymentMethodsTable.id,
-    { onDelete: "set null" }
+    { onDelete: "set null" },
   ),
   type: varchar("type", { length: 16 }).$type<"subscription">().notNull(),
   subscriptionId: cuid("subscription_id").references(
     () => subscriptionsTable.id,
-    { onDelete: "cascade" }
+    { onDelete: "cascade" },
   ),
   description: text("description"),
   createdAt: datetime("created_at")
@@ -177,7 +177,7 @@ export const notificationsTable = table("notifications", {
     .notNull(),
   subscriptionId: cuid("subscription_id").references(
     () => subscriptionsTable.id,
-    { onDelete: "cascade" }
+    { onDelete: "cascade" },
   ),
   paymentId: cuid("payment_id").references(() => paymentsTable.id, {
     onDelete: "cascade",

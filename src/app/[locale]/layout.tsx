@@ -69,7 +69,7 @@ export default async function RootLayout({
       "web",
       undefined,
       ip,
-      hs.get("user-agent") ?? undefined
+      hs.get("user-agent") ?? undefined,
     );
   }
 

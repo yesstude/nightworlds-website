@@ -36,7 +36,7 @@ export default function SetupPage() {
         className="flex flex-col [&_input:checked_+_label]:bg-primary/10 [&_input]:hidden"
         onChange={(e) => {
           const checked = e.currentTarget.querySelector(
-            "input:checked"
+            "input:checked",
           ) as HTMLInputElement;
           setType(checked.value as any);
         }}

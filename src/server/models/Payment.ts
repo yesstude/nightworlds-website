@@ -14,9 +14,7 @@ export type ClientPayment = {
 };
 
 export default class Payment
-  implements
-    HasClientVersion<ClientPayment>,
-    DbTableBased<typeof paymentsTable>
+  implements HasClientVersion<ClientPayment>, DbTableBased<typeof paymentsTable>
 {
   async getPayer() {
     const payer = await User.getById(this.userId);
@@ -56,8 +54,8 @@ export default class Payment
           basePayment.description ?? undefined,
           basePayment.createdAt,
           basePayment.closedAt ?? undefined,
-          basePayment.result ?? undefined
-        )
+          basePayment.result ?? undefined,
+        ),
     );
   }
   private constructor(
@@ -71,6 +69,6 @@ export default class Payment
     public description: string | undefined,
     createdAt: Date,
     public closedAt: Date | undefined,
-    public result: Exclude<BasePayment["result"], null> | undefined
+    public result: Exclude<BasePayment["result"], null> | undefined,
   ) {}
 }

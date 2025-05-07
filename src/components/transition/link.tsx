@@ -1,7 +1,7 @@
 "use client";
 
 import { Transition, useTransitions } from "./transition-provider";
-import { AnchorHTMLAttributes, MouseEventHandler, memo } from "react";
+import { AnchorHTMLAttributes, MouseEventHandler } from "react";
 import { Button } from "../ui/button";
 import { usePathname, useRouter } from "~/i18n/routing";
 
@@ -9,7 +9,7 @@ function generateOnClick(
   href: string,
   transition?: Transition,
   defaultOnClick?: MouseEventHandler<HTMLElement>,
-  dontPrevent?: boolean
+  dontPrevent?: boolean,
 ) {
   const transitions = useTransitions();
   const router = useRouter();
@@ -41,7 +41,7 @@ export default function Link(
   dprops: AnchorHTMLAttributes<HTMLAnchorElement> & {
     href: string;
     transition?: Transition;
-  }
+  },
 ) {
   let props = { ...dprops };
 
@@ -54,7 +54,7 @@ export function LinkButton(
   dprops: Parameters<typeof Button>[0] & {
     href: string;
     transition?: Transition;
-  }
+  },
 ) {
   let { href, ...props } = { ...dprops };
 

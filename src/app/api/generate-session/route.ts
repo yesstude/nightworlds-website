@@ -22,12 +22,12 @@ export async function GET(req: NextRequest) {
     "web",
     undefined,
     ip,
-    hs.get("user-agent") ?? undefined
+    hs.get("user-agent") ?? undefined,
   );
 
   await setSessionTokenCookie(token);
 
   return redirect(
-    decodeURIComponent(req.nextUrl.searchParams.get("redirect") ?? "/")
+    decodeURIComponent(req.nextUrl.searchParams.get("redirect") ?? "/"),
   );
 }

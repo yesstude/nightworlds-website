@@ -30,8 +30,8 @@ export async function checkTelegramDataIntegrity(data: TelegramAuthData) {
   const newhash = enc.Hex.stringify(
     HmacSHA256(
       enc.Utf8.parse(str),
-      SHA256(enc.Utf8.parse(env.TELEGRAM_BOT_TOKEN))
-    )
+      SHA256(enc.Utf8.parse(env.TELEGRAM_BOT_TOKEN)),
+    ),
   );
   return data.hash == newhash;
 }
@@ -47,8 +47,8 @@ export async function authWithTelegramData(data: TelegramAuthData) {
     .where(
       and(
         eq(accountsTable.type, "telegram"),
-        eq(accountsTable.identifier, data.id.toString())
-      )
+        eq(accountsTable.identifier, data.id.toString()),
+      ),
     )
     .leftJoin(usersTable, eq(usersTable.id, accountsTable.user));
   if (existing && existing.account && existing.user) {

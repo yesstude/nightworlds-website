@@ -1,8 +1,7 @@
 "use client";
 
-import Link, { LinkButton } from "~/components/transition/link";
+import { LinkButton } from "~/components/transition/link";
 import { Logo } from "~/components/logo";
-import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { useTranslations } from "next-intl";
 

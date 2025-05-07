@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import NavDrawer from "./sidebar";
 import LandingFooter from "../../(landing)/footer";
-import { getCurrentSession, getMeUnsafe } from "~/server/api/sessions";
+import { getCurrentSession } from "~/server/api/sessions";
 import { redirect } from "next/navigation";
 import { TransitionSuspense } from "~/components/transition/transition-provider";
 import { SidebarInset, SidebarProvider } from "~/components/ui/sidebar";

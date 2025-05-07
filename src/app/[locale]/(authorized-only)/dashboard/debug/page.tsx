@@ -1,7 +1,6 @@
 import { eq } from "drizzle-orm";
 import { Metadata } from "next";
-import { revalidatePath, revalidateTag } from "next/cache";
-import Image from "next/image";
+import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 import { Button } from "~/components/ui/button";

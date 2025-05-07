@@ -1,4 +1,4 @@
-import { SQL, and, desc, eq, inArray, isNotNull, or } from "drizzle-orm";
+import { SQL, and, desc, eq, inArray, or } from "drizzle-orm";
 import { db } from "../db";
 import {
   paymentMethodsTable,
@@ -51,13 +51,13 @@ export default class User
       .from(paymentsTable)
       .leftJoin(
         subscriptionsTable,
-        eq(paymentsTable.subscriptionId, subscriptionsTable.id)
+        eq(paymentsTable.subscriptionId, subscriptionsTable.id),
       )
       .where(
         or(
           eq(paymentsTable.userId, this.id),
-          eq(subscriptionsTable.userId, this.id)
-        )
+          eq(subscriptionsTable.userId, this.id),
+        ),
       )
       .orderBy(pg?.order ?? desc(paymentsTable.createdAt))
       .limit(pg?.limit ?? 10)
@@ -76,9 +76,9 @@ export default class User
   static async getByIds(ids: string[]) {
     return this.selectWhere(
       and(
-        inArray(usersTable.id, ids)
+        inArray(usersTable.id, ids),
         // isNotNull(usersTable.nickname)
-      )
+      ),
     );
   }
   static async getById(id: string) {
@@ -96,8 +96,8 @@ export default class User
           user.isSetUp,
           user.licenseType ?? undefined,
           user.isAdmin,
-          user.registeredAt
-        )
+          user.registeredAt,
+        ),
     );
   }
   private constructor(
@@ -107,7 +107,7 @@ export default class User
     public isSetUp: boolean,
     public licenseType: "online" | "partial" | "offline" | undefined,
     public readonly isAdmin: boolean,
-    public readonly registeredAt: Date
+    public readonly registeredAt: Date,
   ) {}
 
   static getDefaultAvatarUrl(nickname?: string) {

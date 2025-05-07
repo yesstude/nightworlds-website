@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, memo, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
 import {
   Sheet,
@@ -87,7 +87,7 @@ export function WorldSubscriptionSheet({
               onInput={(e) => {
                 if (
                   e.currentTarget.value.match(
-                    /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+                    /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
                   )
                 )
                   setEmail(e.currentTarget.value);
@@ -104,8 +104,10 @@ export function WorldSubscriptionSheet({
               onInput={(e) =>
                 setDonation(
                   Number(
-                    e.currentTarget.value.length > 0 ? e.currentTarget.value : 0
-                  )
+                    e.currentTarget.value.length > 0
+                      ? e.currentTarget.value
+                      : 0,
+                  ),
                 )
               }
             />
@@ -234,7 +236,7 @@ export function WorldSubscriptionSheet({
                         email,
                         paymentMethodId,
                       },
-                      preview.price
+                      preview.price,
                     );
                     setIsProcessing(true);
                   }

@@ -59,7 +59,7 @@ export async function setServerRemoteData(serverId: string, data: string) {
   const { cookie, Referer, ...headers } = obj.headers;
   const xsrfToken = headers["x-xsrf-token"] as string | undefined;
   const refererGroups = Referer.match(
-    /^(?<protocol>https?:\/\/)(?<host>[^\/]+)/
+    /^(?<protocol>https?:\/\/)(?<host>[^\/]+)/,
   )?.groups;
   const host = refererGroups?.protocol + refererGroups?.host;
   const externalServerId = url.match(/servers\/(?<serverId>[^/]+)\//)?.groups

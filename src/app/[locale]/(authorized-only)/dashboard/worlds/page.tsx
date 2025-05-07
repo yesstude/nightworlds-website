@@ -14,13 +14,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuPortal,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Icon } from "~/components/ui/icon";
@@ -112,8 +105,8 @@ function WorldCard({
           {!!world.subscription
             ? `${world.subscription.price}₽ / месяц`
             : world.isFree
-            ? "Бесплатно"
-            : ""}
+              ? "Бесплатно"
+              : ""}
         </span>
         {/* <Button variant="text">
           Подробнее
@@ -142,8 +135,8 @@ function WorldCard({
                   {world.subscription.isRenewable
                     ? "Продлить"
                     : world.isPreOrderable
-                    ? "Предзаказ"
-                    : "Купить"}
+                      ? "Предзаказ"
+                      : "Купить"}
                 </Button>
               </SheetTrigger>
             </WorldSubscriptionSheet>

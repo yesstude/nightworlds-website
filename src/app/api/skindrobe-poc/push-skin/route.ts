@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
       buffer: Buffer.from(await file.arrayBuffer()),
       name: `${Date.now()}.png`,
     },
-    `/skindrobepoc/${session.user.id}`
+    `/skindrobepoc/${session.user.id}`,
   );
   if (!res) return new NextResponse(undefined, { status: 500 });
 

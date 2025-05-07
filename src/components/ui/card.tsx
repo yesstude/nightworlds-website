@@ -18,7 +18,7 @@ const cardVariants = cva(
           "border-border border hover:shadow-sm [&_>div]:hover:bg-primary/[0.04]",
       },
     },
-  }
+  },
 );
 
 const Card = React.forwardRef<
@@ -53,7 +53,7 @@ const CardTitle = React.forwardRef<
     ref={ref}
     className={cn(
       "text-2xl font-semibold leading-none tracking-tight",
-      className
+      className,
     )}
     {...props}
   />

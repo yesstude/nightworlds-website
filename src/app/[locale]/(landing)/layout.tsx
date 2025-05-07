@@ -1,10 +1,7 @@
 import { ReactNode } from "react";
 import { LandingAppBar } from "./appbar";
 import LandingFooter from "./footer";
-import {
-  TransitionProvider,
-  TransitionSuspense,
-} from "../../../components/transition/transition-provider";
+import { TransitionSuspense } from "../../../components/transition/transition-provider";
 
 export default async function LandingLayout(props: { children: ReactNode }) {
   return (

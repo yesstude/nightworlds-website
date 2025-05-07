@@ -27,7 +27,7 @@ export default function TelegramWidget() {
         if ((!bot_id && !test_bot_id) || isPopupOpen) return;
         auth(
           { bot_id: bot_id || test_bot_id, request_access: "write" },
-          authWithTelegramData
+          authWithTelegramData,
         );
         setPopupOpen(true);
       }}
@@ -40,7 +40,7 @@ export default function TelegramWidget() {
 
 function auth(
   options: { bot_id: string; request_access?: string; lang?: string },
-  callback: (data: TelegramAuthData) => any
+  callback: (data: TelegramAuthData) => any,
 ) {
   var bot_id = parseInt(options.bot_id);
   if (!bot_id) {
@@ -88,7 +88,7 @@ function auth(
     encodeURIComponent(options.bot_id) +
     "&origin=" +
     encodeURIComponent(
-      location.origin || location.protocol + "//" + location.hostname
+      location.origin || location.protocol + "//" + location.hostname,
     ) +
     (options.request_access
       ? "&request_access=" + encodeURIComponent(options.request_access)
@@ -107,7 +107,7 @@ function auth(
       left +
       ",top=" +
       top +
-      ",status=0,location=0,menubar=0,toolbar=0"
+      ",status=0,location=0,menubar=0,toolbar=0",
   );
   // TelegramLogin.popups[bot_id] = {
   //   window: popup,

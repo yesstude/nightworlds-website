@@ -1,7 +1,7 @@
 "use server";
 
 import { getMeUnsafe } from "../../../../../server/api/sessions";
-import { getClientSafeUser, getUser } from "../../../../../server/api/users";
+import { getClientSafeUser } from "../../../../../server/api/users";
 import {
   getClientSafeWorld,
   getWorld,
@@ -20,15 +20,15 @@ import {
   paymentsTable,
   subscriptionsTable,
 } from "~/server/db/schema";
-import { and, eq, gt, isNotNull, lt, or } from "drizzle-orm";
-import { IItemWithoutData, YooCheckout } from "@a2seven/yoo-checkout";
+import { and, eq } from "drizzle-orm";
+import { IItemWithoutData } from "@a2seven/yoo-checkout";
 import { env } from "~/env/server.mjs";
 import { redirect } from "next/navigation";
 import yookassa from "~/server/yoocheckout";
 import User from "~/server/models/User";
 
 export async function previewWorldSubscription(
-  payment: WorldSubscriptionPaymentInput
+  payment: WorldSubscriptionPaymentInput,
 ): Promise<WorldSubscriptionPaymentPreview> {
   const me = await getMeUnsafe();
   if (!me) throw new Error("Unauthorized");
@@ -57,7 +57,7 @@ export async function previewWorldSubscription(
   let price = (
     await getSubscriptionPricingFor(
       serverWorld.accessPolicy,
-      payment.giftToUserId ? undefined : user.id
+      payment.giftToUserId ? undefined : user.id,
     )
   ).price;
   if (payment.giftToUserId) price *= 1.2;
@@ -82,7 +82,7 @@ export async function previewWorldSubscription(
 
 export async function payWorldSubscription(
   input: WorldSubscriptionPaymentInput,
-  price: number
+  price: number,
 ) {
   const me = await getMeUnsafe();
   if (!me) throw new Error("Unauthorized");
@@ -101,8 +101,8 @@ export async function payWorldSubscription(
       .where(
         and(
           eq(paymentMethodsTable.userId, me.id),
-          eq(paymentMethodsTable.id, input.paymentMethodId)
-        )
+          eq(paymentMethodsTable.id, input.paymentMethodId),
+        ),
       );
 
   const world = await getWorld(input.worldId);
@@ -113,7 +113,7 @@ export async function payWorldSubscription(
 
     let currentSub: { id: string } | undefined = await getCurrentSubscription(
       world.accessPolicy,
-      reciever.id
+      reciever.id,
     );
     if (!currentSub) {
       [currentSub] = await tx
@@ -210,11 +210,11 @@ export async function payWorldSubscription(
             type: "redirect",
             return_url: new URL(
               `/dashboard/billing/payment-confirmation?id=${payment.id}`,
-              "https://" + env.DOMAIN_NAME
+              "https://" + env.DOMAIN_NAME,
             ).toString(),
           },
         },
-        payment.id
+        payment.id,
       );
 
       await tx

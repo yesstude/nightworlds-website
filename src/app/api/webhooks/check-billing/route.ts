@@ -1,4 +1,4 @@
-import { and, eq, gt, isNull, lt, or, sql } from "drizzle-orm";
+import { and, eq, gt, isNull, or, sql } from "drizzle-orm";
 import { headers } from "next/headers";
 import { env } from "~/env/server.mjs";
 import { daysUntil } from "~/lib/utils";
@@ -24,28 +24,28 @@ export async function GET() {
       and(
         or(
           isNull(subscriptionsTable.endedAt),
-          gt(subscriptionsTable.endedAt, new Date())
+          gt(subscriptionsTable.endedAt, new Date()),
         ),
         and(isNull(subscriptionsTable.frozenAt)),
         isNull(subscriptionsTable.freezeReason),
-        isNull(notificationsTable.id)
-      )
+        isNull(notificationsTable.id),
+      ),
     )
     .innerJoin(usersTable, eq(usersTable.id, subscriptionsTable.userId))
     .innerJoin(
       accountsTable,
       and(
         eq(accountsTable.user, usersTable.id),
-        eq(accountsTable.type, "telegram")
-      )
+        eq(accountsTable.type, "telegram"),
+      ),
     )
     .leftJoin(
       notificationsTable,
       and(
         eq(subscriptionsTable.id, notificationsTable.subscriptionId),
         eq(notificationsTable.type, "subscription-expires"),
-        sql`${notificationsTable.sentDate} >= ${today}`
-      )
+        sql`${notificationsTable.sentDate} >= ${today}`,
+      ),
     );
 
   if (subscriptions.length == 0)
@@ -77,7 +77,7 @@ export async function GET() {
     if (!message) continue;
 
     console.log(
-      `(Telegram) Notifying ${user.nickname} about their ${subscription.tag} subscription expiring in ${daysLeft} days.`
+      `(Telegram) Notifying ${user.nickname} about their ${subscription.tag} subscription expiring in ${daysLeft} days.`,
     );
 
     try {
@@ -97,7 +97,7 @@ export async function GET() {
               ],
             ],
           },
-        }
+        },
       );
       await db.insert(notificationsTable).values({
         userId: user.id,
@@ -106,7 +106,10 @@ export async function GET() {
         sentDate: new Date(),
       });
     } catch (error) {
-      console.error(`Unable to send notification to ${user.nickname} about their subscription expiring in ${daysLeft} days.`, error);
+      console.error(
+        `Unable to send notification to ${user.nickname} about their subscription expiring in ${daysLeft} days.`,
+        error,
+      );
     }
   }
 

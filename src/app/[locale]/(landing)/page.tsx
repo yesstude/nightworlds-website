@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { LandingAppBar } from "./appbar";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 import build from "~/assets/homepage/build.webp";

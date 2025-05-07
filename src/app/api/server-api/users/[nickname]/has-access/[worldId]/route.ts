@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { serverProtected } from "../../../../auth";
 import { db } from "~/server/db";
-import { subscriptionsTable, usersTable } from "~/server/db/schema";
-import { and, eq, gt, isNull, or } from "drizzle-orm";
+import { usersTable } from "~/server/db/schema";
+import { eq } from "drizzle-orm";
 import { WorldId, getAllWorldIds, getWorld } from "~/server/api/worlds";
 import { getCurrentSubscription } from "~/server/api/billing";
 
 export function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ nickname: string; worldId: WorldId }> }
+  { params }: { params: Promise<{ nickname: string; worldId: WorldId }> },
 ) {
   return serverProtected(async (server) => {
     const { nickname, worldId } = await params;
@@ -19,7 +19,7 @@ export function GET(
     if (!user)
       return NextResponse.json(
         { code: 404, message: "User not found" },
-        { status: 404 }
+        { status: 404 },
       );
 
     if (!(await getAllWorldIds()).includes(worldId))
@@ -28,7 +28,7 @@ export function GET(
           code: 404,
           message: "World not found",
         },
-        { status: 404 }
+        { status: 404 },
       );
 
     const world = await getWorld(worldId);
@@ -45,7 +45,7 @@ export function GET(
 
     const subscription = await getCurrentSubscription(
       world.accessPolicy,
-      user.id
+      user.id,
     );
 
     return NextResponse.json({

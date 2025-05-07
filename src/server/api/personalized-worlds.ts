@@ -32,7 +32,7 @@ export async function getPersonalizedWorlds() {
 
   const worlds = await getWorlds();
   const worldsAvailability = await getWorldsAvailability(
-    worlds.map((v) => v.id) as any
+    worlds.map((v) => v.id) as any,
   );
 
   let result: PersonalizedWorld[] = [];
@@ -49,7 +49,7 @@ export async function getPersonalizedWorlds() {
         const { period } = w.accessPolicy;
         const { price } = await getSubscriptionPricingFor(
           w.accessPolicy,
-          me?.id
+          me?.id,
         );
         availability = {
           type: "subscription",

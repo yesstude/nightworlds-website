@@ -91,12 +91,8 @@
           "name": "nw_session_user_nw_user_id_fk",
           "tableFrom": "nw_session",
           "tableTo": "nw_user",
-          "columnsFrom": [
-            "user"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -104,9 +100,7 @@
       "compositePrimaryKeys": {
         "nw_session_id": {
           "name": "nw_session_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -142,17 +136,13 @@
       "compositePrimaryKeys": {
         "nw_user_id": {
           "name": "nw_user_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "nw_user_nickname_unique": {
           "name": "nw_user_nickname_unique",
-          "columns": [
-            "nickname"
-          ]
+          "columns": ["nickname"]
         }
       },
       "checkConstraint": {}

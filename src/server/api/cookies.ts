@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 
 export async function setSessionTokenCookie(
   token: string,
-  expiresAt: Date = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)
+  expiresAt: Date = new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
 ): Promise<void> {
   const cookieStore = await cookies();
   cookieStore.set("session", token, {

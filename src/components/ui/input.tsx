@@ -33,7 +33,7 @@ const inputVariants = cva(
     defaultVariants: {
       variant: "outlined",
     },
-  }
+  },
 );
 
 const Input = React.forwardRef<

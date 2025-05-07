@@ -1,10 +1,6 @@
 "use client";
-
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { LinkButton } from "~/components/transition/link";
-import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 
 export default function SetupPage() {

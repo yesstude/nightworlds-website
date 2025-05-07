@@ -78,12 +78,12 @@ function ServerCard({ server: originalServer }: { server: Server }) {
             {server.status == "running"
               ? "Запущен"
               : server.status == "stopped"
-              ? "Остановлен"
-              : server.status == "starting"
-              ? "Запуск"
-              : server.status == "stopping"
-              ? "Остановка"
-              : "Удалённый доступ недоступен"}
+                ? "Остановлен"
+                : server.status == "starting"
+                  ? "Запуск"
+                  : server.status == "stopping"
+                    ? "Остановка"
+                    : "Удалённый доступ недоступен"}
           </span>
           <span>
             Доступно с {server.startedAt.toLocaleString(locale)}
