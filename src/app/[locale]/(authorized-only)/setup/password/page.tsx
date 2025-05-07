@@ -66,13 +66,11 @@ export default function SetupPage() {
                 noripple
               >
                 <Icon
-                  className="visibility-icon transition-[transform,_opacity]"
-                  as="div"
+                  className="visibility-icon transition-[transform,_opacity] block"
                   icon="visibility"
                 />
                 <Icon
-                  className="visibility-icon-off absolute right-[24px] -mr-[24px] transition-[transform,_opacity]"
-                  as="div"
+                  className="visibility-icon-off absolute right-[24px] -mr-[24px] transition-[transform,_opacity] block"
                   icon="visibility_off"
                 />
               </MemoButton>
