@@ -1,8 +1,9 @@
-import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import banner from "./banner.png";
+import { getMyResidences } from "./actions";
+import { ResidenceCard } from "./residence-card";
 
 export default async function MediumDashboardPage() {
+  const residences = await getMyResidences();
+
   return (
     <div className="flex w-full flex-col gap-6 lg:p-8">
       <div className="flex justify-between">
@@ -20,38 +21,10 @@ export default async function MediumDashboardPage() {
           </span>
         </div>
       </div>
-      <div className="flex grid-cols-[repeat(auto-fill,_minmax(480px,1fr))] flex-col gap-4 md:grid md:[&_>div]:max-w-[470px]">
-        <Card variant="filled" className="flex flex-col [&_>_div]:p-8">
-          <CardHeader className="!pb-0">
-            <CardTitle className="text-[24px] font-bold text-foreground">
-              Гражданство
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-4 !pt-4">
-            <div className="flex gap-4">
-              {/* <Skeleton className="shadow-none h-[96px] w-[54px] rounded-[8px]" /> */}
-              <Image
-                src={banner}
-                alt="Флаг Мадесеи"
-                className="h-[96px] w-[54px] rounded-[8px]"
-                style={{
-                  imageRendering: "pixelated",
-                }}
-              />
-              <div>
-                <h2 className="text-[24px] font-bold text-foreground">
-                  Мадесея
-                </h2>
-                <p>Президент, мэр Писоцка</p>
-                <p className="text-[20px]">Паспорт: #259613</p>
-              </div>
-            </div>
-          </CardContent>
-          {/* <CardFooter className="!pt-4">
-            <Button variant="outlined">Редактировать</Button>
-            <Button variant="text">Wiki</Button>
-          </CardFooter> */}
-        </Card>
+      <div className="flex grid-cols-[repeat(auto-fill,_minmax(360px,1fr))] flex-col gap-4 md:grid">
+        {residences.map((r) => (
+          <ResidenceCard className="w-full" key={r.id} resident={r} />
+        ))}
       </div>
     </div>
   );

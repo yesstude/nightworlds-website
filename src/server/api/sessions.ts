@@ -161,6 +161,12 @@ export async function getMeUnsafe() {
   return User.getById(me.id);
 }
 
+export async function getMeOrThrow() {
+  const me = await getMeUnsafe();
+  if (!me) throw new Error("Unauthorized");
+  return me;
+}
+
 export async function getMySessions() {
   const me = await getMeUnsafe();
   const sessions = await db

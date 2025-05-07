@@ -10,6 +10,7 @@ import {
 } from "drizzle-orm/mysql-core";
 import { WorldId } from "../api/worlds";
 import { sql } from "drizzle-orm";
+import { routing } from "~/i18n/routing";
 
 const table = mysqlTableCreator((name) => `nw_${name}`);
 export const cuid = (name: string) => varchar(name, { length: 25 });
@@ -81,6 +82,54 @@ export const serversTable = table("servers", {
   closedAt: datetime("closed_at"),
 });
 export type BaseServer = typeof serversTable.$inferSelect;
+
+export const statesTable = table("states", {
+  id: autocuid("id").primaryKey(),
+  localizedName: json("localized_name")
+    .$type<Partial<{ [locale in (typeof routing.locales)[number]]: string }>>()
+    .notNull(),
+  creatorId: cuid("user_id")
+    .references(() => usersTable.id, { onDelete: "cascade" })
+    .notNull(),
+  createdAt: datetime("created_at")
+    .$default(() => new Date())
+    .notNull(),
+  verifiedAt: datetime("verified_at"),
+});
+export type BaseState = typeof statesTable.$inferSelect;
+
+export const settlementsTable = table("settlements", {
+  id: autocuid("id").primaryKey(),
+  stateId: cuid("state_id")
+    .references(() => statesTable.id, { onDelete: "cascade" })
+    .notNull(),
+  localizedName: json("localized_name")
+    .$type<Partial<{ [locale in (typeof routing.locales)[number]]: string }>>()
+    .notNull(),
+  creatorId: cuid("creator_id")
+    .references(() => usersTable.id, { onDelete: "cascade" })
+    .notNull(),
+  createdAt: datetime("created_at")
+    .$default(() => new Date())
+    .notNull(),
+  verifiedAt: datetime("verified_at"),
+});
+export type BaseSettlement = typeof settlementsTable.$inferSelect;
+
+export const residentsTable = table("residents", {
+  id: autocuid("id").primaryKey(),
+  userId: cuid("user_id")
+    .references(() => usersTable.id, { onDelete: "cascade" })
+    .notNull(),
+  stateId: cuid("state_id")
+    .references(() => statesTable.id, { onDelete: "cascade" })
+    .notNull(),
+  startedAt: datetime("started_at")
+    .$default(() => new Date())
+    .notNull(),
+  endedAt: datetime("ended_at"),
+});
+export type BaseResident = typeof residentsTable.$inferSelect;
 
 export const playersTable = table("players", {
   id: autocuid("id").primaryKey(),
