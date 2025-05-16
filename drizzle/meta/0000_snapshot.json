@@ -49,12 +49,8 @@
           "name": "nw_account_user_nw_user_id_fk",
           "tableFrom": "nw_account",
           "tableTo": "nw_user",
-          "columnsFrom": [
-            "user"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -62,17 +58,13 @@
       "compositePrimaryKeys": {
         "nw_account_id": {
           "name": "nw_account_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "nw_account_identifier_unique": {
           "name": "nw_account_identifier_unique",
-          "columns": [
-            "identifier"
-          ]
+          "columns": ["identifier"]
         }
       },
       "checkConstraint": {}
@@ -129,12 +121,8 @@
           "name": "nw_notifications_user_id_nw_user_id_fk",
           "tableFrom": "nw_notifications",
           "tableTo": "nw_user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -142,12 +130,8 @@
           "name": "nw_notifications_subscription_id_nw_subscriptions_id_fk",
           "tableFrom": "nw_notifications",
           "tableTo": "nw_subscriptions",
-          "columnsFrom": [
-            "subscription_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["subscription_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -155,12 +139,8 @@
           "name": "nw_notifications_payment_id_nw_payments_id_fk",
           "tableFrom": "nw_notifications",
           "tableTo": "nw_payments",
-          "columnsFrom": [
-            "payment_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["payment_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -168,9 +148,7 @@
       "compositePrimaryKeys": {
         "nw_notifications_id": {
           "name": "nw_notifications_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -228,12 +206,8 @@
           "name": "nw_paymethods_user_id_nw_user_id_fk",
           "tableFrom": "nw_paymethods",
           "tableTo": "nw_user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -241,9 +215,7 @@
       "compositePrimaryKeys": {
         "nw_paymethods_id": {
           "name": "nw_paymethods_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -343,12 +315,8 @@
           "name": "nw_payments_user_id_nw_user_id_fk",
           "tableFrom": "nw_payments",
           "tableTo": "nw_user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -356,12 +324,8 @@
           "name": "nw_payments_saved_method_id_nw_paymethods_id_fk",
           "tableFrom": "nw_payments",
           "tableTo": "nw_paymethods",
-          "columnsFrom": [
-            "saved_method_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["saved_method_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -369,12 +333,8 @@
           "name": "nw_payments_subscription_id_nw_subscriptions_id_fk",
           "tableFrom": "nw_payments",
           "tableTo": "nw_subscriptions",
-          "columnsFrom": [
-            "subscription_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["subscription_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -382,9 +342,7 @@
       "compositePrimaryKeys": {
         "nw_payments_id": {
           "name": "nw_payments_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -428,12 +386,8 @@
           "name": "nw_players_user_id_nw_user_id_fk",
           "tableFrom": "nw_players",
           "tableTo": "nw_user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -441,17 +395,13 @@
       "compositePrimaryKeys": {
         "nw_players_id": {
           "name": "nw_players_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "nw_players_last_nickname_unique": {
           "name": "nw_players_last_nickname_unique",
-          "columns": [
-            "last_nickname"
-          ]
+          "columns": ["last_nickname"]
         }
       },
       "checkConstraint": {}
@@ -501,12 +451,8 @@
           "name": "nw_residents_user_id_nw_user_id_fk",
           "tableFrom": "nw_residents",
           "tableTo": "nw_user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -514,12 +460,8 @@
           "name": "nw_residents_state_id_nw_states_id_fk",
           "tableFrom": "nw_residents",
           "tableTo": "nw_states",
-          "columnsFrom": [
-            "state_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["state_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -527,9 +469,7 @@
       "compositePrimaryKeys": {
         "nw_residents_id": {
           "name": "nw_residents_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -616,9 +556,7 @@
       "compositePrimaryKeys": {
         "nw_servers_id": {
           "name": "nw_servers_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -719,12 +657,8 @@
           "name": "nw_session_user_nw_user_id_fk",
           "tableFrom": "nw_session",
           "tableTo": "nw_user",
-          "columnsFrom": [
-            "user"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -732,9 +666,7 @@
       "compositePrimaryKeys": {
         "nw_session_id": {
           "name": "nw_session_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -792,12 +724,8 @@
           "name": "nw_settlements_state_id_nw_states_id_fk",
           "tableFrom": "nw_settlements",
           "tableTo": "nw_states",
-          "columnsFrom": [
-            "state_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["state_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -805,12 +733,8 @@
           "name": "nw_settlements_creator_id_nw_user_id_fk",
           "tableFrom": "nw_settlements",
           "tableTo": "nw_user",
-          "columnsFrom": [
-            "creator_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["creator_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -818,9 +742,7 @@
       "compositePrimaryKeys": {
         "nw_settlements_id": {
           "name": "nw_settlements_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -871,12 +793,8 @@
           "name": "nw_states_user_id_nw_user_id_fk",
           "tableFrom": "nw_states",
           "tableTo": "nw_user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -884,9 +802,7 @@
       "compositePrimaryKeys": {
         "nw_states_id": {
           "name": "nw_states_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -972,12 +888,8 @@
           "name": "nw_subscriptions_user_id_nw_user_id_fk",
           "tableFrom": "nw_subscriptions",
           "tableTo": "nw_user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -985,12 +897,8 @@
           "name": "nw_subscriptions_autoprolong_with_nw_paymethods_id_fk",
           "tableFrom": "nw_subscriptions",
           "tableTo": "nw_paymethods",
-          "columnsFrom": [
-            "autoprolong_with"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["autoprolong_with"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -998,9 +906,7 @@
       "compositePrimaryKeys": {
         "nw_subscriptions_id": {
           "name": "nw_subscriptions_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {},
@@ -1066,17 +972,13 @@
       "compositePrimaryKeys": {
         "nw_user_id": {
           "name": "nw_user_id",
-          "columns": [
-            "id"
-          ]
+          "columns": ["id"]
         }
       },
       "uniqueConstraints": {
         "nw_user_nickname_unique": {
           "name": "nw_user_nickname_unique",
-          "columns": [
-            "nickname"
-          ]
+          "columns": ["nickname"]
         }
       },
       "checkConstraint": {}

@@ -9,10 +9,10 @@ import {
   residentsTable,
   statesTable,
 } from "~/server/db/schema";
-
 export type ClientSafeState = {
   id: BaseState["id"];
   localizedName: BaseState["localizedName"];
+  flag: string;
 };
 
 export type ClientSafeResident = {
@@ -31,9 +31,9 @@ export async function getMyResidences() {
         lt(residentsTable.startedAt, new Date()),
         or(
           isNull(residentsTable.endedAt),
-          gt(residentsTable.endedAt, new Date()),
-        ),
-      ),
+          gt(residentsTable.endedAt, new Date())
+        )
+      )
     )
     .leftJoin(statesTable, eq(statesTable.id, residentsTable.stateId));
 
@@ -41,7 +41,11 @@ export async function getMyResidences() {
     (br) =>
       ({
         id: br.residents!.id,
-        state: { id: br.states!.id, localizedName: br.states!.localizedName },
-      }) satisfies ClientSafeResident,
+        state: {
+          id: br.states!.id,
+          localizedName: br.states!.localizedName,
+          flag: br.states!.flag,
+        },
+      } satisfies ClientSafeResident)
   );
 }

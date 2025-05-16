@@ -25,8 +25,7 @@
     "yoavbls.pretty-ts-errors"
     "ms-azuretools.vscode-docker"
     "bradlc.vscode-tailwindcss"
-    "Prisma.prisma"
-  ]; 
+  ];
 
   # idx.previews = {
   #   enable = false;

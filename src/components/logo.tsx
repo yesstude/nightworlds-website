@@ -12,6 +12,7 @@ export function Logo(props: { className?: string }) {
           src={logo}
           alt="Cuboid moon logo"
           width={42}
+          height={42}
           loading="eager"
           className="logo"
         />

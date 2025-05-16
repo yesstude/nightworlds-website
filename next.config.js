@@ -1,6 +1,8 @@
 import withMDXBuilder from "@next/mdx";
-const withMDX = withMDXBuilder();
 import createNextIntlPlugin from "next-intl/plugin";
+
+const withMDX = withMDXBuilder();
+
 const withNextIntl = createNextIntlPlugin();
 
 await import("./src/env/server.mjs");
@@ -12,6 +14,7 @@ const config = withNextIntl(
       serverActions: {
         allowedOrigins: ["*.cloudworkstations.dev", "localhost:3000"],
       },
+      serverComponentsExternalPackages: ["mcbanners"],
     },
   })
 );
