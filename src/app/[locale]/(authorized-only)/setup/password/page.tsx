@@ -1,5 +1,6 @@
 "use client";
 
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { memo, ReactNode, useState } from "react";
 import { useTransitions } from "~/components/transition/transition-provider";
@@ -17,9 +18,13 @@ export default function SetupPage() {
   const router = useRouter();
   const transitions = useTransitions();
 
-  // useEffect(() => {
-  //   router.prefetch("/setup/finish");
-  // }, []);
+  const setIngamePasswordMutation = useMutation({
+    mutationFn: setIngamePassword,
+    onSuccess: () => {
+      transitions?.transitionOut("emphasized-left");
+      router.push("/setup/finish");
+    },
+  });
 
   return (
     <>
@@ -86,13 +91,11 @@ export default function SetupPage() {
           <div className="w-full bg-foreground/5 sm:p-0 [&_>_button]:w-full">
             <Button
               size="extended_fab"
-              disabled={input.length < 5}
+              disabled={setIngamePasswordMutation.isPending || input.length < 5}
               onClick={() => {
-                if (input.length < 5) return;
+                if (setIngamePasswordMutation.isPending || input.length < 5) return;
 
-                setIngamePassword(input)
-                  .then(transitions?.emphasizedLeftOut)
-                  .then(() => router.push("/setup/finish"));
+                setIngamePasswordMutation.mutate(input);
               }}
             >
               Установить
