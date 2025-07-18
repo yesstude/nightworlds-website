@@ -30,10 +30,17 @@ export default async function LandingFooter() {
           </LinkButton>
         </div>
       </div>
-      <div className="flex rounded-b-[24px] bg-foreground/5 px-6 py-4 shadow-sm">
-        <span>{t("footer.tin")} 434584407807</span>
-        <div className="grow" />
-        <span>© 2025</span>
+      <div className="flex flex-col gap-2 rounded-b-[24px] bg-foreground/5 px-6 py-4 shadow-sm">
+        <div className="flex gap-2">
+          <span>{t("footer.tin")} 434584407807</span>
+          <div className="grow" />
+          <span>© 2025</span>
+        </div>
+        <span className="text-sm">
+          Not an official Minecraft product. We are in no way affiliated with
+          or endorsed by Mojang Synergies AB, Microsoft Corporation or other
+          rightsholders.
+        </span>
       </div>
     </div>
   );

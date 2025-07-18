@@ -25,7 +25,6 @@ export function LandingBanner() {
             NightWorld Medium 3.7
           </h1>
           <p className="mb-2">{t("landing.banner.description")}</p>
-          <p>{t("landing.banner.price")}</p>
         </div>
         <LinkButton
           className="transition-shadow hover:bg-primary/95 hover:shadow-xl sm:h-[50px] sm:shadow-lg lg:h-[72px] lg:px-[28px] lg:text-[24px] [&_.icon]:hover:translate-x-1 lg:[&_.icon]:hover:translate-x-2"
