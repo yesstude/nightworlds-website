@@ -1,5 +1,6 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
@@ -15,30 +16,27 @@ import {
 } from "~/server/api/account-setup";
 
 export default function SetupPage() {
-  const [allowContinue, setAllowContinue] = useState(false);
   const [error, setError] = useState<NicknameAvailability | undefined>();
 
   const [input, setInput] = useState("");
   const [nickname] = useDebounce(input, 1000);
 
+  const nicknameAvailabilityQuery = useQuery({
+    queryKey: ["nickname-availability", nickname],
+    queryFn: () => checkNicknameAvailability(nickname),
+    enabled: nickname.length > 0,
+  });
+
+  const allowContinue = nicknameAvailabilityQuery.data == "available";
+
   useEffect(() => {
-    if (nickname.length == 0) return;
-    checkNicknameAvailability(nickname).then((res) => {
-      if (res == "available") {
-        setAllowContinue(true);
-        setError(undefined);
-      } else setError(res);
-    });
-  }, [nickname]);
+    if (nicknameAvailabilityQuery.data == "available") {
+      setError(undefined);
+    } else setError(nicknameAvailabilityQuery.data);
+  }, [nicknameAvailabilityQuery.data]);
 
   const router = useRouter();
   const transitions = useTransitions();
-
-  // useEffect(() => {
-  //   router.prefetch("/setup/license");
-  //   router.prefetch("/setup/password");
-  //   router.prefetch("/setup/finish");
-  // }, []);
 
   return (
     <>
@@ -64,7 +62,6 @@ export default function SetupPage() {
             placeholder="Ваш никнейм"
             name="nickname"
             onInput={(e) => {
-              setAllowContinue(false);
               setInput(e.currentTarget.value);
             }}
           />

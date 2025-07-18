@@ -5,10 +5,19 @@ import { useTransitions } from "~/components/transition/transition-provider";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { setAccountSetUp } from "~/server/api/account-setup";
+import { useMutation } from "@tanstack/react-query";
 
 export default function SetupPage() {
   const router = useRouter();
   const transitions = useTransitions();
+
+  const finishSetupMutation = useMutation({
+    mutationFn: setAccountSetUp,
+    onSuccess: () => {
+      transitions?.transitionOut("emphasized-left");
+      router.push("/dashboard");
+    },
+  });
 
   return (
     <>
@@ -22,10 +31,9 @@ export default function SetupPage() {
         <div className="w-full bg-foreground/5 py-4 sm:p-0 [&_>_button]:w-full">
           <Button
             size="extended_fab"
+            disabled={finishSetupMutation.isPending}
             onClick={() => {
-              setAccountSetUp()
-                .then(transitions?.emphasizedFadeUp)
-                .then(() => router.push("/dashboard"));
+              finishSetupMutation.mutate();
             }}
           >
             Продолжить

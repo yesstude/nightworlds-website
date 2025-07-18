@@ -7,20 +7,35 @@ import { useTransitions } from "~/components/transition/transition-provider";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import {
-  LicenseType,
+  type LicenseType,
   getLicenseType,
   setLicenseType,
 } from "~/server/api/account-setup";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export default function SetupPage() {
   const [type, setType] = useState<undefined | LicenseType>();
   const transitions = useTransitions();
   const router = useRouter();
 
+  const getLicenseTypeQuery = useQuery({
+    queryKey: ["license-type"],
+    queryFn: getLicenseType,
+  });
+
   useEffect(() => {
-    // router.prefetch("/setup/nickname");
-    getLicenseType().then((t) => setType(t));
-  }, []);
+    if (getLicenseTypeQuery.data) {
+      setType(getLicenseTypeQuery.data);
+    }
+  }, [getLicenseTypeQuery.data]);
+
+  const setLicenseTypeMutation = useMutation({
+    mutationFn: setLicenseType,
+    onSuccess: () => {
+      transitions?.transitionOut("emphasized-left");
+      router.push("/setup/nickname");
+    },
+  });
 
   return (
     <>
@@ -83,12 +98,10 @@ export default function SetupPage() {
         <div className="w-full bg-foreground/5 py-4 sm:p-0 [&_>_button]:w-full">
           <Button
             size="extended_fab"
-            disabled={!type}
+            disabled={!type || setLicenseTypeMutation.isPending}
             onClick={() => {
               if (!type) return;
-              setLicenseType(type)
-                .then(() => transitions?.transitionOut("emphasized-left"))
-                .then(() => router.push("/setup/nickname"));
+              setLicenseTypeMutation.mutate(type)
             }}
           >
             Выбрать
