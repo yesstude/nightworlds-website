@@ -1,5 +1,4 @@
 {
-  "image": "ghcr.io/nhaef/devcontainer-bun:latest",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -13,11 +12,13 @@
       ]
     }
   },
-  "postStartCommand": "bun i",
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-    "ghcr.io/devcontainers/features/sshd:1": {}
+    "ghcr.io/devcontainers/features/sshd:1": {},
+    "ghcr.io/devcontainer-community/devcontainer-features/bun.sh:1": {},
+    "ghcr.io/devcontainers-extra/features/vercel-cli:1": {}
   },
+  "postStartCommand": "bun i",
   "portsAttributes": {
     "3000": {
       "label": "next"

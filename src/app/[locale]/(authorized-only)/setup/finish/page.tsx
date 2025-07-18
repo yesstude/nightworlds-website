@@ -15,7 +15,7 @@ export default function SetupPage() {
     mutationFn: setAccountSetUp,
     onSuccess: () => {
       transitions?.transitionOut("emphasized-left");
-      router.push("/dashboard");
+      router.refresh();
     },
   });
 
