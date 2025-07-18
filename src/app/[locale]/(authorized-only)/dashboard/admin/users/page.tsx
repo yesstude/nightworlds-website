@@ -77,7 +77,9 @@ function UserRow({ user }: { user?: User }) {
         <span className="text-[18px] font-medium text-foreground">
           {user.nickname ?? "--"}
         </span>
-        <span className="text-muted-foreground">{user.account}</span>
+        <span className="text-muted-foreground transition-all duration-200 blur-sm hover:blur-none">
+          {user.account}
+        </span>
       </div>
     </div>
   );
