@@ -1,9 +1,23 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {
-    "ghcr.io/shyim/devcontainers-features/bun:0": {}
+  "image": "ghcr.io/nhaef/devcontainer-bun:latest",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "anilkumarum.compile-ts",
+        "esbenp.prettier-vscode",
+        "yoavbls.pretty-ts-errors",
+        "ms-azuretools.vscode-docker",
+        "bradlc.vscode-tailwindcss",
+        "Prisma.prisma"
+      ]
+    }
   },
-  "postStartCommand": "./start-database.sh",
+  "postStartCommand": "bun i",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/sshd:1": {}
+  },
   "portsAttributes": {
     "3000": {
       "label": "next"
