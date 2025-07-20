@@ -88,6 +88,7 @@ const worlds = [
       pricingAfter: {
         0: {
           price: 69,
+          trialLength: 30,
         },
       },
       tag: "medium.basic",

@@ -63,6 +63,31 @@ export async function previewWorldSubscription(
   if (payment.giftToUserId) price *= 1.2;
   price += donation ?? 0;
 
+  if (!payment.giftToUserId) {
+    const userEverHadSubscription = await db
+      .select()
+      .from(subscriptionsTable)
+      .where(
+        and(
+          eq(subscriptionsTable.userId, user.id),
+          eq(subscriptionsTable.tag, serverWorld.accessPolicy.tag),
+        ),
+      );
+
+    const nowMs = Date.now();
+    const pricingEntry = Object.entries(serverWorld.accessPolicy.pricingAfter)
+      .filter(([k]) => Number(k) < nowMs)
+      .pop();
+    const trialLength = pricingEntry?.[1]?.trialLength ?? 0;
+
+    const isTrialAvailable =
+      !!trialLength && trialLength > 0 && userEverHadSubscription.length === 0;
+
+    if (isTrialAvailable) {
+      price = 0;
+    }
+  }
+
   price = Math.floor(price);
 
   const giftToUser = payment.giftToUserId ? user.getClient() : undefined;
@@ -93,6 +118,8 @@ export async function payWorldSubscription(
 
   const reciever = data.finalUser;
   if (!reciever) throw new Error("User not found");
+
+  let paymentProvider = paymentMethod?.provider;
 
   if (input.paymentMethodId)
     var [paymentMethod] = await db
@@ -128,12 +155,17 @@ export async function payWorldSubscription(
     }
     if (!currentSub) throw new Error("Error creating subscription");
 
-    const description =
+    let description =
       `Оплата подписки ${data.world.name} для @${reciever.nickname}` +
       (data.giftToUser ? ` (подарок от @${me.nickname})` : "") +
       (data.donation
         ? ` + поддержка на ${data.donation.toFixed(2)} рублей`
         : "");
+
+    if (data.price == 0) {
+      description = `Бесплатная подписка на ${data.world.name} для @${reciever.nickname}`;
+      paymentProvider = "admin";
+    }
 
     const [payment] = await tx
       .insert(paymentsTable)
@@ -141,7 +173,7 @@ export async function payWorldSubscription(
         type: "subscription",
         subscriptionId: currentSub.id,
         userId: me.id,
-        provider: paymentMethod?.provider ?? "yookassa",
+        provider: paymentProvider ?? "yookassa",
         savedMethodId: paymentMethod?.id,
         amount: data.price,
         description,
@@ -149,7 +181,7 @@ export async function payWorldSubscription(
       .$returningId();
     if (!payment) throw new Error("Error creating NightWorlds payment");
 
-    if (paymentMethod?.provider == "admin") {
+    if (paymentProvider == "admin") {
       await tx
         .update(paymentsTable)
         .set({
@@ -171,13 +203,11 @@ export async function payWorldSubscription(
             },
             items: [
               {
-                description: `Оплата ${
-                  data.giftToUser
+                description: `Оплата ${data.giftToUser
                     ? `подарочной подписки для @${reciever.nickname}`
                     : "подписки"
-                } на ${data.world.name} на ${
-                  data.prolongation.period == "monthly" ? "30 дней" : "7 дней"
-                }`,
+                  } на ${data.world.name} на ${data.prolongation.period == "monthly" ? "30 дней" : "7 дней"
+                  }`,
                 amount: {
                   value: (data.price - (data.donation ?? 0)).toFixed(2),
                   currency: "RUB",
@@ -187,14 +217,14 @@ export async function payWorldSubscription(
               } satisfies IItemWithoutData,
               data.donation
                 ? ({
-                    description: `Финансовая поддержка проекта NightWorlds`,
-                    amount: {
-                      value: data.donation.toFixed(2),
-                      currency: "RUB",
-                    },
-                    quantity: "1",
-                    vat_code: 1,
-                  } satisfies IItemWithoutData)
+                  description: `Финансовая поддержка проекта NightWorlds`,
+                  amount: {
+                    value: data.donation.toFixed(2),
+                    currency: "RUB",
+                  },
+                  quantity: "1",
+                  vat_code: 1,
+                } satisfies IItemWithoutData)
                 : undefined,
             ].filter((v) => !!v) as any,
           },
@@ -202,8 +232,8 @@ export async function payWorldSubscription(
           payment_method_data: paymentMethod?.externalId
             ? undefined
             : {
-                type: "bank_card",
-              },
+              type: "bank_card",
+            },
           payment_method_id: paymentMethod?.externalId ?? undefined,
           capture: true,
           confirmation: {
@@ -233,7 +263,7 @@ export async function payWorldSubscription(
       url: `/dashboard/billing/payment-confirmation?id=${payment.id}`,
     };
   });
-  if (paymentMethod?.provider == "admin")
+  if (paymentProvider == "admin")
     await handlePaymentUpdate("admin", paymentId);
 
   redirect(url);
