@@ -242,7 +242,7 @@ export function WorldSubscriptionSheet({
                   }
             }
           >
-            Оплатить {preview?.price ? `${preview.price.toFixed(2)}₽` : ""}
+            Оплатить {`${(preview?.price ?? 0).toFixed(2)}₽`}
           </Button>
         </SheetFooter>
       </SheetContent>

@@ -2,6 +2,7 @@ import { GameserverIP } from "./gameserver-ip";
 import serverinfopic from "./serverinfo.webp";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
+import Link from "~/components/transition/link";
 import { getMeUnsafe } from "~/server/api/sessions";
 
 export default async function DashboardHome() {
@@ -20,6 +21,7 @@ export default async function DashboardHome() {
             {t("dashboard.homepage.howtoplay.title")}
           </h1>
           <ol className="list-inside list-decimal leading-relaxed [&_li]:mb-2">
+            <li><Link href="/dashboard/worlds" className="underline text-primary">{t("dashboard.homepage.howtoplay.select_world")}</Link></li>
             <li>
               {t("dashboard.homepage.howtoplay.minecraft", {
                 version: "1.21.4",

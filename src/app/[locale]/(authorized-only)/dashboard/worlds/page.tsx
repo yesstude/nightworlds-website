@@ -1,7 +1,6 @@
 import { WorldSubscriptionSheet } from "../billing/world-subscription-sheet";
 import { PersonalizedWorld, getPersonalizedWorlds } from "./actions";
 import { worldLogo } from "./worlds-logos";
-import { Metadata } from "next";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import { LinkButton } from "~/components/transition/link";
@@ -22,22 +21,32 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { Icon } from "~/components/ui/icon";
 import { SheetTrigger } from "~/components/ui/sheet";
+import { getTranslations as getTranslationsServer } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Миры",
-};
+async function getTranslations() {
+  return await getTranslationsServer("dashboard.worlds");
+}
+
+export async function generateMetadata({ params }: { params: { locale: string } }) {
+  const t = await getTranslations();
+  return {
+    title: t("title"),
+  };
+}
 
 export default async function DashboardWorldsPage() {
   const worlds = await getPersonalizedWorlds();
   const availableWorlds = worlds.filter((w) => w.isAvailable);
   const unavailableWorlds = worlds.filter((w) => !w.isAvailable);
 
+  const t = await getTranslations();
+  
   return (
     <div className="flex flex-col gap-12 lg:p-8">
       {availableWorlds.length > 0 && (
         <div>
           <h1 className="mb-4 text-[32px] font-bold leading-tight tracking-normal text-foreground">
-            Миры
+            {t("title")}
           </h1>
           <div className="flex grid-cols-[repeat(auto-fill,_minmax(330px,1fr))] flex-col gap-4 md:grid md:[&_>div]:max-w-[470px]">
             {availableWorlds.map((w) => (
@@ -46,6 +55,7 @@ export default async function DashboardWorldsPage() {
                 logoAlt={worldLogo(w.id).alt}
                 world={w}
                 key={w.id}
+                t={t}
               />
             ))}
           </div>
@@ -53,7 +63,7 @@ export default async function DashboardWorldsPage() {
       )}
       <div>
         <h1 className="mb-4 text-[32px] font-bold leading-tight tracking-normal text-foreground">
-          Недоступные миры
+          {t("unavailableWorlds")}
         </h1>
         <div className="flex grid-cols-[repeat(auto-fill,_minmax(330px,1fr))] flex-col gap-4 md:grid md:[&_>div]:max-w-[470px]">
           {unavailableWorlds.map((w) => (
@@ -62,6 +72,7 @@ export default async function DashboardWorldsPage() {
               logoAlt={worldLogo(w.id).alt}
               world={w}
               key={w.id}
+              t={t}
             />
           ))}
         </div>
@@ -70,14 +81,23 @@ export default async function DashboardWorldsPage() {
   );
 }
 
+function getActionButtonLabel(world: PersonalizedWorld) {
+  if (world.subscription?.isRenewable) return "action.renew";
+  if (world.isPreOrderable) return "action.preorder";
+  if (world.isTrialAvailable) return "action.trial";
+  return "action.buy";
+}
+
 function WorldCard({
   world,
   logo,
   logoAlt,
+  t,
 }: {
   logo: string | StaticImport;
   logoAlt: string;
   world: PersonalizedWorld;
+  t: Awaited<ReturnType<typeof getTranslations>>;
 }) {
   return (
     <Card variant="filled" className="flex flex-col">
@@ -99,19 +119,20 @@ function WorldCard({
       </CardHeader>
       <CardContent className="flex flex-grow flex-col gap-2 font-medium">
         <p>{world.description}</p>
+        {world.isTrialAvailable && (
+          <p className="text-sm text-muted-foreground">
+            {t("trialAvailable", { trialLength: world.trialLength })}
+          </p>
+        )}
       </CardContent>
       <CardFooter className="justify-start gap-2">
         <span className="flex-grow">
           {!!world.subscription
-            ? `${world.subscription.price}₽ / месяц`
+            ? `${world.subscription.price}₽ / ${t("month")}`
             : world.isFree
-              ? "Бесплатно"
+              ? t("free")
               : ""}
         </span>
-        {/* <Button variant="text">
-          Подробнее
-          <Icon icon="arrow_outward" size={12} className="-mr-1" />
-        </Button> */}
         <div className="flex place-items-center gap-[2px]">
           {world.isAvailable &&
           (world.isFree || world.subscription?.isPaid) &&
@@ -121,7 +142,7 @@ function WorldCard({
               className="rounded-r-none [&_>div]:pr-5"
               href="/dashboard"
             >
-              Играть
+              {t("action.play")}
             </LinkButton>
           ) : !!world.subscription ? (
             <WorldSubscriptionSheet worldId={world.id}>
@@ -132,11 +153,7 @@ function WorldCard({
                   }
                   className="rounded-r-none [&_>div]:pr-5"
                 >
-                  {world.subscription.isRenewable
-                    ? "Продлить"
-                    : world.isPreOrderable
-                      ? "Предзаказ"
-                      : "Купить"}
+                  {t(getActionButtonLabel(world))}
                 </Button>
               </SheetTrigger>
             </WorldSubscriptionSheet>
@@ -146,7 +163,7 @@ function WorldCard({
               className="rounded-r-none [&_>div]:pr-5"
               disabled
             >
-              Недоступно
+              {t("action.unavailable")}
             </Button>
           )}
           <DropdownMenu>
@@ -164,45 +181,14 @@ function WorldCard({
               isGift
             >
               <DropdownMenuContent align="end">
-                {/* {!!world.subscription?.isPaid && (
-                  <DropdownMenuSub>
-                    <DropdownMenuSubTrigger>
-                      <Icon icon="calendar_clock" />
-                      <span className="flex-grow">Автопродление</span>
-                    </DropdownMenuSubTrigger>
-                    <DropdownMenuPortal>
-                      <DropdownMenuSubContent>
-                        <DropdownMenuRadioGroup value="card1">
-                          <DropdownMenuRadioItem value="off">
-                            Отключено
-                          </DropdownMenuRadioItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuRadioItem value="card1">
-                            *1234
-                          </DropdownMenuRadioItem>
-                          <DropdownMenuRadioItem value="card2">
-                            *5678
-                          </DropdownMenuRadioItem>
-                          <DropdownMenuRadioItem value="card3">
-                            *9012
-                          </DropdownMenuRadioItem>
-                        </DropdownMenuRadioGroup>
-                      </DropdownMenuSubContent>
-                    </DropdownMenuPortal>
-                  </DropdownMenuSub>
-                )} */}
                 {!!world.subscription && (
                   <SheetTrigger asChild>
                     <DropdownMenuItem>
                       <Icon icon="featured_seasonal_and_gifts" />
-                      Подарить
+                      {t("action.gift")}
                     </DropdownMenuItem>
                   </SheetTrigger>
                 )}
-                {/* <DropdownMenuItem>
-                  <Icon icon="bug_report" />
-                  Сервер не работает
-                </DropdownMenuItem> */}
               </DropdownMenuContent>
             </WorldSubscriptionSheet>
           </DropdownMenu>
