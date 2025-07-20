@@ -1,0 +1,20 @@
+.glowGradientIcon {
+  background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: drop-shadow(0 0 16px #a78bfa)
+          drop-shadow(0 0 32px #f472b6)
+          drop-shadow(0 0 48px #60a5fa);
+}
+
+.glowGradientText {
+  background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow:
+    0 0 16px #a78bfa,
+    0 0 32px #f472b6,
+    0 0 48px #60a5fa;
+} 

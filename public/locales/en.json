@@ -58,10 +58,17 @@
     "back_button": "Back",
     "navlinks": {
       "home": "Home page",
+      "blessing": "Blessing",
       "worlds": "Worlds",
       "billing": "Billing",
       "admin": "Admin",
       "debug": "Debug"
+    },
+    "blessing": {
+      "medium_player_notice": "You see this page because you are a Medium player",
+      "title": "NWm Blessing",
+      "description": "Solve weekly tasks and get mana, which can be randomly converted to rare items and perks",
+      "task_of_week": "Task of the week"
     },
     "homepage": {
       "welcome": "Welcome, {name}!",

@@ -1,6 +1,9 @@
 "use client";
 
-import { amIAdmin } from "./actions";
+import {
+  amIAdmin,
+  hasMediumSubscription as hasMediumSubscriptionAction,
+} from "./actions";
 import { hadPayments } from "./billing/actions";
 import { useTranslations } from "next-intl";
 import { Logo } from "~/components/logo";
@@ -31,12 +34,19 @@ export default function NavDrawer() {
   const isDevelopment = useIsDevelopment();
   const showBilling = useAwait(hadPayments);
   const isAdmin = useAwait(amIAdmin);
+  const hasMediumSubscription = useAwait(hasMediumSubscriptionAction);
 
   let links = [
     {
       icon: "home",
       label: "home",
       href: "/dashboard",
+    },
+    {
+      icon: "folded_hands",
+      label: "blessing",
+      href: "/dashboard/blessing",
+      doShow: () => hasMediumSubscription,
     },
     {
       icon: "globe",
@@ -90,19 +100,6 @@ export default function NavDrawer() {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      {/* <Link href="/dashboard" className="mx-[12px]">
-        <Button
-          size="bg"
-          variant="text"
-          className="h-[56px] w-full bg-foreground/5 [&_div]:p-0"
-        >
-          <div className="ml-4 mr-6 flex grow flex-row place-items-center justify-start gap-3 font-bold text-foreground">
-            <Icon icon="home" size={24} className="-translate-y-[1px]" fill />
-            <span className="grow text-left">Домашняя страница</span>
-            <span>24</span>
-          </div>
-        </Button>
-      </Link> */}
     </Sidebar>
   );
 }
