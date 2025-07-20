@@ -68,7 +68,10 @@
       "medium_player_notice": "You see this page because you are a Medium player",
       "title": "NWm Blessing",
       "description": "Solve weekly tasks and get mana, which can be randomly converted to rare items and perks",
-      "task_of_week": "Task of the week"
+      "task_of_week": "Task of the week",
+      "agreement_title": "Disclaimer",
+      "agreement_disclaimer": "This system is inspired by gambling mechanics. If you have or suspect you have a gambling addiction, <bold>do not proceed</bold> and seek help. By continuing, you confirm you are aware of the risks and are participating responsibly.",
+      "agreement_confirm": "Proceed"
     },
     "homepage": {
       "welcome": "Welcome, {name}!",

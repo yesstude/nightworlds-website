@@ -9,6 +9,7 @@ import {
   varchar,
   text,
   double,
+  int,
 } from "drizzle-orm/mysql-core";
 
 const table = mysqlTableCreator((name) => `nw_${name}`);
@@ -184,3 +185,28 @@ export const notificationsTable = table("notifications", {
   }),
   sentDate: datetime("sent_date"),
 });
+
+export const blessingProfilesTable = table("bl_profiles", {
+  id: autocuid("id").primaryKey(),
+  userId: cuid("user_id")
+    .references(() => usersTable.id, { onDelete: "cascade" })
+    .unique()
+    .notNull(),
+  manaBalance: int("mana_balance").notNull().default(0),
+  createdAt: datetime("created_at")
+    .$default(() => new Date())
+    .notNull(),
+});
+export type BaseBlessingProfile = typeof blessingProfilesTable.$inferSelect;
+
+export const blessingManaTransactionsTable = table("bl_transactions", {
+  id: autocuid("id").primaryKey(),
+  profileId: cuid("profile_id")
+    .references(() => blessingProfilesTable.id, { onDelete: "cascade" })
+    .notNull(),
+  amount: int("amount").notNull(),
+  createdAt: datetime("created_at")
+    .$default(() => new Date())
+    .notNull(),
+});
+export type BaseBlessingManaTransaction = typeof blessingManaTransactionsTable.$inferSelect;
