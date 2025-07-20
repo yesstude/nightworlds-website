@@ -20,6 +20,32 @@ import {
 
 export const metadata: Metadata = {
   title: "Отладка",
+  description: "Страница отладки и тестирования функций NightWorlds.",
+  openGraph: {
+    type: "website",
+    siteName: "NightWorlds",
+    title: "Отладка",
+    description: "Страница отладки и тестирования функций NightWorlds.",
+    url: "https://nightworlds.pick-me.ru/dashboard/debug",
+    images: [
+      {
+        url: "https://nightworlds.pick-me.ru/medium_banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "NightWorlds Minecraft city screenshot",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@nightworlds_mc",
+    title: "Отладка",
+    description: "Страница отладки и тестирования функций NightWorlds.",
+    images: ["https://nightworlds.pick-me.ru/medium_banner.jpg"],
+  },
+  alternates: {
+    canonical: "https://nightworlds.pick-me.ru/dashboard/debug",
+  },
 };
 
 export default async function DashboardDebugPage() {

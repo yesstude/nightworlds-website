@@ -1,0 +1,26 @@
+{
+  "name": "NightWorlds",
+  "short_name": "NightWorlds",
+  "description": "NightWorlds — Minecraft community and servers.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#542369",
+  "theme_color": "#542369",
+  "icons": [
+    {
+      "src": "/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

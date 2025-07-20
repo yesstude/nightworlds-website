@@ -12,6 +12,32 @@ import { Icon } from "~/components/ui/icon";
 
 export const metadata: Metadata = {
   title: "Платежи",
+  description: "Управление платежными методами и подписками на NightWorlds.",
+  openGraph: {
+    type: "website",
+    siteName: "NightWorlds",
+    title: "Платежи",
+    description: "Управление платежными методами и подписками на NightWorlds.",
+    url: "https://nightworlds.pick-me.ru/dashboard/billing",
+    images: [
+      {
+        url: "https://nightworlds.pick-me.ru/medium_banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "NightWorlds Minecraft city screenshot",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@nightworlds_mc",
+    title: "Платежи",
+    description: "Управление платежными методами и подписками на NightWorlds.",
+    images: ["https://nightworlds.pick-me.ru/medium_banner.jpg"],
+  },
+  alternates: {
+    canonical: "https://nightworlds.pick-me.ru/dashboard/billing",
+  },
 };
 
 export default async function DashboardDebugPage() {

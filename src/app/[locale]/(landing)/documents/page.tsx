@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations();
-
+  const baseUrl = "https://nightworlds.pick-me.ru/documents";
   return {
     title: t("documents.title"),
     description: t("documents.description"),
@@ -13,6 +13,25 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "NightWorlds",
       title: t("documents.ogtitle"),
       description: t("documents.description"),
+      url: baseUrl,
+      images: [
+        {
+          url: "https://nightworlds.pick-me.ru/medium_banner.jpg",
+          width: 1200,
+          height: 630,
+          alt: "NightWorlds Minecraft city screenshot",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@nightworlds_mc",
+      title: t("documents.ogtitle"),
+      description: t("documents.description"),
+      images: ["https://nightworlds.pick-me.ru/medium_banner.jpg"],
+    },
+    alternates: {
+      canonical: baseUrl,
     },
   };
 }

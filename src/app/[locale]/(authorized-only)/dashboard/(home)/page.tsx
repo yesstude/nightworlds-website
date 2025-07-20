@@ -4,6 +4,37 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "~/components/transition/link";
 import { getMeUnsafe } from "~/server/api/sessions";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Главная — Панель управления | NightWorlds",
+  description: "Добро пожаловать в панель управления NightWorlds. Здесь вы можете выбрать мир, узнать как подключиться и управлять своим аккаунтом.",
+  openGraph: {
+    type: "website",
+    siteName: "NightWorlds",
+    title: "Главная — Панель управления | NightWorlds",
+    description: "Добро пожаловать в панель управления NightWorlds. Здесь вы можете выбрать мир, узнать как подключиться и управлять своим аккаунтом.",
+    url: "https://nightworlds.pick-me.ru/dashboard",
+    images: [
+      {
+        url: "https://nightworlds.pick-me.ru/medium_banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "NightWorlds Minecraft city screenshot",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@nightworlds_mc",
+    title: "Главная — Панель управления | NightWorlds",
+    description: "Добро пожаловать в панель управления NightWorlds. Здесь вы можете выбрать мир, узнать как подключиться и управлять своим аккаунтом.",
+    images: ["https://nightworlds.pick-me.ru/medium_banner.jpg"],
+  },
+  alternates: {
+    canonical: "https://nightworlds.pick-me.ru/dashboard",
+  },
+};
 
 export default async function DashboardHome() {
   const user = await getMeUnsafe();

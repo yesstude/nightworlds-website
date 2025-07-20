@@ -6,6 +6,37 @@ import {
   CardFooter,
   CardHeader,
 } from "~/components/ui/card";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Администрирование | NightWorlds",
+  description: "Панель администратора NightWorlds. Управление серверами и пользователями.",
+  openGraph: {
+    type: "website",
+    siteName: "NightWorlds",
+    title: "Администрирование | NightWorlds",
+    description: "Панель администратора NightWorlds. Управление серверами и пользователями.",
+    url: "https://nightworlds.pick-me.ru/dashboard/admin",
+    images: [
+      {
+        url: "https://nightworlds.pick-me.ru/medium_banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "NightWorlds Minecraft city screenshot",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@nightworlds_mc",
+    title: "Администрирование | NightWorlds",
+    description: "Панель администратора NightWorlds. Управление серверами и пользователями.",
+    images: ["https://nightworlds.pick-me.ru/medium_banner.jpg"],
+  },
+  alternates: {
+    canonical: "https://nightworlds.pick-me.ru/dashboard/admin",
+  },
+};
 
 export default async function AdminDashboard() {
   const newUsers = await getUsers(0, 3);
