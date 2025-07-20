@@ -6,37 +6,6 @@ import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { setAccountSetUp } from "~/server/api/account-setup";
 import { useMutation } from "@tanstack/react-query";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Готово",
-  description: "Аккаунт NightWorlds успешно настроен и готов к использованию.",
-  openGraph: {
-    type: "website",
-    siteName: "NightWorlds",
-    title: "Готово",
-    description: "Аккаунт NightWorlds успешно настроен и готов к использованию.",
-    url: "https://nightworlds.pick-me.ru/setup/finish",
-    images: [
-      {
-        url: "https://nightworlds.pick-me.ru/medium_banner.jpg",
-        width: 1200,
-        height: 630,
-        alt: "NightWorlds Minecraft city screenshot",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@nightworlds_mc",
-    title: "Готово",
-    description: "Аккаунт NightWorlds успешно настроен и готов к использованию.",
-    images: ["https://nightworlds.pick-me.ru/medium_banner.jpg"],
-  },
-  alternates: {
-    canonical: "https://nightworlds.pick-me.ru/setup/finish",
-  },
-};
 
 export default function SetupPage() {
   const router = useRouter();

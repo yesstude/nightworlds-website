@@ -4,39 +4,8 @@ import { getUsers, getUsersCount } from "../actions";
 import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
-import { Metadata } from "next";
 
 type User = Awaited<ReturnType<typeof getUsers>>[number];
-
-export const metadata: Metadata = {
-  title: "Пользователи | NightWorlds",
-  description: "Список пользователей NightWorlds для администраторов.",
-  openGraph: {
-    type: "website",
-    siteName: "NightWorlds",
-    title: "Пользователи | NightWorlds",
-    description: "Список пользователей NightWorlds для администраторов.",
-    url: "https://nightworlds.pick-me.ru/dashboard/admin/users",
-    images: [
-      {
-        url: "https://nightworlds.pick-me.ru/medium_banner.jpg",
-        width: 1200,
-        height: 630,
-        alt: "NightWorlds Minecraft city screenshot",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@nightworlds_mc",
-    title: "Пользователи | NightWorlds",
-    description: "Список пользователей NightWorlds для администраторов.",
-    images: ["https://nightworlds.pick-me.ru/medium_banner.jpg"],
-  },
-  alternates: {
-    canonical: "https://nightworlds.pick-me.ru/dashboard/admin/users",
-  },
-};
 
 export default function AdminServersPage() {
   const [page, setPage] = useState(0);

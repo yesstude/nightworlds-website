@@ -8,7 +8,6 @@ import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 import { Input } from "~/components/ui/input";
 import { setIngamePassword } from "~/server/api/account-setup";
-import { Metadata } from "next";
 
 export default function SetupPage() {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -107,36 +106,6 @@ export default function SetupPage() {
     </>
   );
 }
-
-export const metadata: Metadata = {
-  title: "Пароль",
-  description: "Установка внутриигрового пароля для аккаунта NightWorlds.",
-  openGraph: {
-    type: "website",
-    siteName: "NightWorlds",
-    title: "Пароль",
-    description: "Установка внутриигрового пароля для аккаунта NightWorlds.",
-    url: "https://nightworlds.pick-me.ru/setup/password",
-    images: [
-      {
-        url: "https://nightworlds.pick-me.ru/medium_banner.jpg",
-        width: 1200,
-        height: 630,
-        alt: "NightWorlds Minecraft city screenshot",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@nightworlds_mc",
-    title: "Пароль",
-    description: "Установка внутриигрового пароля для аккаунта NightWorlds.",
-    images: ["https://nightworlds.pick-me.ru/medium_banner.jpg"],
-  },
-  alternates: {
-    canonical: "https://nightworlds.pick-me.ru/setup/password",
-  },
-};
 
 const MemoButton = memo(Button, () => true);
 

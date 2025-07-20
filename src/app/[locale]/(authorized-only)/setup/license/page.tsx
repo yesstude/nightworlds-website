@@ -12,37 +12,6 @@ import {
   setLicenseType,
 } from "~/server/api/account-setup";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Режим авторизации",
-  description: "Выбор режима авторизации для аккаунта NightWorlds.",
-  openGraph: {
-    type: "website",
-    siteName: "NightWorlds",
-    title: "Режим авторизации",
-    description: "Выбор режима авторизации для аккаунта NightWorlds.",
-    url: "https://nightworlds.pick-me.ru/setup/license",
-    images: [
-      {
-        url: "https://nightworlds.pick-me.ru/medium_banner.jpg",
-        width: 1200,
-        height: 630,
-        alt: "NightWorlds Minecraft city screenshot",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@nightworlds_mc",
-    title: "Режим авторизации",
-    description: "Выбор режима авторизации для аккаунта NightWorlds.",
-    images: ["https://nightworlds.pick-me.ru/medium_banner.jpg"],
-  },
-  alternates: {
-    canonical: "https://nightworlds.pick-me.ru/setup/license",
-  },
-};
 
 export default function SetupPage() {
   const [type, setType] = useState<undefined | LicenseType>();
