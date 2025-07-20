@@ -29,8 +29,35 @@ async function getTranslations() {
 
 export async function generateMetadata({ params }: { params: { locale: string } }) {
   const t = await getTranslations();
+  const baseUrl = "https://nightworlds.pick-me.ru/dashboard/worlds";
   return {
     title: t("title"),
+    description: t("description") ?? t("title"),
+    openGraph: {
+      type: "website",
+      siteName: "NightWorlds",
+      title: t("title"),
+      description: t("description") ?? t("title"),
+      url: baseUrl,
+      images: [
+        {
+          url: "https://nightworlds.pick-me.ru/medium_banner.jpg",
+          width: 1200,
+          height: 630,
+          alt: "NightWorlds Minecraft city screenshot",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@nightworlds_mc",
+      title: t("title"),
+      description: t("description") ?? t("title"),
+      images: ["https://nightworlds.pick-me.ru/medium_banner.jpg"],
+    },
+    alternates: {
+      canonical: baseUrl,
+    },
   };
 }
 

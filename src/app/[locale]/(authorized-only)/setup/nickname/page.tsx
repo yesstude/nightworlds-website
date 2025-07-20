@@ -14,6 +14,37 @@ import {
   checkNicknameAvailability,
   setNickname,
 } from "~/server/api/account-setup";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Никнейм",
+  description: "Выбор игрового никнейма для аккаунта NightWorlds.",
+  openGraph: {
+    type: "website",
+    siteName: "NightWorlds",
+    title: "Никнейм",
+    description: "Выбор игрового никнейма для аккаунта NightWorlds.",
+    url: "https://nightworlds.pick-me.ru/setup/nickname",
+    images: [
+      {
+        url: "https://nightworlds.pick-me.ru/medium_banner.jpg",
+        width: 1200,
+        height: 630,
+        alt: "NightWorlds Minecraft city screenshot",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@nightworlds_mc",
+    title: "Никнейм",
+    description: "Выбор игрового никнейма для аккаунта NightWorlds.",
+    images: ["https://nightworlds.pick-me.ru/medium_banner.jpg"],
+  },
+  alternates: {
+    canonical: "https://nightworlds.pick-me.ru/setup/nickname",
+  },
+};
 
 export default function SetupPage() {
   const [error, setError] = useState<NicknameAvailability | undefined>();
