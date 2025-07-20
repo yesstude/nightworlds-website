@@ -12,7 +12,7 @@ export default async function BlessingPage() {
   if (!profile) {
     redirect("/dashboard/blessing/agreement");
     return <></>;
-  };
+  }
 
   return <BlessingContent t={t} styles={styles} profile={profile} />;
 }

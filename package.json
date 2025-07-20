@@ -11,7 +11,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "prettier": "prettier -w ./**/*"
   },
   "dependencies": {
     "@a2seven/yoo-checkout": "^1.1.4",
@@ -32,7 +33,6 @@
     "@radix-ui/react-tooltip": "^1.1.8",
     "@tanstack/react-query": "^5.74.11",
     "@tanstack/react-query-devtools": "^5.74.11",
-    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "browser-dtector": "^4.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -48,7 +48,6 @@
     "mysql2": "^3.11.4",
     "next": "^14.2.4",
     "next-intl": "^3.15.0",
-    "prettier-plugin-unused-imports-configurable": "^1.14.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-material-symbols": "^4.4.0",
@@ -75,6 +74,8 @@
     "postcss": "^8.4.49",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.2.1",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "prettier-plugin-unused-imports-configurable": "^1.14.3",
     "prisma": "^4.9.0",
     "tailwindcss": "^3.4.15",
     "tsx": "^4.19.2",

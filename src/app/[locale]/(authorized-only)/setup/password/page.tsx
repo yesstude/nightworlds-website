@@ -93,7 +93,8 @@ export default function SetupPage() {
               size="extended_fab"
               disabled={setIngamePasswordMutation.isPending || input.length < 5}
               onClick={() => {
-                if (setIngamePasswordMutation.isPending || input.length < 5) return;
+                if (setIngamePasswordMutation.isPending || input.length < 5)
+                  return;
 
                 setIngamePasswordMutation.mutate(input);
               }}

@@ -209,4 +209,5 @@ export const blessingManaTransactionsTable = table("bl_transactions", {
     .$default(() => new Date())
     .notNull(),
 });
-export type BaseBlessingManaTransaction = typeof blessingManaTransactionsTable.$inferSelect;
+export type BaseBlessingManaTransaction =
+  typeof blessingManaTransactionsTable.$inferSelect;

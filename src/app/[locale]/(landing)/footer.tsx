@@ -37,8 +37,8 @@ export default async function LandingFooter() {
           <span>© 2025</span>
         </div>
         <span className="text-sm">
-          Not an official Minecraft product. We are in no way affiliated with
-          or endorsed by Mojang Synergies AB, Microsoft Corporation or other
+          Not an official Minecraft product. We are in no way affiliated with or
+          endorsed by Mojang Synergies AB, Microsoft Corporation or other
           rightsholders.
         </span>
       </div>

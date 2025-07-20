@@ -1,19 +1,14 @@
 import { eq } from "drizzle-orm";
 import { Metadata } from "next";
-import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 import { Button } from "~/components/ui/button";
-import { Icon } from "~/components/ui/icon";
-import { Input } from "~/components/ui/input";
 import { getMeUnsafe } from "~/server/api/sessions";
-import { getAllWorldIds } from "~/server/api/worlds";
 import { db } from "~/server/db";
 import {
   notificationsTable,
   paymentMethodsTable,
   paymentsTable,
-  serversTable,
   subscriptionsTable,
   usersTable,
 } from "~/server/db/schema";

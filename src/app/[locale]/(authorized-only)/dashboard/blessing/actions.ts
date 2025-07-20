@@ -13,14 +13,19 @@ export async function createBlessingProfile() {
       userId: me.id,
     });
   } catch (error) {
-    console.warn(`User ${me.id} tried to create blessing profile, but it already exists`);
+    console.warn(
+      `User ${me.id} tried to create blessing profile, but it already exists`,
+    );
   }
 }
 
 export async function getBlessingProfile() {
   const me = await getMeOrThrow();
 
-  const [profile] = await db.select().from(blessingProfilesTable).where(eq(blessingProfilesTable.userId, me.id));
+  const [profile] = await db
+    .select()
+    .from(blessingProfilesTable)
+    .where(eq(blessingProfilesTable.userId, me.id));
 
   return profile;
 }

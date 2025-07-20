@@ -101,7 +101,7 @@ export default function SetupPage() {
             disabled={!type || setLicenseTypeMutation.isPending}
             onClick={() => {
               if (!type) return;
-              setLicenseTypeMutation.mutate(type)
+              setLicenseTypeMutation.mutate(type);
             }}
           >
             Выбрать
