@@ -4,7 +4,7 @@ import logo from "../assets/logo.svg";
 import Link from "./transition/link";
 import Image from "next/image";
 
-export function Logo(props: { className?: string }) {
+export function Logo(props: { className?: string; caption?: string }) {
   return (
     <Link href="/" className={props.className}>
       <div className="flex h-full place-items-center gap-2">
@@ -16,7 +16,7 @@ export function Logo(props: { className?: string }) {
           className="logo"
         />
         <span className="mt-1 text-[24px] font-bold text-foreground">
-          NightWorlds
+          {props.caption ?? "NightWorlds"}
         </span>
       </div>
     </Link>

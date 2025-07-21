@@ -16,6 +16,7 @@ export const serverSchema = z.object({
   YANDEX_CLOUD_ID: z.string(),
   YANDEX_CLOUD_SECRET: z.string(),
   YANDEX_CLOUD_BUCKET: z.string(),
+  NWWIKI_S3_BUCKET_ENDPOINT: z.string(),
   FIREBASE_JSON_CERT: z
     .string()
     .optional()
@@ -38,6 +39,7 @@ export const serverEnv = {
   YANDEX_CLOUD_ID: process.env.YANDEX_CLOUD_ID,
   YANDEX_CLOUD_SECRET: process.env.YANDEX_CLOUD_SECRET,
   YANDEX_CLOUD_BUCKET: process.env.YANDEX_CLOUD_BUCKET,
+  NWWIKI_S3_BUCKET_ENDPOINT: process.env.NWWIKI_S3_BUCKET_ENDPOINT,
   FIREBASE_JSON_CERT: process.env.FIREBASE_JSON_CERT,
 };
 

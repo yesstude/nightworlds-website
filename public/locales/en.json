@@ -1,4 +1,11 @@
 {
+  "common": {
+    "locales": {
+      "en": "English",
+      "ru": "Russian",
+      "uk": "Ukrainian"
+    }
+  },
   "meta": {
     "description": "Minecraft server network focused on survival",
     "keywords": "NW,NightWorld,NWm,NightWorlds US,NightWorlds UK,Minecraft,Survival,SMP,Private Server"
@@ -90,5 +97,9 @@
         "buy": "Buy"
       }
     }
+  },
+  "wiki": {
+    "not_available_in_your_locale": "Article is not available in your language. Using language: {locale}.",
+    "fantasy_disclaimer": "All terms and events are exclusively related to the Minecraft-server network NightWorlds. No real events, characters, worlds, game mechanics, or other elements are real."
   }
 }

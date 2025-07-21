@@ -5,14 +5,14 @@ import { Logo } from "~/components/logo";
 import { LinkButton } from "~/components/transition/link";
 import { Icon } from "~/components/ui/icon";
 
-export function LandingAppBar() {
+export function LandingAppBar(props: { logoCaption?: string }) {
   const t = useTranslations();
 
   return (
     <>
       <div className="fixed z-50 w-full rounded-b-[24px] bg-background print:relative">
         <div className="flex h-[80px] w-full place-items-center rounded-b-[24px] bg-secondary/5 px-4 shadow-sm">
-          <Logo />
+          <Logo caption={props.logoCaption} />
           <div className="grow" />
           <LinkButton
             size="bg"
