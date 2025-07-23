@@ -9,10 +9,7 @@ export default async function BlessingPage() {
 
   const profile = await getBlessingProfile();
 
-  if (!profile) {
-    redirect("/dashboard/blessing/agreement");
-    return <></>;
-  }
+  if (!profile) redirect("/dashboard/blessing/agreement");
 
   return <BlessingContent t={t} styles={styles} profile={profile} />;
 }

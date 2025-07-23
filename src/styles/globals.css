@@ -15,14 +15,16 @@ body {
   overflow-y: scroll;
 }
 
-html,
-body {
-  @apply dark;
-  color-scheme: dark;
-}
+@media (prefers-color-scheme: dark) {
+  html,
+  body {
+    @apply dark;
+    color-scheme: dark;
+  }
 
-.logo {
-  @apply brightness-125;
+  .logo {
+    @apply brightness-125;
+  }
 }
 
 @layer base {

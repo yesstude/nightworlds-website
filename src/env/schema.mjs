@@ -20,6 +20,7 @@ export const serverSchema = z.object({
     .string()
     .optional()
     .transform((val) => (val ? JSON.parse(val) : undefined)),
+  HOTMC_VOTE_SECRET: z.string(),
 });
 
 /**
@@ -39,6 +40,7 @@ export const serverEnv = {
   YANDEX_CLOUD_SECRET: process.env.YANDEX_CLOUD_SECRET,
   YANDEX_CLOUD_BUCKET: process.env.YANDEX_CLOUD_BUCKET,
   FIREBASE_JSON_CERT: process.env.FIREBASE_JSON_CERT,
+  HOTMC_VOTE_SECRET: process.env.HOTMC_VOTE_SECRET,
 };
 
 /**

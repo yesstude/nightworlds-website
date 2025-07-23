@@ -199,6 +199,15 @@ export const blessingProfilesTable = table("bl_profiles", {
 });
 export type BaseBlessingProfile = typeof blessingProfilesTable.$inferSelect;
 
+export const hotmcVotesTable = table("hotmc_votes", {
+  id: autocuid("id").primaryKey(),
+  nickname: varchar("nickname", { length: 32 }).notNull(),
+  createdAt: datetime("created_at")
+    .$default(() => new Date())
+    .notNull(),
+});
+export type BaseHotmcVote = typeof hotmcVotesTable.$inferSelect;
+
 export const blessingManaTransactionsTable = table("bl_transactions", {
   id: autocuid("id").primaryKey(),
   profileId: cuid("profile_id")

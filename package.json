@@ -59,6 +59,7 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/crypto-js": "^4.1.1",
     "@types/eslint": "^8.56.10",
     "@types/mdx": "^2.0.13",
@@ -74,7 +75,6 @@
     "postcss": "^8.4.49",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.2.1",
-    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "prettier-plugin-unused-imports-configurable": "^1.14.3",
     "prisma": "^4.9.0",
     "tailwindcss": "^3.4.15",
