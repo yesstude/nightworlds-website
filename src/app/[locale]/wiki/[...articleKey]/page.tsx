@@ -48,16 +48,16 @@ async function WikiArticle({ data, userLocale }: { data: WikiArticle, userLocale
         </div>
       )}
       <div className="">
-        <div className="[&>*+*]:mt-6 [&>h2]:mt-16 [&>h2]:text-3xl [&>h2]:font-medium [&>h2]:tracking-tight [&>h2]:md:text-4xl
-                      [&>h3]:mt-12 [&>h3]:text-2xl [&>h3]:font-medium [&>h3]:tracking-tight [&>h3]:md:text-3xl
-                      [&>h4]:mt-8 [&>h4]:text-xl [&>h4]:font-medium [&>h4]:tracking-tight [&>h4]:md:text-2xl
-                      text-lg leading-relaxed md:text-xl lg:text-2xl text-foreground/90
-                      [&>ul]:list-disc [&>ul]:pl-6 [&>ol]:list-decimal [&>ol]:pl-6 [&>ul]:mt-6 [&>ol]:mt-6
-                      [&>li]:mt-2 [&>li]:text-lg [&>li]:md:text-xl [&>li]:lg:text-2xl
+        <div className="[&>*+*]:mt-4 lg:[&>h2]:mt-14 lg:[&>h3]:mt-10 lg:[&>h4]:mt-8 [&>h2]:mt-8 [&>h2]:text-3xl [&>h2]:font-medium [&>h2]:tracking-tight [&>h2]:md:text-4xl
+                      [&>h3]:mt-6 [&>h3]:text-2xl [&>h3]:font-medium [&>h3]:tracking-tight [&>h3]:md:text-3xl
+                      [&>h4]:mt-4 [&>h4]:text-xl [&>h4]:font-medium [&>h4]:tracking-tight [&>h4]:md:text-2xl
+                      text-md !leading-[1.8] md:text-lg lg:text-xl text-foreground/90
+                      [&>ul]:list-disc [&>ul]:pl-6 [&>ol]:list-decimal [&>ol]:pl-6 [&>ul]:mt-4 [&>ol]:mt-4
+                      [&>li]:mt-1 [&>li]:text-lg [&>li]:md:text-xl [&>li]:lg:text-2xl
                       [&>a]:text-primary [&>a]:underline-offset-4 [&>a:hover]:text-primary/80 [&>a:hover]:underline
                       [&>code]:rounded [&>code]:bg-muted [&>code]:px-1 [&>code]:py-0.5 [&>code]:text-foreground
-                      [&>pre]:rounded-lg [&>pre]:bg-muted [&>pre]:p-4 [&>pre]:text-muted-foreground [&>pre]:mt-8
-                      [&>blockquote]:border-l-4 [&>blockquote]:border-primary/20 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:mt-8">
+                      [&>pre]:rounded-lg [&>pre]:bg-muted [&>pre]:p-4 [&>pre]:text-muted-foreground [&>pre]:mt-4
+                      [&>blockquote]:border-l-4 [&>blockquote]:border-primary/20 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:mt-4">
           <MDXRemote source={data.content} />
         </div>
       </div>
