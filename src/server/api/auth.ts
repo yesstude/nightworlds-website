@@ -19,7 +19,6 @@ export type TelegramAuthData = {
 };
 
 export async function getTelegramBotId() {
-  return "6116074521"
   return env.TELEGRAM_BOT_TOKEN.split(":")[0]!;
 }
 
