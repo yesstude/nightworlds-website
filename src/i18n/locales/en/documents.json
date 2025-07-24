@@ -1,0 +1,11 @@
+{
+  "title": "Documents",
+  "ogtitle": "NightWorlds Documents",
+  "description": "Public offer, privacy policy, and other documents required for the provision of services",
+  "subtitle": "On this page, you can familiarize yourself with the documents (currently only in russian) that you may need while using the services of NightWorlds",
+  "names": {
+    "publicoffer": "Public Offer",
+    "subscriptionoffer": "Subscription Services Offer",
+    "privacypolicy": "Privacy Policy"
+  }
+}

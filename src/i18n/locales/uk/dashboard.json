@@ -1,0 +1,37 @@
+{
+  "back_button": "Назад",
+  "navlinks": {
+    "home": "Домашня сторінка",
+    "worlds": "Свiти",
+    "billing": "Платежі",
+    "admin": "Адміністрування",
+    "debug": "Налагодження"
+  },
+  "homepage": {
+    "welcome": "Добрий день, {{name}}!",
+    "howtoplay": {
+      "title": "Як розпочати гру?",
+      "minecraft": "Запустіть Minecraft Java Edition (рекомендуємо версію {{version}})",
+      "multiplayer": "Виберіть варіант \"Мережева гра\"",
+      "add_server": "Натисніть кнопку \"Додати\"",
+      "add_server_menu": "Введіть будь-яке ім'я та додайте наступну адресу:",
+      "select_world": "Виберіть світ на якому хочете грати"
+    }
+  },
+  "worlds": {
+    "title": "Свiти",
+    "trialAvailable": "Доступна безкоштовна пробна версія на {{trialLength}} днів",
+    "free": "Безкоштовно",
+    "month": "місяць",
+    "unavailableWorlds": "Недоступні світи",
+    "action": {
+      "play": "Грати",
+      "unavailable": "Недоступно",
+      "gift": "Подарувати",
+      "renew": "Продовжити",
+      "preorder": "Предзамовлення",
+      "trial": "Спробувати",
+      "buy": "Купити"
+    }
+  }
+}

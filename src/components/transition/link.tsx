@@ -3,7 +3,7 @@
 import { Button } from "../ui/button";
 import { Transition, useTransitions } from "./transition-provider";
 import { AnchorHTMLAttributes, MouseEventHandler } from "react";
-import { usePathname, useRouter } from "~/i18n/routing";
+import { usePathname, useRouter } from "next/navigation";
 
 function generateOnClick(
   href: string,

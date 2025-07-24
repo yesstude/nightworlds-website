@@ -2,14 +2,14 @@
 
 import medium from "../(authorized-only)/dashboard/worlds/nwm37.svg";
 import photo from "./medium_banner.webp";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "~/i18n/client";
 import Image from "next/image";
 import { LinkButton } from "~/components/transition/link";
 import { AspectRatio } from "~/components/ui/aspect-ratio";
 import { Icon } from "~/components/ui/icon";
 
 export function LandingBanner() {
-  const t = useTranslations();
+  const { t } = useTranslations("landing");
 
   return (
     <div className="overflow-none relative mb-[64px] mt-2 flex w-full max-w-[1400px] flex-col-reverse rounded-[32px] bg-primary/5 shadow-md sm:rounded-none sm:bg-transparent sm:p-[8px] sm:shadow-transparent md:px-[48px]">
@@ -24,13 +24,13 @@ export function LandingBanner() {
           <h1 className="text-[18px] font-bold leading-tight tracking-normal sm:text-[32px] lg:text-[48px]">
             NightWorld Medium 3.7
           </h1>
-          <p className="mb-2">{t("landing.banner.description")}</p>
+          <p className="mb-2">{t("banner.description")}</p>
         </div>
         <LinkButton
           className="transition-shadow hover:bg-primary/95 hover:shadow-xl sm:h-[50px] sm:shadow-lg lg:h-[72px] lg:px-[28px] lg:text-[24px] [&_.icon]:hover:translate-x-1 lg:[&_.icon]:hover:translate-x-2"
           href="/dashboard/worlds"
         >
-          {t("landing.actionbutton_short")}
+          {t("actionbutton_short")}
           <Icon
             icon="arrow_right_alt"
             weight={200}

@@ -1,0 +1,9 @@
+{
+  "title": "Sign In",
+  "ogtitle": "Authorization in NightWorlds",
+  "description": "Log in to your account to gain access to the full functionality of the NightWorlds website and game servers",
+  "subtitle": "We are currently based in Russia. Russia made third-party authorization with foreign services illegal. And passwords are insecure. The most safe way to sign in now is Telegram.",
+  "buttons": {
+    "telegram": "Sign in with Telegram"
+  }
+}

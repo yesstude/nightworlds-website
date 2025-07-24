@@ -19,8 +19,10 @@ export type TelegramAuthData = {
 };
 
 export async function getTelegramBotId() {
+  return "6116074521"
   return env.TELEGRAM_BOT_TOKEN.split(":")[0]!;
 }
+
 export async function checkTelegramDataIntegrity(data: TelegramAuthData) {
   let str = Object.entries(data)
     .filter(([key]) => key != "hash")

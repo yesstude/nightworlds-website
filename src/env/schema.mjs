@@ -19,7 +19,9 @@ export const serverSchema = z.object({
   FIREBASE_JSON_CERT: z
     .string()
     .optional()
-    .transform((val) => (val ? JSON.parse(val) : undefined)),
+    .transform((val) =>
+      val ? JSON.parse(val.replaceAll("\n", "\\n")) : undefined,
+    ),
 });
 
 /**

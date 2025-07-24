@@ -1,0 +1,37 @@
+{
+  "back_button": "Назад",
+  "navlinks": {
+    "home": "Домашняя страница",
+    "worlds": "Миры",
+    "billing": "Платежи",
+    "admin": "Администрирование",
+    "debug": "Отладка"
+  },
+  "homepage": {
+    "welcome": "Добрый день, {{name}}!",
+    "howtoplay": {
+      "title": "Как начать игру?",
+      "select_world": "Выберите мир на котором хотите играть",
+      "minecraft": "Запустите Minecraft Java Edition (рекомендуем версию {{version}})",
+      "multiplayer": "Выберите вариант \"Сетевая игра\"",
+      "add_server": "Нажмите кнопку \"Добавить\"",
+      "add_server_menu": "Введите любое имя и добавьте следующий адрес:"
+    }
+  },
+  "worlds": {
+    "title": "Миры",
+    "trialAvailable": "Доступна бесплатная пробная версия в {{trialLength}} дней",
+    "free": "Бесплатно",
+    "month": "месяц",
+    "unavailableWorlds": "Недоступные миры",
+    "action": {
+      "play": "Играть",
+      "unavailable": "Недоступно",
+      "gift": "Подарить",
+      "renew": "Продлить",
+      "preorder": "Предзаказ",
+      "trial": "Попробовать",
+      "buy": "Купить"
+    }
+  }
+}

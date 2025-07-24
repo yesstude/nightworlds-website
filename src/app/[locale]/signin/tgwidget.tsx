@@ -1,23 +1,22 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useTranslations } from "~/i18n/client";
+import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import {
   authWithTelegramData,
-  getTelegramBotId,
   TelegramAuthData,
-} from "~/server/api/auth";
+} from "../../../server/api/auth";
 
-export default function TelegramWidget() {
-  const [bot_id, setBotId] = useState("");
+export default function TelegramWidget({ bot_id }: { bot_id: string }) {
+  // const { data: bot_id } = useQuery({
+  //   queryKey: ["telegram-bot-id"],
+  //   queryFn: getTelegramBotId,
+  // });
+
   const [isPopupOpen, setPopupOpen] = useState(false);
 
-  const t = useTranslations();
-
-  useEffect(() => {
-    getTelegramBotId().then(setBotId);
-  }, []);
+  const { t } = useTranslations("signin");
 
   return (
     <Button
@@ -33,7 +32,7 @@ export default function TelegramWidget() {
       }}
       disabled={!bot_id || bot_id?.length == 0 || isPopupOpen}
     >
-      {t("signin.buttons.telegram")}
+      {t("buttons.telegram")}
     </Button>
   );
 }

@@ -3,8 +3,7 @@ import { createSessionIfNone } from "../../server/api/sessions";
 import { MaterialSymbolsProvider } from "./material-symbols-provider";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Metadata } from "next";
-import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations } from "next-intl/server";
+import { getTranslations } from "~/i18n";
 import { cookies, headers } from "next/headers";
 import { TransitionProvider } from "~/components/transition/transition-provider";
 import { env } from "~/env/server.mjs";
@@ -12,7 +11,7 @@ import "~/styles/globals.css";
 import Providers from "./providers";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations();
+  const { t } = await getTranslations("meta");
 
   return {
     title: "NightWorlds",
@@ -20,8 +19,8 @@ export async function generateMetadata(): Promise<Metadata> {
     authors: { name: "NightLight Communities" },
     creator: "NightLight Communities",
     publisher: "NightLight Communities",
-    description: t("meta.description"),
-    keywords: t("meta.keywords"),
+    description: t("description"),
+    keywords: t("keywords"),
     other: {
       "theme-color": "#542369",
     },
@@ -39,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       siteName: "NightWorlds",
       title: "NightWorlds",
-      description: t("meta.description"),
+      description: t("description"),
     },
   };
 }
@@ -72,18 +71,14 @@ export default async function RootLayout({
     );
   }
 
-  const messages = await getMessages();
-
   return (
     <html lang={locale}>
       <body className={`${cygre.className}`}>
         <Providers>
-          <NextIntlClientProvider messages={messages}>
-            <MaterialSymbolsProvider>
-              <TransitionProvider>{children}</TransitionProvider>
-            </MaterialSymbolsProvider>
-            <GoogleAnalytics gaId="G-R2NPRT0L4W" />
-          </NextIntlClientProvider>
+          <MaterialSymbolsProvider>
+            <TransitionProvider>{children}</TransitionProvider>
+          </MaterialSymbolsProvider>
+          <GoogleAnalytics gaId="G-R2NPRT0L4W" />
         </Providers>
       </body>
     </html>

@@ -3,33 +3,27 @@
 import PrivacyPolicy from "./privacy-policy.mdx";
 import PublicOffer from "./public-offer.mdx";
 import SubscriptionOffer from "./subscription-offer.mdx";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "~/i18n/client";
 import { ReactNode } from "react";
 import { Spoiler, SpoilerGroup } from "~/components/ui/spoiler";
 
 export default function Documents() {
-  const t = useTranslations();
+  const { t } = useTranslations("documents");
 
   return (
     <div className="my-4 flex flex-col">
       <SpoilerGroup>
-        <Spoiler title={t("documents.names.publicoffer")} key="public-offer">
+        <Spoiler title={t("names.publicoffer")} key="public-offer">
           <Formatted>
             <PublicOffer />
           </Formatted>
         </Spoiler>
-        <Spoiler
-          title={t("documents.names.subscriptionoffer")}
-          key="subscription-offer"
-        >
+        <Spoiler title={t("names.subscriptionoffer")} key="subscription-offer">
           <Formatted>
             <SubscriptionOffer />
           </Formatted>
         </Spoiler>
-        <Spoiler
-          title={t("documents.names.privacypolicy")}
-          key="privacy-policy"
-        >
+        <Spoiler title={t("names.privacypolicy")} key="privacy-policy">
           <Formatted>
             <PrivacyPolicy />
           </Formatted>

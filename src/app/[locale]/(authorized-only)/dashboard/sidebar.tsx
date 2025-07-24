@@ -2,7 +2,7 @@
 
 import { amIAdmin } from "./actions";
 import { hadPayments } from "./billing/actions";
-import { useTranslations } from "next-intl";
+import { useTranslations } from "~/i18n/client";
 import { Logo } from "~/components/logo";
 import { useTransitions } from "~/components/transition/transition-provider";
 import { Icon, IconName } from "~/components/ui/icon";
@@ -18,7 +18,7 @@ import {
 } from "~/components/ui/sidebar";
 import { useIsDevelopment } from "~/hooks/debug";
 import { useAwait } from "~/hooks/use-await";
-import { usePathname, useRouter } from "~/i18n/routing";
+import { usePathname, useRouter } from "next/navigation";
 
 type SidebarLink = {
   label: string;
@@ -90,19 +90,6 @@ export default function NavDrawer() {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      {/* <Link href="/dashboard" className="mx-[12px]">
-        <Button
-          size="bg"
-          variant="text"
-          className="h-[56px] w-full bg-foreground/5 [&_div]:p-0"
-        >
-          <div className="ml-4 mr-6 flex grow flex-row place-items-center justify-start gap-3 font-bold text-foreground">
-            <Icon icon="home" size={24} className="-translate-y-[1px]" fill />
-            <span className="grow text-left">Домашняя страница</span>
-            <span>24</span>
-          </div>
-        </Button>
-      </Link> */}
     </Sidebar>
   );
 }
@@ -117,11 +104,11 @@ function SidebarLinkItem({
   hrefs: string[];
 }) {
   const sidebar = useSidebar();
-  const pathname = usePathname();
+  const pathname = "/" + usePathname().split("/").slice(2).join("/");
   const transitions = useTransitions()!;
   const router = useRouter();
 
-  const t = useTranslations();
+  const { t } = useTranslations("dashboard");
 
   return (
     <SidebarMenuItem>
@@ -158,9 +145,7 @@ function SidebarLinkItem({
             className="-translate-y-[1px]"
             fill={pathname == link.href}
           />
-          <span className="grow text-left">
-            {t(`dashboard.navlinks.${link.label}`)}
-          </span>
+          <span className="grow text-left">{t(`navlinks.${link.label}`)}</span>
         </div>
       </SidebarMenuButton>
     </SidebarMenuItem>

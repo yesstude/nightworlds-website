@@ -7,7 +7,7 @@ import {
   resetApiKey,
   setServerRemoteData,
 } from "./actions";
-import { useLocale } from "next-intl";
+import { useLocale } from "~/i18n/client";
 import { ReactNode, useState } from "react";
 import { Button } from "~/components/ui/button";
 import {

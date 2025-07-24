@@ -1,18 +1,18 @@
 import Documents from "./documents";
 import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "~/i18n";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations();
+  const { t } = await getTranslations("documents");
   const baseUrl = "https://nightworlds.pick-me.ru/documents";
   return {
-    title: t("documents.title"),
-    description: t("documents.description"),
+    title: t("title"),
+    description: t("description"),
     openGraph: {
       type: "article",
       siteName: "NightWorlds",
-      title: t("documents.ogtitle"),
-      description: t("documents.description"),
+      title: t("ogtitle"),
+      description: t("description"),
       url: baseUrl,
       images: [
         {
@@ -26,8 +26,8 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       site: "@nightworlds_mc",
-      title: t("documents.ogtitle"),
-      description: t("documents.description"),
+      title: t("ogtitle"),
+      description: t("description"),
       images: ["https://nightworlds.pick-me.ru/medium_banner.jpg"],
     },
     alternates: {
@@ -37,15 +37,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function DocumentsPage() {
-  const t = await getTranslations();
+  const { t } = await getTranslations("documents");
 
   return (
     <div className="max-w-[1200px] flex-col gap-16 px-8 md:px-20">
       <h1 className="mb-4 text-[32px] font-bold leading-tight tracking-normal text-foreground">
-        {t("documents.title")}
+        {t("title")}
       </h1>
       <p className="text-[18px] font-medium leading-relaxed tracking-wide text-foreground/80">
-        {t("documents.subtitle")}
+        {t("subtitle")}
       </p>
       <Documents />
     </div>
