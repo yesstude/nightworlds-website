@@ -71,7 +71,9 @@ export default async function HomePage() {
 
   return (
     <>
-      <LandingBanner />
+      <div className="flex w-full flex-col place-items-center px-4 -my-2">
+        <LandingBanner />
+      </div>
       <div className="flex max-w-full xl:max-w-[1280px] flex-col gap-16 px-8 py-8 md:px-20">
         <TelegramPosts />
         <FeatureBox img={build} alt="Two players building a tower" reverse>
