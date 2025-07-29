@@ -132,7 +132,7 @@ export async function payWorldSubscription(
         ),
       );
 
-  if (!paymentMethod) paymentProvider = paymentMethod!.provider;
+  if (paymentMethod) paymentProvider = paymentMethod.provider;
 
   const world = await getWorld(input.worldId);
 
