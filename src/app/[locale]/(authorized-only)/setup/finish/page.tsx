@@ -25,6 +25,9 @@ export default function SetupPage() {
       <div>
         <h1>Готово!</h1>
         <p>Аккаунт настроен и готов для игры.</p>
+        <p className="text-sm text-muted-foreground mt-2">
+          🎉 Вам автоматически предоставляется бесплатная пробная версия на 30 дней для мира Medium!
+        </p>
       </div>
       <div className="grow" />
       <div className="w-full bg-background sm:relative ">

@@ -1,10 +1,10 @@
 "use server";
 
 import { db } from "../db";
-import { BaseUser, usersTable } from "../db/schema";
+import { BaseUser, usersTable, subscriptionsTable, paymentsTable } from "../db/schema";
 import { getMeUnsafe } from "./sessions";
 import { enc, SHA256 } from "crypto-js";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 export type LicenseType = Exclude<BaseUser["licenseType"], null>;
 export async function getLicenseType() {
@@ -91,9 +91,55 @@ export async function setIngamePassword(password: string) {
 
 export async function setAccountSetUp() {
   const me = await getMeUnsafe();
+  if (!me) return;
 
+  // Set account as set up
   await db
     .update(usersTable)
     .set({ isSetUp: true })
-    .where(eq(usersTable.id, me!.id));
+    .where(eq(usersTable.id, me.id));
+
+  // Check if user has ever had a subscription for medium.basic
+  const existingSubscriptions = await db
+    .select()
+    .from(subscriptionsTable)
+    .where(
+      and(
+        eq(subscriptionsTable.userId, me.id),
+        eq(subscriptionsTable.tag, "medium.basic")
+      )
+    );
+
+  // If user has never had a subscription, create a trial
+  if (existingSubscriptions.length === 0) {
+    const now = new Date();
+    const trialEndDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
+
+    // Create the trial subscription
+    const [subscription] = await db
+      .insert(subscriptionsTable)
+      .values({
+        userId: me.id,
+        tag: "medium.basic",
+        startedAt: now,
+        shouldEndAt: trialEndDate,
+      })
+      .$returningId();
+
+    if (subscription) {
+      // Create the payment record for the trial
+      await db
+        .insert(paymentsTable)
+        .values({
+          type: "subscription",
+          subscriptionId: subscription.id,
+          userId: me.id,
+          provider: "admin",
+          amount: 0,
+          description: `Бесплатная пробная версия на Medium для @${me.nickname || 'пользователя'}`,
+          result: "succeeded",
+          closedAt: now,
+        });
+    }
+  }
 }
