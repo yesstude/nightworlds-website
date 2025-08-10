@@ -8,17 +8,37 @@
     "price": "Only 90¢ a month"
   },
   "features": {
-    "build": {
-      "title": "Build amazing stuff",
-      "description": "The server rules are designed to allow players to build anything they want. You can build a statue, a futurisic city or café – we don't mind. The main rule is not to grief."
+    "clientmods": {
+      "title": "Client mods",
+      "description": "A wide range of supported client mods. Voice chat, emotes, animations, chunk loading up to 1000 chunks, and inventory animations."
     },
-    "communicate": {
-      "title": "Communicate with other players",
-      "description": "One of the main priorities of NightWorlds is people. This rule works in all of NightWorlds. Together, we can make anything possible!"
+    "mechanics": {
+      "title": "Vanilla mechanics",
+      "description": "All vanilla mechanics work as intended. Any farm, mechanism, or functional building will work as it does in singleplayer. If it doesn't, we'll refund your money."
     },
-    "simplicity": {
-      "title": "There's no sense to overcomplicate things",
-      "description": "We target minimalism. Simplicity is the real power! Here you won't see webpages with design like in 2007. Also, we don't show tons of text at one in the actual game."
+    "pushable_block_entities": {
+      "title": "Pushable block entities",
+      "description": "Chests, hoppers, droppers, and other block entities can be pushed around with pistons or fly machines."
+    },
+    "currencies": {
+      "title": "Organized economy",
+      "description": "Currencies are protected from uncontrolled inflation. Also, they can have their own texture."
+    },
+    "special_recipes": {
+      "title": "Special recipes",
+      "description": "Special recipes are added to make the game easier. For example, you can turn sandstone into sand with a stonecutter or melt mud into clay in one step."
+    },
+    "proxies": {
+      "title": "Low ping",
+      "description": "Servers have regional proxies created to reduce latency during gameplay. You always connect to the nearest server, and play with everyone together."
+    },
+    "automated_whitelist": {
+      "title": "Easy start",
+      "description": "Whitelist is fully automated. You can start playing right after registration."
+    },
+    "long_term_support": {
+      "title": "Long-term support",
+      "description": "Unlike most SMPs, NightWorlds have been around for 5 years. We're not stopping anytime soon."
     }
   }
 }

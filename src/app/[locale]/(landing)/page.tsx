@@ -4,12 +4,19 @@ import { getTranslations } from "~/i18n";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import Link from "next/link";
-import build from "~/assets/homepage/build.webp";
-import communicate from "~/assets/homepage/communicate.webp";
-import simplicity from "~/assets/homepage/simplicity.webp";
 import TelegramPosts from "~/components/telegram-posts/posts";
 import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
+
+import clientmods from "~/assets/homepage/clientmods.webp";
+import orbital_cannon from "~/assets/homepage/orbital-cannon.webp";
+import pushable_block_entities from "~/assets/homepage/pushable-block-entities.webp";
+import currencies from "~/assets/homepage/currencies.webp";
+import special_recipes from "~/assets/homepage/crafts.webp";
+import ping from "~/assets/homepage/ping.webp";
+import simplicity from "~/assets/homepage/simplicity.webp";
+import communicate from "~/assets/homepage/communicate.webp";
+import { LinkButton } from "~/components/transition/link";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { t } = await getTranslations("landing");
@@ -76,31 +83,69 @@ export default async function HomePage() {
       </div>
       <div className="flex max-w-full xl:max-w-[1280px] flex-col gap-16 px-8 py-8 md:px-20">
         <TelegramPosts />
-        <FeatureBox img={build} alt="Two players building a tower" reverse>
-          <h2>{t("features.build.title")}</h2>
-          <p>{t("features.build.description")}</p>
-        </FeatureBox>
-        <FeatureBox img={communicate} alt="Two players trading">
-          <h2>{t("features.communicate.title")}</h2>
-          <p>{t("features.communicate.description")}</p>
-          <div className="mt-6 flex gap-2">
-            <Link href="https://discord.gg/jtSnBy3Wsf" target="_blank">
-              <Button type="button" variant="filled">
-                Discord
+        <FeatureBox img={clientmods} alt="Some client modifications icons" reverse>
+          <h2>{t("features.clientmods.title")}</h2>
+          <p>{t("features.clientmods.description")}</p>
+          <div className="mt-6 flex flex-wrap gap-2">
+            <Link href="https://modrinth.com/plugin/plasmo-voice" target="_blank">
+              <Button type="button" variant="outlined">
+                Plasmovoice
                 <Icon icon="arrow_outward" size={16} className="-mr-2" />
               </Button>
             </Link>
-            <Link href="https://t.me/nightworlds_channel" target="_blank">
-              <Button type="button" variant="text">
-                Telegram
+            <Link href="https://modrinth.com/plugin/emotecraft" target="_blank">
+              <Button type="button" variant="outlined">
+                Emotecraft
+                <Icon icon="arrow_outward" size={16} className="-mr-2" />
+              </Button>
+            </Link>
+            <Link href="https://modrinth.com/mod/distanthorizons" target="_blank">
+              <Button type="button" variant="outlined">
+                Distant Horizons
+                <Icon icon="arrow_outward" size={16} className="-mr-2" />
+              </Button>
+            </Link>
+            <Link href="https://modrinth.com/mod/what-are-they-up-to" target="_blank">
+              <Button type="button" variant="outlined">
+                WATUT
                 <Icon icon="arrow_outward" size={16} className="-mr-2" />
               </Button>
             </Link>
           </div>
         </FeatureBox>
-        <FeatureBox img={simplicity} alt="Minimalistic building" reverse>
-          <h2>{t("features.simplicity.title")}</h2>
-          <p>{t("features.simplicity.description")}</p>
+        <FeatureBox img={orbital_cannon} alt="Minecraft orbital strike cannon built by cubicmetre">
+          <h2>{t("features.mechanics.title")}</h2>
+          <p>{t("features.mechanics.description")}</p>
+        </FeatureBox>
+        <FeatureBox img={pushable_block_entities} alt="A Minecraft chest being pushed by a piston" reverse>
+          <h2>{t("features.pushable_block_entities.title")}</h2>
+          <p>{t("features.pushable_block_entities.description")}</p>
+        </FeatureBox>
+        <FeatureBox img={currencies} alt="An Estenmarck crown and an Estenmarck cent">
+          <h2>{t("features.currencies.title")}</h2>
+          <p>{t("features.currencies.description")}</p>
+        </FeatureBox>
+        <FeatureBox img={special_recipes} alt="Recipes for sand and clay" reverse>
+          <h2>{t("features.special_recipes.title")}</h2>
+          <p>{t("features.special_recipes.description")}</p>
+        </FeatureBox>
+        <FeatureBox img={ping} alt="Minecraft ping indicator">
+          <h2>{t("features.proxies.title")}</h2>
+          <p>{t("features.proxies.description")}</p>
+        </FeatureBox>
+        <FeatureBox img={simplicity} alt="A minimalistic building" reverse>
+          <h2>{t("features.automated_whitelist.title")}</h2>
+          <p>{t("features.automated_whitelist.description")}</p>
+          <div className="mt-6 flex flex-wrap gap-2">
+            <LinkButton href="/dashboard/worlds">
+              {t("actionbutton_short")}
+              <Icon icon="arrow_right_alt" size={16} className="-mr-2" />
+            </LinkButton>
+          </div>
+        </FeatureBox>
+        <FeatureBox img={communicate} alt="A Minecraft server running for 5 years">
+          <h2>{t("features.long_term_support.title")}</h2>
+          <p>{t("features.long_term_support.description")}</p>
         </FeatureBox>
       </div>
     </>
