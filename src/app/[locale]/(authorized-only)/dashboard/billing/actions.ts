@@ -107,21 +107,11 @@ export async function searchUserByNickname(nickname: string) {
   const [user] = await db
     .selectDistinct()
     .from(usersTable)
-    .leftJoin(
-      subscriptionsTable,
-      and(
-        eq(usersTable.id, subscriptionsTable.userId),
-        isNotNull(subscriptionsTable.shouldEndAt),
-        lt(subscriptionsTable.shouldEndAt, new Date()),
-      ),
-    )
     .where(eq(usersTable.nickname, nickname.trim()));
   if (!user) return undefined;
-  if (user.user.id === me?.id) return undefined;
-  if (user.subscriptions) return undefined;
   return {
-    id: user.user.id,
-    nickname: user.user.nickname!,
-    avatarUrl: User.getDefaultAvatarUrl(user.user.nickname ?? undefined),
+    id: user.id,
+    nickname: user.nickname!,
+    avatarUrl: User.getDefaultAvatarUrl(user.nickname ?? undefined),
   } satisfies ClientUser;
 }

@@ -1,6 +1,6 @@
 import { LandingBanner } from "./landing-banner";
 import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "~/i18n";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,17 +12,17 @@ import { Button } from "~/components/ui/button";
 import { Icon } from "~/components/ui/icon";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations();
+  const { t } = await getTranslations("landing");
 
   const baseUrl = "https://nightworlds.pick-me.ru";
   return {
-    title: t("landing.description"),
-    description: t("landing.long_description"),
+    title: t("description"),
+    description: t("long_description"),
     openGraph: {
       type: "website",
       siteName: "NightWorlds",
-      title: t("landing.description"),
-      description: t("landing.long_description"),
+      title: t("description"),
+      description: t("long_description"),
       url: baseUrl,
       images: [
         {
@@ -35,8 +35,8 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: t("landing.description"),
-      description: t("landing.long_description"),
+      title: t("description"),
+      description: t("long_description"),
       images: [baseUrl + "/medium_banner.jpg"],
     },
     alternates: {
@@ -47,40 +47,42 @@ export async function generateMetadata(): Promise<Metadata> {
         {
           "@context": "https://schema.org",
           "@type": "Organization",
-          "name": "NightWorlds",
-          "url": baseUrl,
-          "logo": baseUrl + "/favicon-96x96.png",
-          "sameAs": [
+          name: "NightWorlds",
+          url: baseUrl,
+          logo: baseUrl + "/favicon-96x96.png",
+          sameAs: [
             "https://discord.gg/jtSnBy3Wsf",
-            "https://t.me/nightworlds_channel"
-          ]
+            "https://t.me/nightworlds_channel",
+          ],
         },
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
-          "url": baseUrl,
-          "name": "NightWorlds"
-        }
-      ])
-    }
+          url: baseUrl,
+          name: "NightWorlds",
+        },
+      ]),
+    },
   };
 }
 
 export default async function HomePage() {
-  const t = await getTranslations();
+  const { t } = await getTranslations("landing");
 
   return (
     <>
-      <LandingBanner />
+      <div className="flex w-full flex-col place-items-center px-4 -my-2">
+        <LandingBanner />
+      </div>
       <div className="flex max-w-full xl:max-w-[1280px] flex-col gap-16 px-8 py-8 md:px-20">
         <TelegramPosts />
         <FeatureBox img={build} alt="Two players building a tower" reverse>
-          <h2>{t("landing.features.build.title")}</h2>
-          <p>{t("landing.features.build.description")}</p>
+          <h2>{t("features.build.title")}</h2>
+          <p>{t("features.build.description")}</p>
         </FeatureBox>
         <FeatureBox img={communicate} alt="Two players trading">
-          <h2>{t("landing.features.communicate.title")}</h2>
-          <p>{t("landing.features.communicate.description")}</p>
+          <h2>{t("features.communicate.title")}</h2>
+          <p>{t("features.communicate.description")}</p>
           <div className="mt-6 flex gap-2">
             <Link href="https://discord.gg/jtSnBy3Wsf" target="_blank">
               <Button type="button" variant="filled">
@@ -97,8 +99,8 @@ export default async function HomePage() {
           </div>
         </FeatureBox>
         <FeatureBox img={simplicity} alt="Minimalistic building" reverse>
-          <h2>{t("landing.features.simplicity.title")}</h2>
-          <p>{t("landing.features.simplicity.description")}</p>
+          <h2>{t("features.simplicity.title")}</h2>
+          <p>{t("features.simplicity.description")}</p>
         </FeatureBox>
       </div>
     </>

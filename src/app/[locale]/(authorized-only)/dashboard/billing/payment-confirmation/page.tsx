@@ -11,7 +11,7 @@ type PaymentStatus = BasePayment["result"];
 
 export default function PaymentConfirmationPage() {
   const params = useSearchParams();
-  const paymentId = params.get("id");
+  const paymentId = params?.get("id");
 
   const [status, setStatus] = useState<PaymentStatus>();
   const [message, setMessage] = useState<string>();

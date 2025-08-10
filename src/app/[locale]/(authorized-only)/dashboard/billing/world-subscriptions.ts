@@ -132,6 +132,8 @@ export async function payWorldSubscription(
         ),
       );
 
+  if (paymentMethod) paymentProvider = paymentMethod.provider;
+
   const world = await getWorld(input.worldId);
 
   const { url, paymentId } = await db.transaction(async (tx) => {
@@ -204,8 +206,8 @@ export async function payWorldSubscription(
             items: [
               {
                 description: `Оплата ${data.giftToUser
-                    ? `подарочной подписки для @${reciever.nickname}`
-                    : "подписки"
+                  ? `подарочной подписки для @${reciever.nickname}`
+                  : "подписки"
                   } на ${data.world.name} на ${data.prolongation.period == "monthly" ? "30 дней" : "7 дней"
                   }`,
                 amount: {

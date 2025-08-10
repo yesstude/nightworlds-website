@@ -1,0 +1,37 @@
+{
+  "back_button": "Back",
+  "navlinks": {
+    "home": "Home page",
+    "worlds": "Worlds",
+    "billing": "Billing",
+    "admin": "Admin",
+    "debug": "Debug"
+  },
+  "homepage": {
+    "welcome": "Welcome, {{name}}!",
+    "howtoplay": {
+      "title": "How to join?",
+      "minecraft": "Launch Minecraft Java Edition (recommended version is {{version}})",
+      "multiplayer": "Choose \"Multiplayer\"",
+      "add_server": "Click the \"Add server\" button",
+      "add_server_menu": "Choose any name and type this address:",
+      "select_world": "Select a world to play on"
+    }
+  },
+  "worlds": {
+    "title": "Worlds",
+    "trialAvailable": "Free trial available for {{trialLength}} days",
+    "free": "Free",
+    "month": "month",
+    "unavailableWorlds": "Unavailable worlds",
+    "action": {
+      "play": "Play",
+      "unavailable": "Unavailable",
+      "gift": "Gift",
+      "renew": "Renew",
+      "preorder": "Preorder",
+      "trial": "Try",
+      "buy": "Buy"
+    }
+  }
+}

@@ -1,21 +1,22 @@
 import TelegramWidget from "./tgwidget";
 import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations } from "~/i18n";
 import { redirect } from "next/navigation";
 import { Icon } from "~/components/ui/icon";
 import { getCurrentSession } from "~/server/api/sessions";
+import { getTelegramBotId } from "~/server/api/auth";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations();
+  const { t } = await getTranslations("signin");
 
   return {
-    title: t("signin.title"),
-    description: t("signin.description"),
+    title: t("title"),
+    description: t("description"),
     openGraph: {
       type: "website",
       siteName: "NightWorlds",
-      title: t("signin.ogtitle"),
-      description: t("signin.description"),
+      title: t("ogtitle"),
+      description: t("description"),
     },
   };
 }
@@ -24,19 +25,19 @@ export default async function SignInPage() {
   const { user } = await getCurrentSession();
   if (user) return redirect("/dashboard");
 
-  const t = await getTranslations();
-
+  const { t } = await getTranslations("signin");
+  const bot_id = await getTelegramBotId();
   return (
     <div className="relative flex min-h-full flex-col place-items-center sm:min-h-[unset]">
       <div className="flex w-max max-w-[100vw] grow flex-col place-items-center gap-8 bg-foreground/5 px-4 py-16 sm:m-8 sm:min-w-[260px] sm:max-w-[480px] sm:grow-0 sm:rounded-[48px] sm:p-16">
         <Icon icon="person" size={48} />
         <div className="text-center text-[18px] font-medium leading-relaxed tracking-wide text-foreground/80 subpixel-antialiased [&_h1]:mb-4 [&_h1]:text-[32px] [&_h1]:font-bold [&_h1]:leading-tight [&_h1]:tracking-normal [&_h1]:text-foreground">
-          <h1>{t("signin.title")}</h1>
-          <p>{t("signin.subtitle")}</p>
+          <h1>{t("title")}</h1>
+          <p>{t("subtitle")}</p>
         </div>
         <div className="grow sm:grow-0" />
         <div>
-          <TelegramWidget />
+          <TelegramWidget bot_id={bot_id} />
         </div>
       </div>
     </div>

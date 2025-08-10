@@ -21,14 +21,18 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { Icon } from "~/components/ui/icon";
 import { SheetTrigger } from "~/components/ui/sheet";
-import { getTranslations as getTranslationsServer } from "next-intl/server";
+import { getTranslations as getTranslationsServer } from "~/i18n";
 
 async function getTranslations() {
-  return await getTranslationsServer("dashboard.worlds");
+  return await getTranslationsServer("dashboard", { keyPrefix: "worlds" });
 }
 
-export async function generateMetadata({ params }: { params: { locale: string } }) {
-  const t = await getTranslations();
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string };
+}) {
+  const { t } = await getTranslations();
   const baseUrl = "https://nightworlds.pick-me.ru/dashboard/worlds";
   return {
     title: t("title"),
@@ -66,8 +70,8 @@ export default async function DashboardWorldsPage() {
   const availableWorlds = worlds.filter((w) => w.isAvailable);
   const unavailableWorlds = worlds.filter((w) => !w.isAvailable);
 
-  const t = await getTranslations();
-  
+  const { t } = await getTranslations();
+
   return (
     <div className="flex flex-col gap-12 lg:p-8">
       {availableWorlds.length > 0 && (
@@ -124,7 +128,7 @@ function WorldCard({
   logo: string | StaticImport;
   logoAlt: string;
   world: PersonalizedWorld;
-  t: Awaited<ReturnType<typeof getTranslations>>;
+  t: Awaited<ReturnType<typeof getTranslations>>["t"];
 }) {
   return (
     <Card variant="filled" className="flex flex-col">

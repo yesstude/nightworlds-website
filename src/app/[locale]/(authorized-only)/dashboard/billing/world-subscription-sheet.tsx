@@ -3,7 +3,7 @@
 import { worldLogo } from "../worlds/worlds-logos";
 import { PaymentMethodInput } from "./payment-method-input";
 import PlayerInput from "./player-input";
-import { useLocale } from "next-intl";
+import { useLocale } from "~/i18n/client";
 import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";

@@ -1,12 +1,12 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations } from "~/i18n/client";
 import { Logo } from "~/components/logo";
 import { LinkButton } from "~/components/transition/link";
 import { Icon } from "~/components/ui/icon";
 
 export function LandingAppBar() {
-  const t = useTranslations();
+  const { t } = useTranslations("landing");
 
   return (
     <>
@@ -21,7 +21,7 @@ export function LandingAppBar() {
             href="/signin"
             transition="emphasized-left"
           >
-            <span> {t("landing.actionbutton")}</span>
+            <span> {t("actionbutton")}</span>
             <Icon
               className="-mx-1 translate-x-1"
               icon="arrow_right_alt"
